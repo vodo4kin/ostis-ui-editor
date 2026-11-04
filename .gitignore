@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+*.user
+*.suo
+CMakeFiles/
+cmake-build-*/
+compile_commands.json
