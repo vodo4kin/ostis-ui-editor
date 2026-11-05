@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { useEditorSession } from '../model/useEditorSession'
 import { ChatPanel } from './ChatPanel'
 import { DiffPanel } from './DiffPanel'
-import { InterfaceListPanel } from './InterfaceListPanel'
 import { LibraryPanel } from './LibraryPanel'
 import { PropertiesPanel } from './PropertiesPanel'
 import { Toolbar } from './Toolbar'
@@ -55,8 +54,13 @@ export function EditorShell() {
         onNew={session.createNew}
         onUndo={session.undo}
       />
-      <div className="editor-body">
-        <InterfaceListPanel />
+      <div
+        className={
+          session.selected
+            ? 'editor-body editor-body--with-props'
+            : 'editor-body'
+        }
+      >
         <LibraryPanel onPlaceType={session.placeType} />
         <WorkArea
           components={session.model.components}
@@ -65,17 +69,21 @@ export function EditorShell() {
           onMoveStart={session.pushCheckpoint}
           onMoveLive={(id, x, y) => session.patchPropsLive(id, { x, y })}
         />
-        <PropertiesPanel
-          selected={session.selected}
-          components={session.model.components}
-          links={session.model.links}
-          onPatch={session.patchProps}
-          onDelete={session.deleteSelected}
-          onLinkTo={session.linkTo}
-          onDropLink={session.dropLink}
-        />
-        <DiffPanel />
-        <ChatPanel />
+        {session.selected ? (
+          <PropertiesPanel
+            selected={session.selected}
+            components={session.model.components}
+            links={session.model.links}
+            onPatch={session.patchProps}
+            onDelete={session.deleteSelected}
+            onLinkTo={session.linkTo}
+            onDropLink={session.dropLink}
+          />
+        ) : null}
+        <aside className="editor-col editor-col--side">
+          <DiffPanel />
+          <ChatPanel />
+        </aside>
       </div>
     </div>
   )

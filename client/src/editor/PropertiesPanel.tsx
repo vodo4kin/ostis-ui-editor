@@ -19,7 +19,7 @@ function componentLabel(component: UiComponent): string {
 }
 
 type PropertiesPanelProps = {
-  selected: UiComponent | null
+  selected: UiComponent
   components: UiComponent[]
   links: UiLink[]
   onPatch: (id: string, patch: Partial<ComponentProps>) => void
@@ -57,44 +57,26 @@ export function PropertiesPanel({
   onDropLink,
 }: PropertiesPanelProps) {
   const allowed = useMemo(
-    () => (selected ? getCatalogEntry(selected.typeId).allowedProps : []),
-    [selected?.typeId],
+    () => getCatalogEntry(selected.typeId).allowedProps,
+    [selected.typeId],
   )
   const fields = useMemo(
     () => FIELD_SPECS.filter((f) => allowed.includes(f.key)),
     [allowed],
   )
   const [draft, setDraft] = useState<Draft>({})
-  const propsKey = selected
-    ? allowed.map((key) => String(selected.props[key])).join('|')
-    : ''
+  const propsKey = allowed
+    .map((key) => String(selected.props[key]))
+    .join('|')
 
   useEffect(() => {
-    if (!selected) {
-      setDraft({})
-      return
-    }
     setDraft(buildDraft(selected.props, allowed))
-  }, [selected?.id, selected?.typeId, propsKey, allowed])
-
-  if (!selected) {
-    return (
-      <section className="editor-col">
-        <div className="panel-head">Свойства</div>
-        <div className="panel-body">
-          <p className="prop-empty">Элемент не выбран.</p>
-        </div>
-      </section>
-    )
-  }
+  }, [selected.id, selected.typeId, propsKey, allowed])
 
   const outgoing = links.filter((l) => l.sourceId === selected.id)
   const others = components.filter((c) => c.id !== selected.id)
 
   function commitKey(key: PropKey) {
-    if (!selected) {
-      return
-    }
     const spec = FIELD_SPECS.find((f) => f.key === key)
     if (!spec || spec.kind === 'checkbox') {
       return
