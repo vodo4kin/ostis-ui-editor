@@ -1,4 +1,9 @@
-import { useEffect, useMemo, useState, type KeyboardEvent } from 'react'
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type KeyboardEvent,
+} from 'react'
 import { LINK_KINDS, getCatalogEntry, labelOfType } from '../model/catalog'
 import type {
   ComponentProps,
@@ -8,6 +13,10 @@ import type {
   UiLink,
 } from '../model/types'
 import { FIELD_SPECS } from './propFields'
+
+function componentLabel(component: UiComponent): string {
+  return component.props.name || labelOfType(component.typeId)
+}
 
 type PropertiesPanelProps = {
   selected: UiComponent | null
@@ -184,67 +193,157 @@ export function PropertiesPanel({
           )
         })}
 
-        <div className="prop-block">
-          <div className="prop-block__title">Связи</div>
-          {outgoing.length === 0 ? (
-            <p className="prop-empty">Нет исходящих связей.</p>
-          ) : (
-            <ul className="prop-links">
-              {outgoing.map((link) => {
-                const target = components.find((c) => c.id === link.targetId)
-                const kindLabel =
-                  LINK_KINDS.find((k) => k.id === link.kind)?.label ?? link.kind
-                return (
-                  <li key={link.id}>
-                    <span>
-                      {kindLabel} → {target?.props.name ?? link.targetId}
-                    </span>
-                    <button type="button" onClick={() => onDropLink(link.id)}>
-                      ×
-                    </button>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-          {others.length > 0 ? (
-            <label className="prop-field">
-              <span>добавить</span>
-              <select
-                defaultValue=""
-                onChange={(e) => {
-                  const value = e.target.value
-                  if (!value) {
-                    return
-                  }
-                  const [kind, targetId] = value.split('::') as [
-                    LinkKindId,
-                    string,
-                  ]
-                  onLinkTo(kind, targetId)
-                  e.target.value = ''
-                }}
-              >
-                <option value="">выберите цель и вид</option>
-                {LINK_KINDS.flatMap((kind) =>
-                  others.map((target) => (
-                    <option
-                      key={`${kind.id}-${target.id}`}
-                      value={`${kind.id}::${target.id}`}
-                    >
-                      {kind.label} → {target.props.name}
-                    </option>
-                  )),
-                )}
-              </select>
-            </label>
-          ) : null}
-        </div>
+        <LinksBlock
+          key={selected.id}
+          outgoing={outgoing}
+          others={others}
+          components={components}
+          onLinkTo={onLinkTo}
+          onDropLink={onDropLink}
+        />
 
         <button type="button" className="prop-delete" onClick={onDelete}>
           Удалить элемент
         </button>
       </div>
     </section>
+  )
+}
+
+const TARGET_LIST_ROWS = 10
+
+function LinksBlock({
+  outgoing,
+  others,
+  components,
+  onLinkTo,
+  onDropLink,
+}: {
+  outgoing: UiLink[]
+  others: UiComponent[]
+  components: UiComponent[]
+  onLinkTo: (kind: LinkKindId, targetId: string) => void
+  onDropLink: (linkId: string) => void
+}) {
+  const [kind, setKind] = useState<LinkKindId | ''>('')
+  const [query, setQuery] = useState('')
+
+  const filteredTargets = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    if (!q) {
+      return others
+    }
+    return others.filter((item) => {
+      const name = componentLabel(item).toLowerCase()
+      return name.includes(q) || item.id.toLowerCase().includes(q)
+    })
+  }, [others, query])
+
+  function pickTarget(targetId: string) {
+    if (!kind || !targetId) {
+      return
+    }
+    onLinkTo(kind, targetId)
+    setKind('')
+    setQuery('')
+  }
+
+  return (
+    <div className="prop-block">
+      <div className="prop-block__title">Связи</div>
+      {outgoing.length === 0 ? (
+        <p className="prop-empty">Нет исходящих связей.</p>
+      ) : (
+        <ul className="prop-links">
+          {outgoing.map((link) => {
+            const target = components.find((c) => c.id === link.targetId)
+            const kindLabel =
+              LINK_KINDS.find((k) => k.id === link.kind)?.label ?? link.kind
+            return (
+              <li key={link.id}>
+                <span className="prop-link-text">
+                  {kindLabel} →{' '}
+                  {target ? componentLabel(target) : link.targetId}{' '}
+                  <span className="prop-id">
+                    ({target?.id ?? link.targetId})
+                  </span>
+                </span>
+                <button type="button" onClick={() => onDropLink(link.id)}>
+                  ×
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      )}
+      {others.length > 0 ? (
+        <div className="prop-link-add">
+          <label className="prop-field">
+            <span>вид связи</span>
+            <select
+              value={kind}
+              onChange={(e) => setKind(e.target.value as LinkKindId | '')}
+            >
+              <option value="">не выбран</option>
+              {LINK_KINDS.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.label}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="prop-field">
+            <span>поиск цели</span>
+            <input
+              type="search"
+              placeholder="имя или id"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+            />
+          </label>
+          <label className="prop-field">
+            <span>цель</span>
+            <select
+              size={TARGET_LIST_ROWS}
+              className="prop-target-select"
+              disabled={!kind}
+              value=""
+              onChange={(e) => {
+                pickTarget(e.target.value)
+                e.target.selectedIndex = -1
+              }}
+              onMouseDown={(e) => {
+                const option = e.target
+                if (!(option instanceof HTMLOptionElement)) {
+                  return
+                }
+                if (!kind || !option.value || option.disabled) {
+                  return
+                }
+                // После фильтра браузер часто уже выделяет первый пункт —
+                // повторный клик не даёт onChange, поэтому берём цель здесь.
+                e.preventDefault()
+                pickTarget(option.value)
+              }}
+            >
+              {filteredTargets.length === 0 ? (
+                <option value="" disabled>
+                  ничего не найдено
+                </option>
+              ) : (
+                filteredTargets.map((target) => (
+                  <option key={target.id} value={target.id}>
+                    {componentLabel(target)} ({target.id})
+                  </option>
+                ))
+              )}
+            </select>
+          </label>
+          {!kind ? (
+            <p className="prop-empty">Сначала выберите вид связи.</p>
+          ) : null}
+        </div>
+      ) : null}
+    </div>
   )
 }
