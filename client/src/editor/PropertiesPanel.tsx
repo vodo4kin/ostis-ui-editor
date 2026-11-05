@@ -320,8 +320,6 @@ function LinksBlock({
                 if (!kind || !option.value || option.disabled) {
                   return
                 }
-                // После фильтра браузер часто уже выделяет первый пункт —
-                // повторный клик не даёт onChange, поэтому берём цель здесь.
                 e.preventDefault()
                 pickTarget(option.value)
               }}
