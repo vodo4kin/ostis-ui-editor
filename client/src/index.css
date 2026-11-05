@@ -14,12 +14,5 @@ body,
 body {
   font-family: "Segoe UI", Tahoma, sans-serif;
   color: #1a1a1a;
-  background: #f0f0f0;
-}
-
-.app-stub {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  font-size: 14px;
+  background: #e8e8e8;
 }
