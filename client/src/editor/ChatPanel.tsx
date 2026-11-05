@@ -3,10 +3,7 @@ export function ChatPanel() {
     <section className="editor-col">
       <div className="panel-head">Чат</div>
       <div className="panel-body">
-        <p className="stub-note">
-          Заготовка для смежного диалогового средства. Правку модели выполняет
-          не этот редактор.
-        </p>
+        <p className="stub-note">Пока пусто.</p>
       </div>
     </section>
   )

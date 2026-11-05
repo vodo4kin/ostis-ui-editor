@@ -1,81 +1,23 @@
 import { useMemo, useState } from 'react'
+import type { ComponentTypeId } from '../model/types'
+import { LIBRARY_TREE, type LibraryNode } from './libraryTree'
 
-type TreeNode = {
-  id: string
-  label: string
-  children?: TreeNode[]
-}
-
-const TREE: TreeNode[] = [
-  {
-    id: 'layout',
-    label: 'Макет',
-    children: [
-      { id: 'container', label: 'Контейнер' },
-      { id: 'row', label: 'Строка' },
-      { id: 'column', label: 'Столбец' },
-      { id: 'divider', label: 'Разделитель' },
-    ],
-  },
-  {
-    id: 'input',
-    label: 'Ввод',
-    children: [
-      { id: 'text-field', label: 'Поле текста' },
-      { id: 'button', label: 'Кнопка' },
-      { id: 'list', label: 'Список' },
-    ],
-  },
-  {
-    id: 'display',
-    label: 'Отображение',
-    children: [
-      { id: 'label', label: 'Текстовая метка' },
-      { id: 'results', label: 'Панель результатов' },
-    ],
-  },
-  {
-    id: 'dialog',
-    label: 'Диалог',
-    children: [
-      { id: 'bubble', label: 'Пузырь' },
-      { id: 'modal', label: 'Модальное окно' },
-      { id: 'assistant-dialog', label: 'Панель диалога с ассистентом' },
-    ],
-  },
-  {
-    id: 'nav',
-    label: 'Навигация',
-    children: [{ id: 'tabs', label: 'Вкладки' }],
-  },
-  {
-    id: 'tutor',
-    label: 'Учебный ассистент',
-    children: [
-      { id: 'task-panel', label: 'Панель условия задания' },
-      { id: 'code-editor', label: 'Редактор кода' },
-      { id: 'check-results', label: 'Панель результатов проверки' },
-      { id: 'hints-panel', label: 'Панель подсказок' },
-    ],
-  },
-]
-
-function filterTree(nodes: TreeNode[], query: string): TreeNode[] {
+function filterTree(nodes: LibraryNode[], query: string): LibraryNode[] {
   const q = query.trim().toLowerCase()
   if (!q) {
     return nodes
   }
 
-  const result: TreeNode[] = []
+  const result: LibraryNode[] = []
   for (const node of nodes) {
-    if (!node.children) {
+    if (node.typeId) {
       if (node.label.toLowerCase().includes(q)) {
         result.push(node)
       }
       continue
     }
 
-    const children = filterTree(node.children, q)
+    const children = filterTree(node.children ?? [], q)
     if (children.length > 0 || node.label.toLowerCase().includes(q)) {
       result.push({
         ...node,
@@ -90,11 +32,13 @@ function TreeItem({
   node,
   openIds,
   onToggle,
+  onPlace,
   depth,
 }: {
-  node: TreeNode
+  node: LibraryNode
   openIds: Set<string>
   onToggle: (id: string) => void
+  onPlace: (typeId: ComponentTypeId) => void
   depth: number
 }) {
   const hasChildren = Boolean(node.children?.length)
@@ -109,6 +53,10 @@ function TreeItem({
         onClick={() => {
           if (hasChildren) {
             onToggle(node.id)
+            return
+          }
+          if (node.typeId) {
+            onPlace(node.typeId)
           }
         }}
       >
@@ -125,6 +73,7 @@ function TreeItem({
               node={child}
               openIds={openIds}
               onToggle={onToggle}
+              onPlace={onPlace}
               depth={depth + 1}
             />
           ))}
@@ -134,13 +83,17 @@ function TreeItem({
   )
 }
 
-export function LibraryPanel() {
+type LibraryPanelProps = {
+  onPlaceType: (typeId: ComponentTypeId) => void
+}
+
+export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
   const [query, setQuery] = useState('')
   const [openIds, setOpenIds] = useState<Set<string>>(
-    () => new Set(['layout', 'input', 'dialog', 'tutor']),
+    () => new Set(['layout', 'input', 'display', 'dialog', 'tutor']),
   )
 
-  const visible = useMemo(() => filterTree(TREE, query), [query])
+  const visible = useMemo(() => filterTree(LIBRARY_TREE, query), [query])
 
   function toggle(id: string) {
     setOpenIds((prev) => {
@@ -172,6 +125,7 @@ export function LibraryPanel() {
               node={node}
               openIds={openIds}
               onToggle={toggle}
+              onPlace={onPlaceType}
               depth={0}
             />
           ))}
