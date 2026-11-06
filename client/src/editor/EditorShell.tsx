@@ -51,7 +51,9 @@ export function EditorShell() {
     <div className="editor">
       <Toolbar
         canUndo={session.canUndo}
+        canSaveVersion={session.canSaveVersion}
         onNew={session.createNew}
+        onSaveVersion={session.saveVersion}
         onUndo={session.undo}
       />
       <div
@@ -66,8 +68,8 @@ export function EditorShell() {
           components={session.model.components}
           selectedId={session.selectedId}
           onSelect={session.select}
-          onMoveStart={session.pushCheckpoint}
-          onMoveLive={(id, x, y) => session.patchPropsLive(id, { x, y })}
+          onGeometryStart={session.pushCheckpoint}
+          onGeometryLive={(id, patch) => session.patchPropsLive(id, patch)}
         />
         {session.selected ? (
           <PropertiesPanel
@@ -81,7 +83,11 @@ export function EditorShell() {
           />
         ) : null}
         <aside className="editor-col editor-col--side">
-          <DiffPanel />
+          <DiffPanel
+            changes={session.changes}
+            onSelect={session.select}
+            onRevert={session.revertModelChange}
+          />
           <ChatPanel />
         </aside>
       </div>

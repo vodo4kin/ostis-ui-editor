@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import type {
   ComponentProps,
   ComponentTypeId,
@@ -13,17 +13,31 @@ import {
   removeLink,
   updateComponentProps,
 } from './modelOps'
+import {
+  cloneModel,
+  diffModels,
+  revertChange,
+  type ModelChange,
+} from './modelDiff'
 
 const HISTORY_LIMIT = 50
 
 export function useEditorSession() {
   const [model, setModel] = useState<InterfaceModel>(() => createEmptyModel())
+  const [baseline, setBaseline] = useState<InterfaceModel>(() =>
+    createEmptyModel(),
+  )
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [history, setHistory] = useState<InterfaceModel[]>([])
   const modelRef = useRef(model)
   modelRef.current = model
   const selectedIdRef = useRef(selectedId)
   selectedIdRef.current = selectedId
+
+  const changes = useMemo(
+    () => diffModels(baseline, model),
+    [baseline, model],
+  )
 
   const pushCheckpoint = useCallback(() => {
     const snapshot = structuredClone(modelRef.current)
@@ -51,9 +65,15 @@ export function useEditorSession() {
   }, [])
 
   const createNew = useCallback(() => {
+    const empty = createEmptyModel()
     setHistory([])
     setSelectedId(null)
-    setModel(createEmptyModel())
+    setBaseline(cloneModel(empty))
+    setModel(empty)
+  }, [])
+
+  const saveVersion = useCallback(() => {
+    setBaseline(cloneModel(modelRef.current))
   }, [])
 
   const placeType = useCallback(
@@ -128,6 +148,19 @@ export function useEditorSession() {
     })
   }, [])
 
+  const revertModelChange = useCallback(
+    (change: ModelChange) => {
+      setModel((prev) => {
+        const next = revertChange(prev, baseline, change)
+        if (next === prev) {
+          return prev
+        }
+        return commit(prev, next)
+      })
+    },
+    [baseline, commit],
+  )
+
   const selected =
     model.components.find((c) => c.id === selectedId) ?? null
 
@@ -136,7 +169,10 @@ export function useEditorSession() {
     selected,
     selectedId,
     canUndo: history.length > 0,
+    changes,
+    canSaveVersion: changes.length > 0,
     createNew,
+    saveVersion,
     placeType,
     select,
     patchProps,
@@ -146,5 +182,6 @@ export function useEditorSession() {
     linkTo,
     dropLink,
     undo,
+    revertModelChange,
   }
 }

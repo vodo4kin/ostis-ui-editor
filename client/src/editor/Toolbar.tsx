@@ -1,10 +1,18 @@
 type ToolbarProps = {
   canUndo: boolean
+  canSaveVersion: boolean
   onNew: () => void
+  onSaveVersion: () => void
   onUndo: () => void
 }
 
-export function Toolbar({ canUndo, onNew, onUndo }: ToolbarProps) {
+export function Toolbar({
+  canUndo,
+  canSaveVersion,
+  onNew,
+  onSaveVersion,
+  onUndo,
+}: ToolbarProps) {
   return (
     <header className="editor-toolbar">
       <span className="editor-toolbar__title">Редактор ПИ</span>
@@ -15,9 +23,13 @@ export function Toolbar({ canUndo, onNew, onUndo }: ToolbarProps) {
         </select>
       </label>
       <button type="button" onClick={onNew}>
-        Новый
+        Новый интерфейс
       </button>
-      <button type="button" disabled>
+      <button
+        type="button"
+        onClick={onSaveVersion}
+        disabled={!canSaveVersion}
+      >
         Сохранить версию
       </button>
       <button type="button" disabled>
@@ -25,6 +37,9 @@ export function Toolbar({ canUndo, onNew, onUndo }: ToolbarProps) {
       </button>
       <button type="button" onClick={onUndo} disabled={!canUndo}>
         Отменить
+      </button>
+      <button type="button" className="editor-toolbar__preview" disabled>
+        Предпросмотр
       </button>
     </header>
   )
