@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+
 import type { ComponentTypeId } from '../model/types'
 import { LIBRARY_TREE, type LibraryNode } from './libraryTree'
 
@@ -88,6 +89,7 @@ type LibraryPanelProps = {
 }
 
 export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
+  const [collapsed, setCollapsed] = useState(false)
   const [query, setQuery] = useState('')
   const [openIds, setOpenIds] = useState<Set<string>>(
     () => new Set(['layout', 'input', 'display', 'dialog', 'tutor']),
@@ -108,29 +110,46 @@ export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
   }
 
   return (
-    <section className="editor-col">
-      <div className="panel-head">Типовые компоненты</div>
-      <div className="panel-body library-body">
-        <input
-          className="library-search"
-          type="search"
-          placeholder="Поиск компонента..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-        <ul className="tree-list tree-list--root">
-          {visible.map((node) => (
-            <TreeItem
-              key={node.id}
-              node={node}
-              openIds={openIds}
-              onToggle={toggle}
-              onPlace={onPlaceType}
-              depth={0}
-            />
-          ))}
-        </ul>
-      </div>
+    <section
+      className={
+        collapsed
+          ? 'left-panel left-panel--library left-panel--collapsed'
+          : 'left-panel left-panel--library'
+      }
+    >
+      <button
+        type="button"
+        className="panel-head panel-head--toggle"
+        onClick={() => setCollapsed((v) => !v)}
+      >
+        <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
+        Типовые компоненты
+      </button>
+      {collapsed ? null : (
+        <div className="panel-body library-body">
+          <input
+            className="library-search"
+            type="search"
+            placeholder="Поиск компонента..."
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <div className="library-tree-scroll">
+            <ul className="tree-list tree-list--root">
+              {visible.map((node) => (
+                <TreeItem
+                  key={node.id}
+                  node={node}
+                  openIds={openIds}
+                  onToggle={toggle}
+                  onPlace={onPlaceType}
+                  depth={0}
+                />
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

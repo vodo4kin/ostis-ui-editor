@@ -44,7 +44,8 @@ export function DiffPanel({ changes, onSelect, onRevert }: DiffPanelProps) {
                       className="diff-item__main"
                       onClick={() => onSelect(targetId)}
                     >
-                      {change.label}
+                      {change.label}{' '}
+                      <span className="prop-id">({change.idHint})</span>
                     </button>
                     <button
                       type="button"

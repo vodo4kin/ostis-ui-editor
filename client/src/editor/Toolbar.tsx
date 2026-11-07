@@ -1,16 +1,24 @@
 type ToolbarProps = {
   canUndo: boolean
   canSaveVersion: boolean
+  canCopy: boolean
+  canPaste: boolean
   onNew: () => void
   onSaveVersion: () => void
+  onCopy: () => void
+  onPaste: () => void
   onUndo: () => void
 }
 
 export function Toolbar({
   canUndo,
   canSaveVersion,
+  canCopy,
+  canPaste,
   onNew,
   onSaveVersion,
+  onCopy,
+  onPaste,
   onUndo,
 }: ToolbarProps) {
   return (
@@ -35,9 +43,19 @@ export function Toolbar({
       <button type="button" disabled>
         Опубликовать
       </button>
+
+      <span className="editor-toolbar__gap" />
+
+      <button type="button" onClick={onCopy} disabled={!canCopy}>
+        Копировать
+      </button>
+      <button type="button" onClick={onPaste} disabled={!canPaste}>
+        Вставить
+      </button>
       <button type="button" onClick={onUndo} disabled={!canUndo}>
         Отменить
       </button>
+
       <button type="button" className="editor-toolbar__preview" disabled>
         Предпросмотр
       </button>

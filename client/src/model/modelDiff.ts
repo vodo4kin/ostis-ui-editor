@@ -12,12 +12,14 @@ export type ModelChange =
       kind: 'add_component'
       componentId: string
       label: string
+      idHint: string
     }
   | {
       id: string
       kind: 'remove_component'
       componentId: string
       label: string
+      idHint: string
       component: UiComponent
     }
   | {
@@ -25,6 +27,7 @@ export type ModelChange =
       kind: 'prop'
       componentId: string
       label: string
+      idHint: string
       prop: PropKey
       from: string
       to: string
@@ -35,6 +38,7 @@ export type ModelChange =
       linkId: string
       link: UiLink
       label: string
+      idHint: string
     }
   | {
       id: string
@@ -42,6 +46,7 @@ export type ModelChange =
       linkId: string
       link: UiLink
       label: string
+      idHint: string
     }
 
 function componentTitle(component: UiComponent): string {
@@ -76,6 +81,7 @@ export function diffModels(
         kind: 'add_component',
         componentId: id,
         label: `+ ${componentTitle(component)}`,
+        idHint: id,
       })
     }
   }
@@ -87,6 +93,7 @@ export function diffModels(
         kind: 'remove_component',
         componentId: id,
         label: `− ${componentTitle(component)}`,
+        idHint: id,
         component,
       })
     }
@@ -107,6 +114,7 @@ export function diffModels(
           kind: 'prop',
           componentId: id,
           label: `${componentTitle(currentComp)}.${key}: ${from} → ${to}`,
+          idHint: id,
           prop: key,
           from,
           to,
@@ -127,6 +135,7 @@ export function diffModels(
         linkId: id,
         link,
         label: `+ связь ${linkLabel(link, allComps)}`,
+        idHint: link.targetId,
       })
     }
   }
@@ -139,6 +148,7 @@ export function diffModels(
         linkId: id,
         link,
         label: `− связь ${linkLabel(link, allComps)}`,
+        idHint: link.targetId,
       })
     }
   }

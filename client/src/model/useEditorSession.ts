@@ -9,9 +9,13 @@ import {
   addComponent,
   addLink,
   createEmptyModel,
-  removeComponent,
+  moveComponentLayer,
+  pasteClipboard,
+  removeComponents,
   removeLink,
+  takeClipboard,
   updateComponentProps,
+  type EditorClipboard,
 } from './modelOps'
 import {
   cloneModel,
@@ -27,12 +31,17 @@ export function useEditorSession() {
   const [baseline, setBaseline] = useState<InterfaceModel>(() =>
     createEmptyModel(),
   )
-  const [selectedId, setSelectedId] = useState<string | null>(null)
+  const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [history, setHistory] = useState<InterfaceModel[]>([])
+  const [clipboard, setClipboard] = useState<EditorClipboard | null>(null)
+  const [revealId, setRevealId] = useState<string | null>(null)
   const modelRef = useRef(model)
   modelRef.current = model
-  const selectedIdRef = useRef(selectedId)
-  selectedIdRef.current = selectedId
+  const selectedIdsRef = useRef(selectedIds)
+  selectedIdsRef.current = selectedIds
+  const clipboardRef = useRef(clipboard)
+  clipboardRef.current = clipboard
+  const pasteCountRef = useRef(0)
 
   const changes = useMemo(
     () => diffModels(baseline, model),
@@ -67,7 +76,7 @@ export function useEditorSession() {
   const createNew = useCallback(() => {
     const empty = createEmptyModel()
     setHistory([])
-    setSelectedId(null)
+    setSelectedIds([])
     setBaseline(cloneModel(empty))
     setModel(empty)
   }, [])
@@ -80,15 +89,26 @@ export function useEditorSession() {
     (typeId: ComponentTypeId) => {
       setModel((prev) => {
         const { model: next, componentId } = addComponent(prev, typeId)
-        setSelectedId(componentId)
+        setSelectedIds([componentId])
+        setRevealId(componentId)
         return commit(prev, next)
       })
     },
     [commit],
   )
 
-  const select = useCallback((id: string | null) => {
-    setSelectedId(id)
+  const select = useCallback((id: string | null, additive = false) => {
+    if (id === null) {
+      setSelectedIds([])
+      return
+    }
+    if (!additive) {
+      setSelectedIds([id])
+      return
+    }
+    setSelectedIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    )
   }, [])
 
   const patchProps = useCallback(
@@ -107,22 +127,110 @@ export function useEditorSession() {
     [],
   )
 
+  const patchPropsLiveMany = useCallback(
+    (items: { id: string; patch: Partial<ComponentProps> }[]) => {
+      if (items.length === 0) {
+        return
+      }
+      setModel((prev) => {
+        let next = prev
+        for (const item of items) {
+          next = updateComponentProps(next, item.id, item.patch)
+        }
+        return next
+      })
+    },
+    [],
+  )
+
   const deleteSelected = useCallback(() => {
-    const id = selectedIdRef.current
-    if (!id) {
+    const ids = selectedIdsRef.current
+    if (ids.length === 0) {
       return
     }
-    setSelectedId(null)
-    setModel((prev) => commit(prev, removeComponent(prev, id)))
+    setSelectedIds([])
+    setModel((prev) => commit(prev, removeComponents(prev, ids)))
   }, [commit])
+
+  const moveSelectedLayer = useCallback(
+    (direction: 'up' | 'down') => {
+      const ids = selectedIdsRef.current
+      if (ids.length !== 1) {
+        return
+      }
+      setModel((prev) =>
+        commit(prev, moveComponentLayer(prev, ids[0], direction)),
+      )
+    },
+    [commit],
+  )
+
+  const copySelected = useCallback(() => {
+    const clip = takeClipboard(modelRef.current, selectedIdsRef.current)
+    if (!clip) {
+      return
+    }
+    pasteCountRef.current = 0
+    setClipboard(clip)
+  }, [])
+
+  const pasteFromClipboard = useCallback(() => {
+    const clip = clipboardRef.current
+    if (!clip) {
+      return
+    }
+    pasteCountRef.current += 1
+    const offset = 24 * pasteCountRef.current
+    setModel((prev) => {
+      const { model: next, newIds } = pasteClipboard(prev, clip, offset)
+      if (newIds.length === 0) {
+        return prev
+      }
+      setSelectedIds(newIds)
+      setRevealId(newIds[0] ?? null)
+      return commit(prev, next)
+    })
+  }, [commit])
+
+  const clearReveal = useCallback(() => {
+    setRevealId(null)
+  }, [])
+
+  const nudgeSelected = useCallback(
+    (dx: number, dy: number) => {
+      const ids = selectedIdsRef.current
+      if (ids.length === 0) {
+        return
+      }
+      setModel((prev) => {
+        let next = prev
+        let changed = false
+        for (const id of ids) {
+          const item = next.components.find((c) => c.id === id)
+          if (!item) {
+            continue
+          }
+          const x = Math.max(0, item.props.x + dx)
+          const y = Math.max(0, item.props.y + dy)
+          if (x === item.props.x && y === item.props.y) {
+            continue
+          }
+          next = updateComponentProps(next, id, { x, y })
+          changed = true
+        }
+        return changed ? commit(prev, next) : prev
+      })
+    },
+    [commit],
+  )
 
   const linkTo = useCallback(
     (kind: LinkKindId, targetId: string) => {
-      const id = selectedIdRef.current
-      if (!id) {
+      const ids = selectedIdsRef.current
+      if (ids.length !== 1) {
         return
       }
-      setModel((prev) => commit(prev, addLink(prev, kind, id, targetId)))
+      setModel((prev) => commit(prev, addLink(prev, kind, ids[0], targetId)))
     },
     [commit],
   )
@@ -141,8 +249,8 @@ export function useEditorSession() {
       }
       const prev = h[h.length - 1]
       setModel(prev)
-      setSelectedId((cur) =>
-        cur && prev.components.some((c) => c.id === cur) ? cur : null,
+      setSelectedIds((cur) =>
+        cur.filter((id) => prev.components.some((c) => c.id === id)),
       )
       return h.slice(0, -1)
     })
@@ -162,13 +270,32 @@ export function useEditorSession() {
   )
 
   const selected =
-    model.components.find((c) => c.id === selectedId) ?? null
+    selectedIds.length === 1
+      ? (model.components.find((c) => c.id === selectedIds[0]) ?? null)
+      : null
+
+  const layerIndex = useMemo(() => {
+    if (!selected) {
+      return -1
+    }
+    const sorted = [...model.components].sort(
+      (a, b) => a.props.order - b.props.order,
+    )
+    return sorted.findIndex((c) => c.id === selected.id)
+  }, [model.components, selected])
+
+  const layerCount = model.components.length
 
   return {
     model,
     selected,
-    selectedId,
+    selectedIds,
+    revealId,
     canUndo: history.length > 0,
+    canCopy: selectedIds.length > 0,
+    canPaste: clipboard !== null,
+    canMoveUp: selected !== null && layerIndex >= 0 && layerIndex < layerCount - 1,
+    canMoveDown: selected !== null && layerIndex > 0,
     changes,
     canSaveVersion: changes.length > 0,
     createNew,
@@ -177,8 +304,14 @@ export function useEditorSession() {
     select,
     patchProps,
     patchPropsLive,
+    patchPropsLiveMany,
     pushCheckpoint,
     deleteSelected,
+    moveSelectedLayer,
+    copySelected,
+    pasteFromClipboard,
+    clearReveal,
+    nudgeSelected,
     linkTo,
     dropLink,
     undo,

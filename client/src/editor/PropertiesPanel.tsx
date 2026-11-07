@@ -24,6 +24,9 @@ type PropertiesPanelProps = {
   links: UiLink[]
   onPatch: (id: string, patch: Partial<ComponentProps>) => void
   onDelete: () => void
+  onMoveLayer: (direction: 'up' | 'down') => void
+  canMoveUp: boolean
+  canMoveDown: boolean
   onLinkTo: (kind: LinkKindId, targetId: string) => void
   onDropLink: (linkId: string) => void
 }
@@ -53,6 +56,9 @@ export function PropertiesPanel({
   links,
   onPatch,
   onDelete,
+  onMoveLayer,
+  canMoveUp,
+  canMoveDown,
   onLinkTo,
   onDropLink,
 }: PropertiesPanelProps) {
@@ -117,6 +123,26 @@ export function PropertiesPanel({
           <span>id</span>
           <input value={selected.id} readOnly />
         </label>
+
+        <div className="prop-actions">
+          <button
+            type="button"
+            onClick={() => onMoveLayer('up')}
+            disabled={!canMoveUp}
+          >
+            наверх
+          </button>
+          <button
+            type="button"
+            onClick={() => onMoveLayer('down')}
+            disabled={!canMoveDown}
+          >
+            вниз
+          </button>
+          <button type="button" onClick={onDelete}>
+            удалить
+          </button>
+        </div>
 
         {fields.map((field) => {
           if (field.kind === 'checkbox') {
@@ -183,10 +209,6 @@ export function PropertiesPanel({
           onLinkTo={onLinkTo}
           onDropLink={onDropLink}
         />
-
-        <button type="button" className="prop-delete" onClick={onDelete}>
-          Удалить элемент
-        </button>
       </div>
     </section>
   )
