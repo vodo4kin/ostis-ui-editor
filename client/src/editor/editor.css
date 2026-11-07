@@ -174,11 +174,25 @@
   gap: 8px;
 }
 
+.work-area-tools {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 400;
+}
+
+.work-area-tools__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  cursor: default;
+}
+
 .zoom-controls {
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  font-weight: 400;
 }
 
 .zoom-controls__btn,
@@ -321,6 +335,10 @@
     linear-gradient(#cecece 1px, transparent 1px) 0 0 / 16px 16px,
     linear-gradient(90deg, #cecece 1px, transparent 1px) 0 0 / 16px 16px,
     #dadada;
+}
+
+.work-area__world--plain {
+  background: #dadada;
 }
 
 .work-area__hint {

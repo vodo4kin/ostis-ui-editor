@@ -144,6 +144,8 @@ export function WorkArea({
   const workAreaRef = useRef<HTMLDivElement>(null)
   const scaleRef = useRef(1)
   const [zoom, setZoom] = useState(100)
+  const [showTypeLabels, setShowTypeLabels] = useState(true)
+  const [showGrid, setShowGrid] = useState(true)
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
   const selectedSet = new Set(selectedIds)
   const scale = zoom / 100
@@ -370,33 +372,51 @@ export function WorkArea({
     <section className="editor-col editor-col--canvas">
       <div className="panel-head panel-head--split">
         <span>Рабочая область</span>
-        <div className="zoom-controls" title="Ctrl + колёсико">
-          <button
-            type="button"
-            className="zoom-controls__btn"
-            disabled={zoom <= ZOOM_MIN}
-            onClick={zoomOut}
-            aria-label="Отдалить"
-          >
-            −
-          </button>
-          <button
-            type="button"
-            className="zoom-controls__value"
-            onClick={zoomReset}
-            title="Сбросить до 100%"
-          >
-            {zoom}%
-          </button>
-          <button
-            type="button"
-            className="zoom-controls__btn"
-            disabled={zoom >= ZOOM_MAX}
-            onClick={zoomIn}
-            aria-label="Приблизить"
-          >
-            +
-          </button>
+        <div className="work-area-tools">
+          <label className="work-area-tools__check">
+            <input
+              type="checkbox"
+              checked={showTypeLabels}
+              onChange={(e) => setShowTypeLabels(e.target.checked)}
+            />
+            Тип компонента
+          </label>
+          <label className="work-area-tools__check">
+            <input
+              type="checkbox"
+              checked={showGrid}
+              onChange={(e) => setShowGrid(e.target.checked)}
+            />
+            Сетка
+          </label>
+          <div className="zoom-controls" title="Ctrl + колёсико">
+            <button
+              type="button"
+              className="zoom-controls__btn"
+              disabled={zoom <= ZOOM_MIN}
+              onClick={zoomOut}
+              aria-label="Отдалить"
+            >
+              −
+            </button>
+            <button
+              type="button"
+              className="zoom-controls__value"
+              onClick={zoomReset}
+              title="Сбросить до 100%"
+            >
+              {zoom}%
+            </button>
+            <button
+              type="button"
+              className="zoom-controls__btn"
+              disabled={zoom >= ZOOM_MAX}
+              onClick={zoomIn}
+              aria-label="Приблизить"
+            >
+              +
+            </button>
+          </div>
         </div>
       </div>
       <div className="panel-body">
@@ -409,7 +429,9 @@ export function WorkArea({
             }}
           >
             <div
-              className="work-area__world"
+              className={
+                showGrid ? 'work-area__world' : 'work-area__world work-area__world--plain'
+              }
               style={{
                 width: worldWidth,
                 height: worldHeight,
@@ -448,9 +470,11 @@ export function WorkArea({
                     onPointerUp={onPointerUp}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div className="canvas-item__badge">
-                      {labelOfType(component.typeId)}
-                    </div>
+                    {showTypeLabels ? (
+                      <div className="canvas-item__badge">
+                        {labelOfType(component.typeId)}
+                      </div>
+                    ) : null}
                     <div className="canvas-item" style={bodyStyle(component)}>
                       <div className="canvas-item__title">{title}</div>
                     </div>
