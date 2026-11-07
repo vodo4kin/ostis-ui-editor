@@ -4,7 +4,7 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react'
-import { LINK_KINDS, getCatalogEntry, labelOfType } from '../model/catalog'
+import { getCatalogEntry, labelOfType } from '../model/catalog'
 import type {
   ComponentProps,
   LinkKindId,
@@ -229,7 +229,6 @@ function LinksBlock({
   onLinkTo: (kind: LinkKindId, targetId: string) => void
   onDropLink: (linkId: string) => void
 }) {
-  const [kind, setKind] = useState<LinkKindId | ''>('')
   const [query, setQuery] = useState('')
 
   const filteredTargets = useMemo(() => {
@@ -244,29 +243,25 @@ function LinksBlock({
   }, [others, query])
 
   function pickTarget(targetId: string) {
-    if (!kind || !targetId) {
+    if (!targetId) {
       return
     }
-    onLinkTo(kind, targetId)
-    setKind('')
+    onLinkTo('contains', targetId)
     setQuery('')
   }
 
   return (
     <div className="prop-block">
-      <div className="prop-block__title">Связи</div>
+      <div className="prop-block__title">Вложения</div>
       {outgoing.length === 0 ? (
-        <p className="prop-empty">Нет исходящих связей.</p>
+        <p className="prop-empty">Нет вложений.</p>
       ) : (
         <ul className="prop-links">
           {outgoing.map((link) => {
             const target = components.find((c) => c.id === link.targetId)
-            const kindLabel =
-              LINK_KINDS.find((k) => k.id === link.kind)?.label ?? link.kind
             return (
               <li key={link.id}>
                 <span className="prop-link-text">
-                  {kindLabel} →{' '}
                   {target ? componentLabel(target) : link.targetId}{' '}
                   <span className="prop-id">
                     ({target?.id ?? link.targetId})
@@ -283,21 +278,7 @@ function LinksBlock({
       {others.length > 0 ? (
         <div className="prop-link-add">
           <label className="prop-field">
-            <span>вид связи</span>
-            <select
-              value={kind}
-              onChange={(e) => setKind(e.target.value as LinkKindId | '')}
-            >
-              <option value="">не выбран</option>
-              {LINK_KINDS.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="prop-field">
-            <span>поиск цели</span>
+            <span>поиск</span>
             <input
               type="search"
               placeholder="имя или id"
@@ -306,11 +287,10 @@ function LinksBlock({
             />
           </label>
           <label className="prop-field">
-            <span>цель</span>
+            <span>добавить вложение</span>
             <select
               size={TARGET_LIST_ROWS}
               className="prop-target-select"
-              disabled={!kind}
               value=""
               onChange={(e) => {
                 pickTarget(e.target.value)
@@ -321,7 +301,7 @@ function LinksBlock({
                 if (!(option instanceof HTMLOptionElement)) {
                   return
                 }
-                if (!kind || !option.value || option.disabled) {
+                if (!option.value || option.disabled) {
                   return
                 }
                 e.preventDefault()
@@ -341,9 +321,6 @@ function LinksBlock({
               )}
             </select>
           </label>
-          {!kind ? (
-            <p className="prop-empty">Сначала выберите вид связи.</p>
-          ) : null}
         </div>
       ) : null}
     </div>

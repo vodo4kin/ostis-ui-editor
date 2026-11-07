@@ -1,40 +1,32 @@
 export type ComponentTypeId =
-  | 'container'
-  | 'row'
-  | 'column'
+  | 'image'
+  | 'sound'
+  | 'text'
   | 'divider'
-  | 'text_field'
-  | 'button'
+  | 'spacer'
+  | 'menu'
+  | 'menu_bar'
   | 'list'
-  | 'label'
-  | 'task_panel'
-  | 'code_editor'
-  | 'results_panel'
-  | 'dialog_panel'
-  | 'hints_panel'
-  | 'history_panel'
-  | 'steps_panel'
-  | 'solution_panel'
-  | 'bubble'
-  | 'modal'
-  | 'tabs'
+  | 'scroll'
+  | 'window'
+  | 'text_field'
+  | 'text_area'
+  | 'slider'
+  | 'select'
+  | 'button'
+  | 'menu_item'
 
-export type LinkKindId =
-  | 'contains'
-  | 'code_link'
-  | 'result_link'
-  | 'dialog_link'
-  | 'history_link'
+export type LinkKindId = 'contains'
 
 export type PreviewShape = 'rect' | 'rounded' | 'pill'
 
 export type BorderStyle = 'solid' | 'dashed' | 'none'
 export type FontWeight = 'normal' | 'bold'
 export type TextAlign = 'left' | 'center' | 'right'
-export type AlignSelf = 'auto' | 'flex-start' | 'center' | 'flex-end' | 'stretch'
 
 export type PropKey = keyof ComponentProps
 
+/** Свойства компонента в модели интерфейса. */
 export type ComponentProps = {
   name: string
   x: number
@@ -45,30 +37,23 @@ export type ComponentProps = {
   visible: boolean
   enabled: boolean
   opacity: number
-  margin: number
+  text: string
   tooltip: string
+  actionId: string
   backgroundColor: string
   color: string
   borderColor: string
   borderWidth: number
   borderStyle: BorderStyle
-  borderRadius: number
   fontSize: number
   fontWeight: FontWeight
   textAlign: TextAlign
   padding: number
-  flexGrow: number
-  flexShrink: number
-  alignSelf: AlignSelf
+  margin: number
   minWidth: number
   minHeight: number
   maxWidth: number
   maxHeight: number
-  text: string
-  placeholder: string
-  readOnly: boolean
-  semanticRole: string
-  actionId: string
 }
 
 export type UiComponent = {

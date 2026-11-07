@@ -9,56 +9,49 @@ export type LibraryNode = {
 
 export const LIBRARY_TREE: LibraryNode[] = [
   {
-    id: 'layout',
-    label: 'Макет',
+    id: 'output',
+    label: 'Вывод',
     children: [
-      { id: 'container', label: 'Контейнер', typeId: 'container' },
-      { id: 'row', label: 'Строка', typeId: 'row' },
-      { id: 'column', label: 'Столбец', typeId: 'column' },
+      { id: 'image', label: 'Изображение', typeId: 'image' },
+      { id: 'sound', label: 'Звук', typeId: 'sound' },
+      { id: 'text', label: 'Текст', typeId: 'text' },
+    ],
+  },
+  {
+    id: 'decor',
+    label: 'Декор',
+    children: [
       { id: 'divider', label: 'Разделитель', typeId: 'divider' },
+      { id: 'spacer', label: 'Пустое пространство', typeId: 'spacer' },
+    ],
+  },
+  {
+    id: 'containers',
+    label: 'Контейнеры',
+    children: [
+      { id: 'menu', label: 'Меню', typeId: 'menu' },
+      { id: 'menu_bar', label: 'Строка меню', typeId: 'menu_bar' },
+      { id: 'list', label: 'Список', typeId: 'list' },
+      { id: 'scroll', label: 'Панель прокрутки', typeId: 'scroll' },
+      { id: 'window', label: 'Окно', typeId: 'window' },
     ],
   },
   {
     id: 'input',
     label: 'Ввод',
     children: [
-      { id: 'text_field', label: 'Поле текста', typeId: 'text_field' },
+      { id: 'text_field', label: 'Однострочное поле', typeId: 'text_field' },
+      { id: 'text_area', label: 'Многострочное поле', typeId: 'text_area' },
+      { id: 'slider', label: 'Ползунок', typeId: 'slider' },
+      { id: 'select', label: 'Выбор', typeId: 'select' },
+    ],
+  },
+  {
+    id: 'actions',
+    label: 'Действия',
+    children: [
       { id: 'button', label: 'Кнопка', typeId: 'button' },
-      { id: 'list', label: 'Список', typeId: 'list' },
-    ],
-  },
-  {
-    id: 'display',
-    label: 'Отображение',
-    children: [
-      { id: 'label', label: 'Текстовая метка', typeId: 'label' },
-      { id: 'results_panel', label: 'Панель результатов проверки', typeId: 'results_panel' },
-      { id: 'hints_panel', label: 'Панель подсказок', typeId: 'hints_panel' },
-      { id: 'history_panel', label: 'Панель истории', typeId: 'history_panel' },
-      { id: 'steps_panel', label: 'Панель шагов', typeId: 'steps_panel' },
-      { id: 'solution_panel', label: 'Панель решения', typeId: 'solution_panel' },
-    ],
-  },
-  {
-    id: 'dialog',
-    label: 'Диалог',
-    children: [
-      { id: 'bubble', label: 'Пузырь', typeId: 'bubble' },
-      { id: 'modal', label: 'Модальное окно', typeId: 'modal' },
-      { id: 'dialog_panel', label: 'Панель диалога с ассистентом', typeId: 'dialog_panel' },
-    ],
-  },
-  {
-    id: 'nav',
-    label: 'Навигация',
-    children: [{ id: 'tabs', label: 'Вкладки', typeId: 'tabs' }],
-  },
-  {
-    id: 'tutor',
-    label: 'Учебный ассистент',
-    children: [
-      { id: 'task_panel', label: 'Панель условия задания', typeId: 'task_panel' },
-      { id: 'code_editor', label: 'Редактор кода', typeId: 'code_editor' },
+      { id: 'menu_item', label: 'Пункт меню', typeId: 'menu_item' },
     ],
   },
 ]

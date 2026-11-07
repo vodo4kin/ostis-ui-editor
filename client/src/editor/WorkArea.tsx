@@ -75,12 +75,12 @@ function clampZoom(value: number): number {
 function previewRadius(component: UiComponent): number {
   const preview = getCatalogEntry(component.typeId).preview
   if (preview === 'pill') {
-    return Math.max(component.props.borderRadius, component.props.height / 2)
+    return component.props.height / 2
   }
   if (preview === 'rounded') {
-    return Math.max(component.props.borderRadius, 6)
+    return 4
   }
-  return component.props.borderRadius
+  return 0
 }
 
 function bodyStyle(component: UiComponent): CSSProperties {
