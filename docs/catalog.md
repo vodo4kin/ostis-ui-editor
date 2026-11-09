@@ -64,6 +64,34 @@
 
 ## Имена в SC
 
+Корень типов: `concept_ui_object`.  
+`contains` → `nrel_ui_contains`. Id компонента → `nrel_ui_id`. Значение свойства → `nrel_ui_value`. Включение типа → `nrel_inclusion`.
+
+### Типы
+
+| id | Класс |
+|---|---|
+| `image` | `concept_ui_image` |
+| `sound` | `concept_ui_sound` |
+| `text` | `concept_ui_text` |
+| `divider` | `concept_ui_divider` |
+| `spacer` | `concept_ui_spacer` |
+| `menu` | `concept_ui_menu` |
+| `menu_bar` | `concept_ui_menu_bar` |
+| `list` | `concept_ui_list` |
+| `scroll` | `concept_ui_scroll` |
+| `window` | `concept_ui_window` |
+| `text_field` | `concept_ui_text_field` |
+| `text_area` | `concept_ui_text_area` |
+| `slider` | `concept_ui_slider` |
+| `select` | `concept_ui_select` |
+| `button` | `concept_ui_button` |
+| `menu_item` | `concept_ui_menu_item` |
+
+### Свойства
+
+`text` → `concept_ui_text_value`, остальное `concept_ui_<snake_case>`.
+
 | Ключ | Класс |
 |---|---|
 | `name` | `concept_ui_name` |
@@ -92,8 +120,6 @@
 | `minHeight` | `concept_ui_min_height` |
 | `maxWidth` | `concept_ui_max_width` |
 | `maxHeight` | `concept_ui_max_height` |
-
-Отношения: `nrel_ui_contains`, `nrel_ui_id`, `nrel_ui_value`, `nrel_inclusion`.
 
 ## Значения по умолчанию
 
