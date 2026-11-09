@@ -5,6 +5,9 @@ nrel_inclusion
 nrel_ui_contains
 <- sc_node_norole_relation;;
 
+nrel_ui_has_component
+<- sc_node_norole_relation;;
+
 nrel_ui_id
 <- sc_node_norole_relation;;
 

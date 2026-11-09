@@ -33,5 +33,8 @@ btn_text
 => nrel_ui_value: [OK];
 -> btn_ok;;
 
+iface_demo => nrel_ui_has_component: wnd_main;;
+iface_demo => nrel_ui_has_component: btn_ok;;
+
 iface_demo => nrel_ui_contains: wnd_main;;
 wnd_main => nrel_ui_contains: btn_ok;;

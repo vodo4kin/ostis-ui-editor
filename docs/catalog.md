@@ -29,7 +29,10 @@
 
 | id | Назначение |
 |---|---|
-| `contains` | вложение |
+| `contains` | вложение: интерфейс → корни, компонент → потомок |
+
+В SC отдельно: `nrel_ui_has_component` — интерфейс → все его компоненты.  
+В редакторе это список `components`, не вид связи на холсте.
 
 ## Свойства
 
@@ -68,7 +71,8 @@
 |---|---|
 | интерфейс | `concept_ui_interface` |
 | корень типов компонентов | `concept_ui_object` |
-| связь `contains` | `nrel_ui_contains` |
+| `components` | `nrel_ui_has_component` |
+| `contains` | `nrel_ui_contains` |
 | id | `nrel_ui_id` |
 | значение свойства | `nrel_ui_value` |
 | включение типа в `concept_ui_object` | `nrel_inclusion` |
