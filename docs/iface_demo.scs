@@ -1,0 +1,37 @@
+iface_demo
+<- concept_ui_interface;;
+
+iface_demo => nrel_ui_id: [demo];;
+
+iface_demo_name
+<- concept_ui_name;
+=> nrel_ui_value: [Демо];
+-> iface_demo;;
+
+wnd_main
+<- concept_ui_window;;
+
+wnd_main => nrel_ui_id: [wnd1];;
+
+wnd_w
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> wnd_main;;
+
+wnd_h
+<- concept_ui_height;
+=> nrel_ui_value: [200];
+-> wnd_main;;
+
+btn_ok
+<- concept_ui_button;;
+
+btn_ok => nrel_ui_id: [btn1];;
+
+btn_text
+<- concept_ui_text_value;
+=> nrel_ui_value: [OK];
+-> btn_ok;;
+
+iface_demo => nrel_ui_contains: wnd_main;;
+wnd_main => nrel_ui_contains: btn_ok;;

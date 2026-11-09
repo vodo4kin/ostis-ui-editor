@@ -12,6 +12,9 @@ nrel_ui_value
 <- sc_node_norole_relation;;
 
 // типы
+concept_ui_interface
+<- sc_node_class;;
+
 concept_ui_object
 <- sc_node_class;;
 
