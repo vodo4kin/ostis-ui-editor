@@ -26,7 +26,6 @@ export type TextAlign = 'left' | 'center' | 'right'
 
 export type PropKey = keyof ComponentProps
 
-/** Свойства компонента в модели интерфейса. */
 export type ComponentProps = {
   name: string
   x: number

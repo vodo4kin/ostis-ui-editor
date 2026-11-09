@@ -1,7 +1,6 @@
 # Каталог компонентов и свойств
 
-Контракт редактора и смежных подсистем. Типы и связи задаёт редактор.  
-Источник в коде: `client/src/model/catalog.ts`, `client/src/model/types.ts`.
+Типы и связи задаёт редактор. Код: `client/src/model/catalog.ts`, `client/src/model/types.ts`.
 
 ## Типы компонентов
 
@@ -24,17 +23,17 @@
 | `button` | Кнопка | rounded |
 | `menu_item` | Пункт меню | rect |
 
-У `image` и `sound` поле `text` — идентификатор ресурса в модели.
+У `image` и `sound` поле `text` — id ресурса.
 
-## Виды связей
+## Связи
 
 | id | Назначение |
 |---|---|
-| `contains` | вложение (родитель → потомок) |
+| `contains` | вложение, родитель → потомок |
 
 ## Свойства
 
-У всех типов один набор ключей.
+Одинаковый набор ключей у всех типов.
 
 | Ключ | Смысл |
 |---|---|
@@ -44,7 +43,7 @@
 | `order` | порядок слоя |
 | `visible` | видимость |
 | `enabled` | доступность |
-| `opacity` | прозрачность (0…1) |
+| `opacity` | прозрачность, 0…1 |
 | `text` | текст или id ресурса |
 | `tooltip` | подсказка |
 | `actionId` | действие |
@@ -52,18 +51,51 @@
 | `color` | цвет текста |
 | `borderColor` | цвет рамки |
 | `borderWidth` | толщина рамки |
-| `borderStyle` | стиль рамки: `solid` \| `dashed` \| `none` |
+| `borderStyle` | `solid` / `dashed` / `none` |
 | `fontSize` | размер шрифта |
-| `fontWeight` | начертание: `normal` \| `bold` |
-| `textAlign` | выравнивание: `left` \| `center` \| `right` |
+| `fontWeight` | `normal` / `bold` |
+| `textAlign` | `left` / `center` / `right` |
 | `padding` | внутренний отступ |
 | `margin` | внешний отступ |
 | `minWidth`, `minHeight` | минимальный размер |
-| `maxWidth`, `maxHeight` | максимальный размер; `0` — без ограничения |
+| `maxWidth`, `maxHeight` | максимум; `0` — без ограничения |
 
-Служебные поля компонента: `id`, `typeId`.
+Служебные поля: `id`, `typeId`.
 
-### Значения по умолчанию
+## Имена в SC
+
+| Ключ | Класс |
+|---|---|
+| `name` | `concept_ui_name` |
+| `x` | `concept_ui_x` |
+| `y` | `concept_ui_y` |
+| `width` | `concept_ui_width` |
+| `height` | `concept_ui_height` |
+| `order` | `concept_ui_order` |
+| `visible` | `concept_ui_visible` |
+| `enabled` | `concept_ui_enabled` |
+| `opacity` | `concept_ui_opacity` |
+| `text` | `concept_ui_text_value` |
+| `tooltip` | `concept_ui_tooltip` |
+| `actionId` | `concept_ui_action_id` |
+| `backgroundColor` | `concept_ui_background_color` |
+| `color` | `concept_ui_color` |
+| `borderColor` | `concept_ui_border_color` |
+| `borderWidth` | `concept_ui_border_width` |
+| `borderStyle` | `concept_ui_border_style` |
+| `fontSize` | `concept_ui_font_size` |
+| `fontWeight` | `concept_ui_font_weight` |
+| `textAlign` | `concept_ui_text_align` |
+| `padding` | `concept_ui_padding` |
+| `margin` | `concept_ui_margin` |
+| `minWidth` | `concept_ui_min_width` |
+| `minHeight` | `concept_ui_min_height` |
+| `maxWidth` | `concept_ui_max_width` |
+| `maxHeight` | `concept_ui_max_height` |
+
+Отношения: `nrel_ui_contains`, `nrel_ui_id`, `nrel_ui_value`, `nrel_inclusion`.
+
+## Значения по умолчанию
 
 | Свойство | Значение |
 |---|---|
@@ -84,8 +116,6 @@
 | `padding`, `margin` | `0` |
 | `minWidth`, `minHeight`, `maxWidth`, `maxHeight` | `0` |
 
-Размеры и переопределения по типу — в `defaults` у `catalog.ts`.
+Размеры по типу — в `defaults` в `catalog.ts`.
 
-## Расширение
-
-Сначала каталог редактора, потом база знаний и остальные модули.
+Новый тип или свойство сначала в каталоге редактора, потом в SC и у остальных.
