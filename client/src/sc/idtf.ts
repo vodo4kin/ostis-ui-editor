@@ -10,5 +10,8 @@ export function toIdtf(raw: string): string {
 }
 
 export function escapeScsContent(value: string): string {
-  return value.replace(/\\/g, '\\\\').replace(/]/g, '\\]')
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/\[/g, '\\[')
+    .replace(/]/g, '\\]')
 }

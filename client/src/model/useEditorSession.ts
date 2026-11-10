@@ -333,7 +333,7 @@ export function useEditorSession() {
 
   const placeType = useCallback(
     (typeId: ComponentTypeId) => {
-      if (!hasActiveRef.current) {
+      if (busyRef.current || !hasActiveRef.current) {
         return
       }
       setModel((prev) => {
@@ -347,6 +347,9 @@ export function useEditorSession() {
   )
 
   const select = useCallback((id: string | null, additive = false) => {
+    if (busyRef.current) {
+      return
+    }
     if (id === null) {
       setSelectedIds([])
       return
@@ -362,6 +365,9 @@ export function useEditorSession() {
 
   const patchProps = useCallback(
     (componentId: string, patch: Partial<ComponentProps>) => {
+      if (busyRef.current) {
+        return
+      }
       setModel((prev) =>
         commit(prev, updateComponentProps(prev, componentId, patch)),
       )
@@ -371,6 +377,9 @@ export function useEditorSession() {
 
   const patchPropsLive = useCallback(
     (componentId: string, patch: Partial<ComponentProps>) => {
+      if (busyRef.current) {
+        return
+      }
       setModel((prev) => updateComponentProps(prev, componentId, patch))
     },
     [],
@@ -378,7 +387,7 @@ export function useEditorSession() {
 
   const patchPropsLiveMany = useCallback(
     (items: { id: string; patch: Partial<ComponentProps> }[]) => {
-      if (items.length === 0) {
+      if (busyRef.current || items.length === 0) {
         return
       }
       setModel((prev) => {
@@ -392,7 +401,17 @@ export function useEditorSession() {
     [],
   )
 
+  const pushCheckpointGuarded = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
+    pushCheckpoint()
+  }, [pushCheckpoint])
+
   const deleteSelected = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
     const ids = selectedIdsRef.current
     if (ids.length === 0) {
       return
@@ -403,6 +422,9 @@ export function useEditorSession() {
 
   const moveSelectedLayer = useCallback(
     (direction: 'up' | 'down') => {
+      if (busyRef.current) {
+        return
+      }
       const ids = selectedIdsRef.current
       if (ids.length !== 1) {
         return
@@ -415,6 +437,9 @@ export function useEditorSession() {
   )
 
   const copySelected = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
     const clip = takeClipboard(modelRef.current, selectedIdsRef.current)
     if (!clip) {
       return
@@ -424,6 +449,9 @@ export function useEditorSession() {
   }, [])
 
   const pasteFromClipboard = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
     const clip = clipboardRef.current
     if (!clip) {
       return
@@ -447,6 +475,9 @@ export function useEditorSession() {
 
   const nudgeSelected = useCallback(
     (dx: number, dy: number) => {
+      if (busyRef.current) {
+        return
+      }
       const ids = selectedIdsRef.current
       if (ids.length === 0) {
         return
@@ -475,6 +506,9 @@ export function useEditorSession() {
 
   const linkTo = useCallback(
     (kind: LinkKindId, targetId: string) => {
+      if (busyRef.current) {
+        return
+      }
       const ids = selectedIdsRef.current
       if (ids.length !== 1) {
         return
@@ -486,12 +520,18 @@ export function useEditorSession() {
 
   const dropLink = useCallback(
     (linkId: string) => {
+      if (busyRef.current) {
+        return
+      }
       setModel((prev) => commit(prev, removeLink(prev, linkId)))
     },
     [commit],
   )
 
   const undo = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
     setHistory((h) => {
       if (h.length === 0) {
         return h
@@ -507,6 +547,9 @@ export function useEditorSession() {
 
   const revertModelChange = useCallback(
     (change: ModelChange) => {
+      if (busyRef.current) {
+        return
+      }
       setModel((prev) => {
         const next = revertChange(prev, baseline, change)
         if (next === prev) {
@@ -546,15 +589,17 @@ export function useEditorSession() {
     scConnected,
     scBusy,
     scMessage,
-    canUndo: hasActiveInterface && history.length > 0,
-    canCopy: hasActiveInterface && selectedIds.length > 0,
-    canPaste: hasActiveInterface && clipboard !== null,
+    canUndo: hasActiveInterface && history.length > 0 && !scBusy,
+    canCopy: hasActiveInterface && selectedIds.length > 0 && !scBusy,
+    canPaste: hasActiveInterface && clipboard !== null && !scBusy,
     canMoveUp:
       hasActiveInterface &&
+      !scBusy &&
       selected !== null &&
       layerIndex >= 0 &&
       layerIndex < layerCount - 1,
-    canMoveDown: hasActiveInterface && selected !== null && layerIndex > 0,
+    canMoveDown:
+      hasActiveInterface && !scBusy && selected !== null && layerIndex > 0,
     changes: hasActiveInterface ? changes : [],
     dirty: hasActiveInterface && dirty,
     canSave: hasActiveInterface && scConnected && dirty && !scBusy,
@@ -566,7 +611,7 @@ export function useEditorSession() {
     patchProps,
     patchPropsLive,
     patchPropsLiveMany,
-    pushCheckpoint,
+    pushCheckpoint: pushCheckpointGuarded,
     deleteSelected,
     moveSelectedLayer,
     copySelected,

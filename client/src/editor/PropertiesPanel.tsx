@@ -121,7 +121,7 @@ export function PropertiesPanel({
   }
 
   return (
-    <section className="editor-col">
+    <section className="editor-col editor-col--props">
       <div className="panel-head">Свойства</div>
       <div className="panel-body props-body">
         <label className="prop-field">

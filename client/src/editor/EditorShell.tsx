@@ -31,6 +31,7 @@ export function EditorShell() {
     save,
     canSave,
     hasActiveInterface,
+    scBusy,
   } = session
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export function EditorShell() {
       if (isTypingTarget(e.target)) {
         return
       }
-      if (!hasActiveInterface) {
+      if (!hasActiveInterface || scBusy) {
         return
       }
 
@@ -94,6 +95,7 @@ export function EditorShell() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [
     hasActiveInterface,
+    scBusy,
     undo,
     deleteSelected,
     nudgeSelected,
@@ -140,11 +142,13 @@ export function EditorShell() {
       />
       {hasActiveInterface ? (
         <div
-          className={
-            session.selected
-              ? 'editor-body editor-body--with-props'
-              : 'editor-body'
-          }
+          className={[
+            'editor-body',
+            session.selected ? 'editor-body--with-props' : '',
+            scBusy ? 'editor-body--busy' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
         >
           <aside className="editor-col editor-col--left">
             <LibraryPanel onPlaceType={session.placeType} />
