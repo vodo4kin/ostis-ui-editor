@@ -19,15 +19,15 @@ export const FIELD_SPECS: FieldSpec[] = [
   { key: 'visible', label: 'видимость', kind: 'checkbox' },
   { key: 'enabled', label: 'доступность', kind: 'checkbox' },
   { key: 'opacity', label: 'прозрачность', kind: 'number' },
-  { key: 'text', label: 'текст', kind: 'text' },
+  { key: 'text_value', label: 'текст', kind: 'text' },
   { key: 'tooltip', label: 'подсказка', kind: 'text' },
-  { key: 'actionId', label: 'действие', kind: 'text' },
-  { key: 'backgroundColor', label: 'цвет фона', kind: 'text' },
+  { key: 'action_id', label: 'действие', kind: 'text' },
+  { key: 'background_color', label: 'цвет фона', kind: 'text' },
   { key: 'color', label: 'цвет текста', kind: 'text' },
-  { key: 'borderColor', label: 'цвет рамки', kind: 'text' },
-  { key: 'borderWidth', label: 'толщина рамки', kind: 'number' },
+  { key: 'border_color', label: 'цвет рамки', kind: 'text' },
+  { key: 'border_width', label: 'толщина рамки', kind: 'number' },
   {
-    key: 'borderStyle',
+    key: 'border_style',
     label: 'стиль рамки',
     kind: 'select',
     options: [
@@ -36,9 +36,9 @@ export const FIELD_SPECS: FieldSpec[] = [
       { value: 'none', label: 'none' },
     ],
   },
-  { key: 'fontSize', label: 'размер шрифта', kind: 'number' },
+  { key: 'font_size', label: 'размер шрифта', kind: 'number' },
   {
-    key: 'fontWeight',
+    key: 'font_weight',
     label: 'начертание',
     kind: 'select',
     options: [
@@ -47,7 +47,7 @@ export const FIELD_SPECS: FieldSpec[] = [
     ],
   },
   {
-    key: 'textAlign',
+    key: 'text_align',
     label: 'выравнивание текста',
     kind: 'select',
     options: [
@@ -58,8 +58,8 @@ export const FIELD_SPECS: FieldSpec[] = [
   },
   { key: 'padding', label: 'внутренний отступ', kind: 'number' },
   { key: 'margin', label: 'внешний отступ', kind: 'number' },
-  { key: 'minWidth', label: 'min ширина', kind: 'number' },
-  { key: 'minHeight', label: 'min высота', kind: 'number' },
-  { key: 'maxWidth', label: 'max ширина', kind: 'number' },
-  { key: 'maxHeight', label: 'max высота', kind: 'number' },
+  { key: 'min_width', label: 'min ширина', kind: 'number' },
+  { key: 'min_height', label: 'min высота', kind: 'number' },
+  { key: 'max_width', label: 'max ширина', kind: 'number' },
+  { key: 'max_height', label: 'max высота', kind: 'number' },
 ]

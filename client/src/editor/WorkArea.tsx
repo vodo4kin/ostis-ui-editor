@@ -88,16 +88,16 @@ function bodyStyle(component: UiComponent): CSSProperties {
   return {
     width: '100%',
     height: '100%',
-    background: p.backgroundColor === 'transparent' ? 'transparent' : p.backgroundColor,
+    background: p.background_color === 'transparent' ? 'transparent' : p.background_color,
     color: p.color,
-    borderStyle: p.borderStyle,
-    borderWidth: p.borderStyle === 'none' ? 0 : p.borderWidth,
-    borderColor: p.borderColor,
+    borderStyle: p.border_style,
+    borderWidth: p.border_style === 'none' ? 0 : p.border_width,
+    borderColor: p.border_color,
     borderRadius: previewRadius(component),
     opacity: p.opacity,
-    fontSize: p.fontSize,
-    fontWeight: p.fontWeight,
-    textAlign: p.textAlign,
+    fontSize: p.font_size,
+    fontWeight: p.font_weight,
+    textAlign: p.text_align,
     padding: p.padding,
     boxSizing: 'border-box',
   }
@@ -285,8 +285,8 @@ export function WorkArea({
       sy: component.props.y,
       sw: component.props.width,
       sh: component.props.height,
-      minW: Math.max(16, component.props.minWidth || 16),
-      minH: Math.max(16, component.props.minHeight || 16),
+      minW: Math.max(16, component.props.min_width || 16),
+      minH: Math.max(16, component.props.min_height || 16),
       moved: false,
       checkpointed: false,
     }
@@ -447,7 +447,7 @@ export function WorkArea({
                   return null
                 }
                 const selected = selectedSet.has(component.id)
-                const title = component.props.text || component.props.name
+                const title = component.props.text_value || component.props.name
                 return (
                   <div
                     key={component.id}

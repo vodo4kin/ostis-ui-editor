@@ -36,23 +36,23 @@ export type ComponentProps = {
   visible: boolean
   enabled: boolean
   opacity: number
-  text: string
+  text_value: string
   tooltip: string
-  actionId: string
-  backgroundColor: string
+  action_id: string
+  background_color: string
   color: string
-  borderColor: string
-  borderWidth: number
-  borderStyle: BorderStyle
-  fontSize: number
-  fontWeight: FontWeight
-  textAlign: TextAlign
+  border_color: string
+  border_width: number
+  border_style: BorderStyle
+  font_size: number
+  font_weight: FontWeight
+  text_align: TextAlign
   padding: number
   margin: number
-  minWidth: number
-  minHeight: number
-  maxWidth: number
-  maxHeight: number
+  min_width: number
+  min_height: number
+  max_width: number
+  max_height: number
 }
 
 export type UiComponent = {

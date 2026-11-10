@@ -23,7 +23,7 @@
 | `button` | Кнопка | rounded |
 | `menu_item` | Пункт меню | rect |
 
-У `image` и `sound` поле `text` — id ресурса.
+У `image` и `sound` поле `text_value` — id ресурса.
 
 ## Связи
 
@@ -47,21 +47,21 @@
 | `visible` | видимость |
 | `enabled` | доступность |
 | `opacity` | прозрачность, 0…1 |
-| `text` | текст или id ресурса |
+| `text_value` | текст или id ресурса |
 | `tooltip` | подсказка |
-| `actionId` | действие |
-| `backgroundColor` | цвет фона |
+| `action_id` | действие |
+| `background_color` | цвет фона |
 | `color` | цвет текста |
-| `borderColor` | цвет рамки |
-| `borderWidth` | толщина рамки |
-| `borderStyle` | `solid` / `dashed` / `none` |
-| `fontSize` | размер шрифта |
-| `fontWeight` | `normal` / `bold` |
-| `textAlign` | `left` / `center` / `right` |
+| `border_color` | цвет рамки |
+| `border_width` | толщина рамки |
+| `border_style` | `solid` / `dashed` / `none` |
+| `font_size` | размер шрифта |
+| `font_weight` | `normal` / `bold` |
+| `text_align` | `left` / `center` / `right` |
 | `padding` | внутренний отступ |
 | `margin` | внешний отступ |
-| `minWidth`, `minHeight` | минимальный размер |
-| `maxWidth`, `maxHeight` | максимум; `0` — без ограничения |
+| `min_width`, `min_height` | минимальный размер |
+| `max_width`, `max_height` | максимум; `0` — без ограничения |
 
 Служебные поля: `id`, `typeId`.
 
@@ -100,7 +100,7 @@
 
 ### Свойства
 
-`text` → `concept_ui_text_value`, остальное `concept_ui_<snake_case>`.
+Класс: `concept_ui_<ключ>`.
 
 | Ключ | Класс |
 |---|---|
@@ -113,23 +113,23 @@
 | `visible` | `concept_ui_visible` |
 | `enabled` | `concept_ui_enabled` |
 | `opacity` | `concept_ui_opacity` |
-| `text` | `concept_ui_text_value` |
+| `text_value` | `concept_ui_text_value` |
 | `tooltip` | `concept_ui_tooltip` |
-| `actionId` | `concept_ui_action_id` |
-| `backgroundColor` | `concept_ui_background_color` |
+| `action_id` | `concept_ui_action_id` |
+| `background_color` | `concept_ui_background_color` |
 | `color` | `concept_ui_color` |
-| `borderColor` | `concept_ui_border_color` |
-| `borderWidth` | `concept_ui_border_width` |
-| `borderStyle` | `concept_ui_border_style` |
-| `fontSize` | `concept_ui_font_size` |
-| `fontWeight` | `concept_ui_font_weight` |
-| `textAlign` | `concept_ui_text_align` |
+| `border_color` | `concept_ui_border_color` |
+| `border_width` | `concept_ui_border_width` |
+| `border_style` | `concept_ui_border_style` |
+| `font_size` | `concept_ui_font_size` |
+| `font_weight` | `concept_ui_font_weight` |
+| `text_align` | `concept_ui_text_align` |
 | `padding` | `concept_ui_padding` |
 | `margin` | `concept_ui_margin` |
-| `minWidth` | `concept_ui_min_width` |
-| `minHeight` | `concept_ui_min_height` |
-| `maxWidth` | `concept_ui_max_width` |
-| `maxHeight` | `concept_ui_max_height` |
+| `min_width` | `concept_ui_min_width` |
+| `min_height` | `concept_ui_min_height` |
+| `max_width` | `concept_ui_max_width` |
+| `max_height` | `concept_ui_max_height` |
 
 ## Значения по умолчанию
 
@@ -140,16 +140,18 @@
 | `visible` | `true` |
 | `enabled` | `true` |
 | `opacity` | `1` |
-| `text`, `tooltip`, `actionId` | `""` |
-| `backgroundColor` | `#f4f4f4` |
+| `text_value`, `tooltip`, `action_id` | `""` |
+| `background_color` | `#f4f4f4` |
 | `color` | `#1a1a1a` |
-| `borderColor` | `#6f6f6f` |
-| `borderWidth` | `1` |
-| `borderStyle` | `solid` |
-| `fontSize` | `13` |
-| `fontWeight` | `normal` |
-| `textAlign` | `left` |
+| `border_color` | `#6f6f6f` |
+| `border_width` | `1` |
+| `border_style` | `solid` |
+| `font_size` | `13` |
+| `font_weight` | `normal` |
+| `text_align` | `left` |
 | `padding`, `margin` | `0` |
-| `minWidth`, `minHeight`, `maxWidth`, `maxHeight` | `0` |
+| `min_width`, `min_height`, `max_width`, `max_height` | `0` |
 
 Размеры по типу — в `defaults` в `catalog.ts`.
+
+Новый тип, свойство или отношение сначала в каталоге редактора, потом в SC и у остальных.
