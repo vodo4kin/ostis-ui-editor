@@ -175,6 +175,30 @@ export function removeComponents(
   return next
 }
 
+function isContainsAncestor(
+  links: UiLink[],
+  ancestorId: string,
+  nodeId: string,
+): boolean {
+  const parentOf = new Map<string, string>()
+  for (const link of links) {
+    if (link.kind !== 'contains') {
+      continue
+    }
+    parentOf.set(link.targetId, link.sourceId)
+  }
+  let current: string | undefined = parentOf.get(nodeId)
+  const seen = new Set<string>()
+  while (current && !seen.has(current)) {
+    if (current === ancestorId) {
+      return true
+    }
+    seen.add(current)
+    current = parentOf.get(current)
+  }
+  return false
+}
+
 export function addLink(
   model: InterfaceModel,
   kind: LinkKindId,
@@ -184,11 +208,17 @@ export function addLink(
   if (sourceId === targetId) {
     return model
   }
-  const exists = model.links.some(
+  if (
+    kind === 'contains' &&
+    isContainsAncestor(model.links, targetId, sourceId)
+  ) {
+    return model
+  }
+  const same = model.links.some(
     (l) =>
       l.kind === kind && l.sourceId === sourceId && l.targetId === targetId,
   )
-  if (exists) {
+  if (same) {
     return model
   }
 
@@ -200,6 +230,11 @@ export function addLink(
     targetId,
   }
   const next = cloneModel(model)
+  if (kind === 'contains') {
+    next.links = next.links.filter(
+      (l) => !(l.kind === 'contains' && l.targetId === targetId),
+    )
+  }
   next.links.push(link)
   return next
 }
