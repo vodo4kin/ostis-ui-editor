@@ -260,6 +260,10 @@ function LinksBlock({
   onDropLink: (linkId: string) => void
 }) {
   const [query, setQuery] = useState('')
+  const linkedTargets = useMemo(
+    () => new Set(outgoing.map((link) => link.targetId)),
+    [outgoing],
+  )
 
   const filteredTargets = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -273,7 +277,7 @@ function LinksBlock({
   }, [others, query])
 
   function pickTarget(targetId: string) {
-    if (!targetId) {
+    if (!targetId || linkedTargets.has(targetId)) {
       return
     }
     onLinkTo('contains', targetId)
@@ -343,11 +347,19 @@ function LinksBlock({
                   ничего не найдено
                 </option>
               ) : (
-                filteredTargets.map((target) => (
-                  <option key={target.id} value={target.id}>
-                    {componentLabel(target)} ({target.id})
-                  </option>
-                ))
+                filteredTargets.map((target) => {
+                  const linked = linkedTargets.has(target.id)
+                  return (
+                    <option
+                      key={target.id}
+                      value={target.id}
+                      disabled={linked}
+                    >
+                      {componentLabel(target)} ({target.id})
+                      {linked ? ' — уже добавлен' : ''}
+                    </option>
+                  )
+                })
               )}
             </select>
           </label>

@@ -753,6 +753,11 @@
   background: #f3f3f3;
 }
 
+.prop-target-select option:disabled {
+  color: #9a9a9a;
+  background: #f0f0f0;
+}
+
 .prop-links button {
   border: 1px solid #aaa;
   background: #fff;
