@@ -11,7 +11,6 @@ import {
   type ScInterfaceRef,
 } from './modelFromSc'
 import { modelToScs } from './modelToScs'
-import { syncModelValues } from './syncValues'
 
 export type { ScInterfaceRef }
 
@@ -28,7 +27,6 @@ export async function writeModelToSc(
   if (!ok[0]) {
     throw new Error('Не удалось записать модель в БЗ')
   }
-  await syncModelValues(sc, model)
 }
 
 export async function readModelFromSc(
