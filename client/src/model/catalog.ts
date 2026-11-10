@@ -29,6 +29,7 @@ function baseProps(
     border_color: partial.border_color ?? '#6f6f6f',
     border_width: partial.border_width ?? 1,
     border_style: partial.border_style ?? 'solid',
+    corner_radius: partial.corner_radius ?? 0,
     font_size: partial.font_size ?? 13,
     font_weight: partial.font_weight ?? 'normal',
     text_align: partial.text_align ?? 'left',
@@ -191,6 +192,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
       width: 240,
       height: 36,
       background_color: '#ffffff',
+      corner_radius: 4,
     }),
   ),
   entry(
@@ -203,6 +205,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
       height: 100,
       background_color: '#ffffff',
       padding: 4,
+      corner_radius: 4,
     }),
   ),
   entry(
@@ -230,6 +233,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
       height: 36,
       background_color: '#ffffff',
       text_value: 'Вариант',
+      corner_radius: 4,
     }),
   ),
   entry(
@@ -244,6 +248,7 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
       text_value: 'Кнопка',
       text_align: 'center',
       font_weight: 'bold',
+      corner_radius: 4,
     }),
   ),
   entry(

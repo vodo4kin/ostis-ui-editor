@@ -18,6 +18,7 @@ export const CORE_PROPS: PropKey[] = [
   'border_color',
   'border_width',
   'border_style',
+  'corner_radius',
   'font_size',
   'font_weight',
   'text_align',

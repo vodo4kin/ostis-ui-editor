@@ -51,6 +51,7 @@ export const PROP_TO_CLASS: Record<PropKey, string> = {
   border_color: 'concept_ui_border_color',
   border_width: 'concept_ui_border_width',
   border_style: 'concept_ui_border_style',
+  corner_radius: 'concept_ui_corner_radius',
   font_size: 'concept_ui_font_size',
   font_weight: 'concept_ui_font_weight',
   text_align: 'concept_ui_text_align',

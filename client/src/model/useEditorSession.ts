@@ -232,7 +232,7 @@ export function useEditorSession() {
 
   const createNew = useCallback(
     async (title: string) => {
-      const error = validateInterfaceTitle(title)
+      const error = validateInterfaceTitle(title, interfaces)
       if (error) {
         setScMessage(error)
         return
@@ -247,7 +247,10 @@ export function useEditorSession() {
           if (hasActiveRef.current && dirtyRef.current) {
             await persistCurrent()
           }
-          const empty = createEmptyModel(normalized)
+          const empty = createEmptyModel(
+            normalized,
+            interfaces.map((item) => item.id),
+          )
           await writeModelToSc(empty)
           applyLoaded(empty)
           await refreshList()
@@ -257,7 +260,14 @@ export function useEditorSession() {
         /* message already set */
       }
     },
-    [applyLoaded, persistCurrent, refreshList, runSc, scConnected],
+    [
+      applyLoaded,
+      interfaces,
+      persistCurrent,
+      refreshList,
+      runSc,
+      scConnected,
+    ],
   )
 
   const selectInterface = useCallback(

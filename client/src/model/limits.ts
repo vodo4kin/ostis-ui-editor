@@ -24,6 +24,7 @@ export const LIMITS = {
     order: { min: 0, max: 10_000 },
     opacity: { min: 0, max: 1 },
     border_width: { min: 0, max: 64 },
+    corner_radius: { min: 0, max: 512 },
     font_size: { min: 6, max: 256 },
     padding: { min: 0, max: 512 },
     margin: { min: 0, max: 512 },
@@ -58,13 +59,36 @@ export function normalizeInterfaceTitle(raw: string): string {
   return clampString(raw.trim().replace(/\s+/g, ' '), LIMITS.interfaceTitle.maxLength)
 }
 
-export function validateInterfaceTitle(raw: string): string | null {
+export function interfaceTitlesEqual(a: string, b: string): boolean {
+  return (
+    normalizeInterfaceTitle(a).localeCompare(
+      normalizeInterfaceTitle(b),
+      'ru',
+      { sensitivity: 'accent' },
+    ) === 0
+  )
+}
+
+function isInterfaceTitleTaken(
+  raw: string,
+  existing: { id: string; title: string }[],
+): boolean {
+  return existing.some((item) => interfaceTitlesEqual(item.title, raw))
+}
+
+export function validateInterfaceTitle(
+  raw: string,
+  existing: { id: string; title: string }[] = [],
+): string | null {
   const title = normalizeInterfaceTitle(raw)
   if (title.length < LIMITS.interfaceTitle.minLength) {
     return 'Укажите имя'
   }
   if (raw.trim().length > LIMITS.interfaceTitle.maxLength) {
     return `Не больше ${LIMITS.interfaceTitle.maxLength} символов`
+  }
+  if (isInterfaceTitleTaken(title, existing)) {
+    return 'Интерфейс с таким именем уже есть'
   }
   return null
 }

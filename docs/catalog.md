@@ -55,6 +55,7 @@
 | `border_color` | цвет рамки |
 | `border_width` | толщина рамки |
 | `border_style` | `solid` / `dashed` / `none` |
+| `corner_radius` | скругление углов |
 | `font_size` | размер шрифта |
 | `font_weight` | `normal` / `bold` |
 | `text_align` | `left` / `center` / `right` |
@@ -121,6 +122,7 @@
 | `border_color` | `concept_ui_border_color` |
 | `border_width` | `concept_ui_border_width` |
 | `border_style` | `concept_ui_border_style` |
+| `corner_radius` | `concept_ui_corner_radius` |
 | `font_size` | `concept_ui_font_size` |
 | `font_weight` | `concept_ui_font_weight` |
 | `text_align` | `concept_ui_text_align` |
@@ -146,6 +148,7 @@
 | `border_color` | `#6f6f6f` |
 | `border_width` | `1` |
 | `border_style` | `solid` |
+| `corner_radius` | `0` |
 | `font_size` | `13` |
 | `font_weight` | `normal` |
 | `text_align` | `left` |

@@ -137,6 +137,9 @@ concept_ui_border_width
 concept_ui_border_style
 <- sc_node_class;;
 
+concept_ui_corner_radius
+<- sc_node_class;;
+
 concept_ui_font_size
 <- sc_node_class;;
 

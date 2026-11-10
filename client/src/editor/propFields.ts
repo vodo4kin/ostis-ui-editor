@@ -36,6 +36,7 @@ export const FIELD_SPECS: FieldSpec[] = [
       { value: 'none', label: 'none' },
     ],
   },
+  { key: 'corner_radius', label: 'скругление углов', kind: 'number' },
   { key: 'font_size', label: 'размер шрифта', kind: 'number' },
   {
     key: 'font_weight',

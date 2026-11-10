@@ -131,6 +131,9 @@ async function readComponent(
   const props = { ...defaults } as ComponentProps
 
   for (const key of ALL_PROP_KEYS) {
+    if (!kn[PROP_TO_CLASS[key]]?.isValid()) {
+      continue
+    }
     const raw = await readPropValue(client, node, key, kn)
     if (raw == null) {
       continue
@@ -154,8 +157,15 @@ export async function modelFromSc(
     REL.id,
     REL.value,
     ...typeClasses,
-    ...propClasses,
   ])
+  const propMap = await client.resolveKeynodes(
+    propClasses.map((id) => ({ id, type: new ScType() })),
+  )
+  for (const id of propClasses) {
+    if (propMap[id]?.isValid()) {
+      kn[id] = propMap[id]
+    }
+  }
 
   const ifaceIdtf = toIdtf(modelId)
   const ifaceMap = await client.resolveKeynodes([

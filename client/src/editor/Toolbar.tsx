@@ -2,9 +2,23 @@ import { useEffect, useRef, useState } from 'react'
 import {
   LIMITS,
   formatCharCount,
+  interfaceTitlesEqual,
   validateInterfaceTitle,
 } from '../model/limits'
 import type { ScInterfaceRef } from '../sc'
+
+function interfaceOptionLabel(
+  item: ScInterfaceRef,
+  all: ScInterfaceRef[],
+): string {
+  const duplicates = all.filter((other) =>
+    interfaceTitlesEqual(other.title, item.title),
+  )
+  if (duplicates.length > 1) {
+    return `${item.title} (${item.id})`
+  }
+  return item.title
+}
 
 type ToolbarProps = {
   interfaces: ScInterfaceRef[]
@@ -96,7 +110,7 @@ export function Toolbar({
   }
 
   function confirmCreate() {
-    const error = validateInterfaceTitle(draftName)
+    const error = validateInterfaceTitle(draftName, interfaces)
     if (error) {
       setNameError(error)
       nameRef.current?.focus()
@@ -133,7 +147,7 @@ export function Toolbar({
         >
           {interfaces.map((item) => (
             <option key={item.id} value={item.id}>
-              {item.title}
+              {interfaceOptionLabel(item, interfaces)}
             </option>
           ))}
         </select>

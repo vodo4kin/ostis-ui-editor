@@ -11,15 +11,71 @@ import type {
 
 let seq = 1
 
-function nextId(prefix: string): string {
-  const id = `${prefix}_${seq}`
-  seq += 1
-  return id
+function scopeKey(modelId: string): string {
+  const cleaned = modelId.replace(/[^a-zA-Z0-9_]/g, '_')
+  return cleaned || 'ui'
 }
 
-export function createEmptyModel(title = 'Новый интерфейс'): InterfaceModel {
+function rememberId(id: string) {
+  const match = /_(\d+)$/.exec(id)
+  if (!match) {
+    return
+  }
+  const value = Number(match[1])
+  if (Number.isFinite(value) && value >= seq) {
+    seq = value + 1
+  }
+}
+
+function syncIdSeq(model: InterfaceModel) {
+  rememberId(model.id)
+  for (const component of model.components) {
+    rememberId(component.id)
+  }
+  for (const link of model.links) {
+    rememberId(link.id)
+  }
+}
+
+function takenIds(model: InterfaceModel): Set<string> {
+  const taken = new Set<string>()
+  taken.add(model.id)
+  for (const component of model.components) {
+    taken.add(component.id)
+  }
+  for (const link of model.links) {
+    taken.add(link.id)
+  }
+  return taken
+}
+
+function nextScopedId(
+  modelId: string,
+  prefix: string,
+  taken: Set<string>,
+): string {
+  const scope = scopeKey(modelId)
+  for (;;) {
+    const id = `${scope}_${prefix}_${seq}`
+    seq += 1
+    if (!taken.has(id)) {
+      taken.add(id)
+      return id
+    }
+  }
+}
+
+export function createEmptyModel(
+  title = 'Новый интерфейс',
+  existingIds: Iterable<string> = [],
+): InterfaceModel {
+  const taken = new Set(existingIds)
+  let id = ''
+  do {
+    id = `ui_${Date.now().toString(36)}_${seq++}`
+  } while (taken.has(id))
   return {
-    id: `ui_${Date.now().toString(36)}_${seq++}`,
+    id,
     title,
     components: [],
     links: [],
@@ -34,10 +90,12 @@ export function addComponent(
   model: InterfaceModel,
   typeId: ComponentTypeId,
 ): { model: InterfaceModel; componentId: string } {
+  syncIdSeq(model)
   const catalog = getCatalogEntry(typeId)
   const index = model.components.length
+  const componentId = nextScopedId(model.id, 'cmp', takenIds(model))
   const component: UiComponent = {
-    id: nextId('cmp'),
+    id: componentId,
     typeId,
     props: {
       ...structuredClone(catalog.defaults),
@@ -49,7 +107,7 @@ export function addComponent(
 
   const next = cloneModel(model)
   next.components.push(component)
-  return { model: next, componentId: component.id }
+  return { model: next, componentId }
 }
 
 export function updateComponentProps(
@@ -134,8 +192,9 @@ export function addLink(
     return model
   }
 
+  syncIdSeq(model)
   const link: UiLink = {
-    id: nextId('lnk'),
+    id: nextScopedId(model.id, 'lnk', takenIds(model)),
     kind,
     sourceId,
     targetId,
@@ -188,14 +247,16 @@ export function pasteClipboard(
     return { model, newIds: [] }
   }
 
+  syncIdSeq(model)
   const next = cloneModel(model)
+  const taken = takenIds(next)
   const idMap = new Map<string, string>()
   const baseOrder =
     next.components.reduce((max, c) => Math.max(max, c.props.order), 0) + 1
   const newIds: string[] = []
 
   clip.components.forEach((component, index) => {
-    const newId = nextId('cmp')
+    const newId = nextScopedId(model.id, 'cmp', taken)
     idMap.set(component.id, newId)
     newIds.push(newId)
     next.components.push({
@@ -217,7 +278,7 @@ export function pasteClipboard(
       continue
     }
     next.links.push({
-      id: nextId('lnk'),
+      id: nextScopedId(model.id, 'lnk', taken),
       kind: link.kind,
       sourceId,
       targetId,

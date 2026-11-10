@@ -77,10 +77,7 @@ function previewRadius(component: UiComponent): number {
   if (preview === 'pill') {
     return component.props.height / 2
   }
-  if (preview === 'rounded') {
-    return 4
-  }
-  return 0
+  return component.props.corner_radius
 }
 
 function bodyStyle(component: UiComponent): CSSProperties {

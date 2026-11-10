@@ -44,6 +44,7 @@ export type ComponentProps = {
   border_color: string
   border_width: number
   border_style: BorderStyle
+  corner_radius: number
   font_size: number
   font_weight: FontWeight
   text_align: TextAlign
