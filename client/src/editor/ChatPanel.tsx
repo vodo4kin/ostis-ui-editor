@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { PanelHeadLabel } from './PanelHeadLabel'
 
 type RequestKind = 'change' | 'add' | 'question'
 type ContextKind = '' | 'selected' | 'structure'
@@ -67,7 +68,7 @@ export function ChatPanel() {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        Чат
+        <PanelHeadLabel text="Чат" />
       </button>
       {collapsed ? null : (
         <div className="panel-body chat-body">

@@ -28,13 +28,17 @@ export function EditorShell() {
     nudgeSelected,
     copySelected,
     pasteFromClipboard,
-    saveVersion,
-    canSaveVersion,
+    save,
+    canSave,
+    hasActiveInterface,
   } = session
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (isTypingTarget(e.target)) {
+        return
+      }
+      if (!hasActiveInterface) {
         return
       }
 
@@ -48,8 +52,8 @@ export function EditorShell() {
 
       if (mod && e.code === 'KeyS') {
         e.preventDefault()
-        if (canSaveVersion) {
-          saveVersion()
+        if (canSave) {
+          void save()
         }
         return
       }
@@ -89,84 +93,113 @@ export function EditorShell() {
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [
+    hasActiveInterface,
     undo,
     deleteSelected,
     nudgeSelected,
     copySelected,
     pasteFromClipboard,
-    saveVersion,
-    canSaveVersion,
+    save,
+    canSave,
   ])
 
   return (
     <div className="editor">
       <Toolbar
+        interfaces={session.interfaces}
+        activeInterfaceId={session.activeInterfaceId}
+        activeInterfaceTitle={session.model.title}
         canUndo={session.canUndo}
-        canSaveVersion={session.canSaveVersion}
+        canSave={session.canSave}
+        canCreate={session.canCreate}
+        canDelete={session.canDelete}
+        canSelect={session.canSelect}
         canCopy={session.canCopy}
         canPaste={session.canPaste}
-        onNew={session.createNew}
-        onSaveVersion={session.saveVersion}
+        scConnected={session.scConnected}
+        scBusy={session.scBusy}
+        scMessage={session.scMessage}
+        onSelectInterface={(id) => {
+          void session.selectInterface(id)
+        }}
+        onCreate={(title) => {
+          void session.createNew(title)
+        }}
+        onDelete={() => {
+          void session.removeCurrent()
+        }}
+        onSave={() => {
+          void session.save()
+        }}
         onCopy={session.copySelected}
         onPaste={session.pasteFromClipboard}
         onUndo={session.undo}
+        onReconnect={() => {
+          void session.reconnect()
+        }}
       />
-      <div
-        className={
-          session.selected
-            ? 'editor-body editor-body--with-props'
-            : 'editor-body'
-        }
-      >
-        <aside className="editor-col editor-col--left">
-          <LibraryPanel onPlaceType={session.placeType} />
-          <ContainsTreePanel
-            components={session.model.components}
-            links={session.model.links}
-            selectedIds={session.selectedIds}
-            onSelect={(id) => session.select(id)}
-          />
-        </aside>
-        <WorkArea
-          components={session.model.components}
-          selectedIds={session.selectedIds}
-          revealId={session.revealId}
-          onRevealDone={session.clearReveal}
-          onSelect={session.select}
-          onGeometryStart={session.pushCheckpoint}
-          onGeometryLive={(id, patch) => session.patchPropsLive(id, patch)}
-          onMoveLiveMany={(items) =>
-            session.patchPropsLiveMany(
-              items.map((item) => ({
-                id: item.id,
-                patch: { x: item.x, y: item.y },
-              })),
-            )
+      {hasActiveInterface ? (
+        <div
+          className={
+            session.selected
+              ? 'editor-body editor-body--with-props'
+              : 'editor-body'
           }
-        />
-        {session.selected ? (
-          <PropertiesPanel
-            selected={session.selected}
+        >
+          <aside className="editor-col editor-col--left">
+            <LibraryPanel onPlaceType={session.placeType} />
+            <ContainsTreePanel
+              components={session.model.components}
+              links={session.model.links}
+              selectedIds={session.selectedIds}
+              onSelect={(id) => session.select(id)}
+            />
+          </aside>
+          <WorkArea
             components={session.model.components}
-            links={session.model.links}
-            onPatch={session.patchProps}
-            onDelete={session.deleteSelected}
-            onMoveLayer={session.moveSelectedLayer}
-            canMoveUp={session.canMoveUp}
-            canMoveDown={session.canMoveDown}
-            onLinkTo={session.linkTo}
-            onDropLink={session.dropLink}
+            selectedIds={session.selectedIds}
+            revealId={session.revealId}
+            onRevealDone={session.clearReveal}
+            onSelect={session.select}
+            onGeometryStart={session.pushCheckpoint}
+            onGeometryLive={(id, patch) => session.patchPropsLive(id, patch)}
+            onMoveLiveMany={(items) =>
+              session.patchPropsLiveMany(
+                items.map((item) => ({
+                  id: item.id,
+                  patch: { x: item.x, y: item.y },
+                })),
+              )
+            }
           />
-        ) : null}
-        <aside className="editor-col editor-col--side">
-          <DiffPanel
-            changes={session.changes}
-            onSelect={(id) => session.select(id)}
-            onRevert={session.revertModelChange}
-          />
-          <ChatPanel />
-        </aside>
-      </div>
+          {session.selected ? (
+            <PropertiesPanel
+              selected={session.selected}
+              components={session.model.components}
+              links={session.model.links}
+              onPatch={session.patchProps}
+              onDelete={session.deleteSelected}
+              onMoveLayer={session.moveSelectedLayer}
+              canMoveUp={session.canMoveUp}
+              canMoveDown={session.canMoveDown}
+              onLinkTo={session.linkTo}
+              onDropLink={session.dropLink}
+            />
+          ) : null}
+          <aside className="editor-col editor-col--side">
+            <DiffPanel
+              changes={session.changes}
+              onSelect={(id) => session.select(id)}
+              onRevert={session.revertModelChange}
+            />
+            <ChatPanel />
+          </aside>
+        </div>
+      ) : (
+        <div className="editor-empty">
+          <p>Выберите существующий интерфейс или создайте новый</p>
+        </div>
+      )}
     </div>
   )
 }

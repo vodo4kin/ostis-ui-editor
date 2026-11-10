@@ -1,4 +1,12 @@
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  deleteModelFromSc,
+  listInterfacesFromSc,
+  readModelFromSc,
+  resetScClient,
+  writeModelToSc,
+  type ScInterfaceRef,
+} from '../sc'
 import type {
   ComponentProps,
   ComponentTypeId,
@@ -23,8 +31,27 @@ import {
   revertChange,
   type ModelChange,
 } from './modelDiff'
+import { normalizeInterfaceTitle, validateInterfaceTitle } from './limits'
 
 const HISTORY_LIMIT = 50
+
+const KB_CONNECTING = 'Подключение к БЗ…'
+const KB_WORKING = 'Выполнение…'
+
+function errText(err: unknown): string {
+  return err instanceof Error ? err.message : String(err)
+}
+
+function isKbConnectionError(err: unknown): boolean {
+  const text = errText(err).toLowerCase()
+  return (
+    text.includes('таймаут') ||
+    text.includes('подключен') ||
+    text.includes('связи') ||
+    text.includes('websocket') ||
+    text.includes('network')
+  )
+}
 
 export function useEditorSession() {
   const [model, setModel] = useState<InterfaceModel>(() => createEmptyModel())
@@ -35,6 +62,12 @@ export function useEditorSession() {
   const [history, setHistory] = useState<InterfaceModel[]>([])
   const [clipboard, setClipboard] = useState<EditorClipboard | null>(null)
   const [revealId, setRevealId] = useState<string | null>(null)
+  const [interfaces, setInterfaces] = useState<ScInterfaceRef[]>([])
+  const [scConnected, setScConnected] = useState(false)
+  const [scBusy, setScBusy] = useState(false)
+  const [scMessage, setScMessage] = useState<string | null>(KB_CONNECTING)
+  const [booted, setBooted] = useState(false)
+
   const modelRef = useRef(model)
   modelRef.current = model
   const selectedIdsRef = useRef(selectedIds)
@@ -42,11 +75,110 @@ export function useEditorSession() {
   const clipboardRef = useRef(clipboard)
   clipboardRef.current = clipboard
   const pasteCountRef = useRef(0)
+  const busyRef = useRef(false)
 
   const changes = useMemo(
     () => diffModels(baseline, model),
     [baseline, model],
   )
+  const dirty = changes.length > 0
+  const dirtyRef = useRef(dirty)
+  dirtyRef.current = dirty
+
+  const applyLoaded = useCallback((loaded: InterfaceModel) => {
+    setHistory([])
+    setSelectedIds([])
+    setRevealId(null)
+    setClipboard(null)
+    pasteCountRef.current = 0
+    setBaseline(cloneModel(loaded))
+    setModel(loaded)
+  }, [])
+
+  const clearWorkspace = useCallback(() => {
+    applyLoaded(createEmptyModel())
+  }, [applyLoaded])
+
+  const refreshList = useCallback(async () => {
+    const list = await listInterfacesFromSc()
+    setInterfaces(list)
+    return list
+  }, [])
+
+  const persistCurrent = useCallback(async () => {
+    const current = modelRef.current
+    await writeModelToSc(current)
+    setBaseline(cloneModel(current))
+    setInterfaces((prev) => {
+      const next = prev.filter((item) => item.id !== current.id)
+      next.push({ id: current.id, title: current.title })
+      next.sort((a, b) =>
+        a.title.localeCompare(b.title, 'ru', { sensitivity: 'base' }),
+      )
+      return next
+    })
+  }, [])
+
+  const runSc = useCallback(
+    async (
+      task: () => Promise<void>,
+      options?: { pendingMessage?: string },
+    ) => {
+      if (busyRef.current) {
+        return
+      }
+      busyRef.current = true
+      setScBusy(true)
+      setScMessage(options?.pendingMessage ?? KB_WORKING)
+      try {
+        await task()
+      } catch (err) {
+        if (isKbConnectionError(err)) {
+          setScConnected(false)
+          resetScClient()
+        }
+        setScMessage(errText(err))
+        throw err
+      } finally {
+        busyRef.current = false
+        setScBusy(false)
+      }
+    },
+    [],
+  )
+
+  const boot = useCallback(async () => {
+    setScMessage(KB_CONNECTING)
+    await runSc(
+      async () => {
+        const list = await refreshList()
+        setScConnected(true)
+        if (list.length === 0) {
+          clearWorkspace()
+          setScMessage(null)
+          return
+        }
+        const loaded = await readModelFromSc(list[0].id)
+        applyLoaded(loaded)
+        setScMessage(null)
+      },
+      { pendingMessage: KB_CONNECTING },
+    ).catch(() => {
+      setScConnected(false)
+    })
+  }, [applyLoaded, clearWorkspace, refreshList, runSc])
+
+  const reconnect = useCallback(async () => {
+    await boot()
+  }, [boot])
+
+  useEffect(() => {
+    if (booted) {
+      return
+    }
+    setBooted(true)
+    void boot()
+  }, [boot, booted])
 
   const pushCheckpoint = useCallback(() => {
     const snapshot = structuredClone(modelRef.current)
@@ -73,20 +205,127 @@ export function useEditorSession() {
     return next
   }, [])
 
-  const createNew = useCallback(() => {
-    const empty = createEmptyModel()
-    setHistory([])
-    setSelectedIds([])
-    setBaseline(cloneModel(empty))
-    setModel(empty)
-  }, [])
+  const hasActiveInterface = interfaces.some(
+    (item) => item.id === model.id,
+  )
+  const hasActiveRef = useRef(hasActiveInterface)
+  hasActiveRef.current = hasActiveInterface
 
-  const saveVersion = useCallback(() => {
-    setBaseline(cloneModel(modelRef.current))
-  }, [])
+  const save = useCallback(async () => {
+    if (!scConnected) {
+      setScMessage('Нет связи с БЗ')
+      return
+    }
+    if (!hasActiveRef.current) {
+      setScMessage('Сначала выберите или создайте интерфейс')
+      return
+    }
+    try {
+      await runSc(async () => {
+        await persistCurrent()
+        setScMessage('Сохранено')
+      })
+    } catch {
+      /* message already set */
+    }
+  }, [persistCurrent, runSc, scConnected])
+
+  const createNew = useCallback(
+    async (title: string) => {
+      const error = validateInterfaceTitle(title)
+      if (error) {
+        setScMessage(error)
+        return
+      }
+      if (!scConnected) {
+        setScMessage('Нет связи с БЗ')
+        return
+      }
+      const normalized = normalizeInterfaceTitle(title)
+      try {
+        await runSc(async () => {
+          if (hasActiveRef.current && dirtyRef.current) {
+            await persistCurrent()
+          }
+          const empty = createEmptyModel(normalized)
+          await writeModelToSc(empty)
+          applyLoaded(empty)
+          await refreshList()
+          setScMessage('Создано')
+        })
+      } catch {
+        /* message already set */
+      }
+    },
+    [applyLoaded, persistCurrent, refreshList, runSc, scConnected],
+  )
+
+  const selectInterface = useCallback(
+    async (id: string) => {
+      if (!id || (hasActiveRef.current && id === modelRef.current.id)) {
+        return
+      }
+      if (!scConnected) {
+        setScMessage('Нет связи с БЗ')
+        return
+      }
+      try {
+        await runSc(async () => {
+          if (hasActiveRef.current && dirtyRef.current) {
+            await persistCurrent()
+          }
+          const loaded = await readModelFromSc(id)
+          applyLoaded(loaded)
+          setScMessage(null)
+        })
+      } catch {
+        /* message already set */
+      }
+    },
+    [applyLoaded, persistCurrent, runSc, scConnected],
+  )
+
+  const removeCurrent = useCallback(async () => {
+    if (!scConnected) {
+      setScMessage('Нет связи с БЗ')
+      return
+    }
+    const current = modelRef.current
+    const known = interfaces.some((item) => item.id === current.id)
+    if (!known) {
+      setScMessage('Интерфейс ещё не в БЗ')
+      return
+    }
+    try {
+      await runSc(async () => {
+        await deleteModelFromSc(current)
+        const list = await refreshList()
+        if (list.length === 0) {
+          clearWorkspace()
+          setScMessage('Удалено')
+          return
+        }
+        const loaded = await readModelFromSc(list[0].id)
+        applyLoaded(loaded)
+        setScMessage('Удалено')
+      })
+    } catch {
+      /* message already set */
+    }
+  }, [
+    applyLoaded,
+    clearWorkspace,
+    interfaces,
+    refreshList,
+    runSc,
+    scConnected,
+  ])
 
   const placeType = useCallback(
     (typeId: ComponentTypeId) => {
+      if (!hasActiveRef.current) {
+        return
+      }
       setModel((prev) => {
         const { model: next, componentId } = addComponent(prev, typeId)
         setSelectedIds([componentId])
@@ -291,15 +530,27 @@ export function useEditorSession() {
     selected,
     selectedIds,
     revealId,
-    canUndo: history.length > 0,
-    canCopy: selectedIds.length > 0,
-    canPaste: clipboard !== null,
-    canMoveUp: selected !== null && layerIndex >= 0 && layerIndex < layerCount - 1,
-    canMoveDown: selected !== null && layerIndex > 0,
-    changes,
-    canSaveVersion: changes.length > 0,
-    createNew,
-    saveVersion,
+    interfaces,
+    activeInterfaceId: hasActiveInterface ? model.id : '',
+    hasActiveInterface,
+    scConnected,
+    scBusy,
+    scMessage,
+    canUndo: hasActiveInterface && history.length > 0,
+    canCopy: hasActiveInterface && selectedIds.length > 0,
+    canPaste: hasActiveInterface && clipboard !== null,
+    canMoveUp:
+      hasActiveInterface &&
+      selected !== null &&
+      layerIndex >= 0 &&
+      layerIndex < layerCount - 1,
+    canMoveDown: hasActiveInterface && selected !== null && layerIndex > 0,
+    changes: hasActiveInterface ? changes : [],
+    dirty: hasActiveInterface && dirty,
+    canSave: hasActiveInterface && scConnected && dirty && !scBusy,
+    canCreate: scConnected && !scBusy,
+    canDelete: hasActiveInterface && scConnected && !scBusy,
+    canSelect: scConnected && !scBusy && interfaces.length > 0,
     placeType,
     select,
     patchProps,
@@ -316,5 +567,10 @@ export function useEditorSession() {
     dropLink,
     undo,
     revertModelChange,
+    save,
+    createNew,
+    removeCurrent,
+    selectInterface,
+    reconnect,
   }
 }

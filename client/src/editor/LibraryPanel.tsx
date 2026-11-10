@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 
 import type { ComponentTypeId } from '../model/types'
+import { PanelHeadLabel } from './PanelHeadLabel'
 import { LIBRARY_TREE, type LibraryNode } from './libraryTree'
 
 function filterTree(nodes: LibraryNode[], query: string): LibraryNode[] {
@@ -123,7 +124,7 @@ export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        Типовые компоненты
+        <PanelHeadLabel text="Типовые компоненты" />
       </button>
       {collapsed ? null : (
         <div className="panel-body library-body">

@@ -5,6 +5,12 @@ import {
   type KeyboardEvent,
 } from 'react'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
+import {
+  LIMITS,
+  formatCharCount,
+  normalizePropValue,
+  stringPropMaxLength,
+} from '../model/limits'
 import type {
   ComponentProps,
   LinkKindId,
@@ -91,7 +97,8 @@ export function PropertiesPanel({
     const raw = draft[key] ?? ''
     if (spec.kind === 'number') {
       const fallback = Number(selected.props[key])
-      const next = parseNumber(raw, fallback)
+      const parsed = parseNumber(raw, fallback)
+      const next = normalizePropValue(key, parsed as never) as number
       setDraft((d) => ({ ...d, [key]: String(next) }))
       if (next !== selected.props[key]) {
         onPatch(selected.id, { [key]: next } as Partial<ComponentProps>)
@@ -99,8 +106,10 @@ export function PropertiesPanel({
       return
     }
 
-    if (raw !== String(selected.props[key])) {
-      onPatch(selected.id, { [key]: raw } as Partial<ComponentProps>)
+    const next = normalizePropValue(key, raw as never) as string
+    setDraft((d) => ({ ...d, [key]: next }))
+    if (next !== String(selected.props[key])) {
+      onPatch(selected.id, { [key]: next } as Partial<ComponentProps>)
     }
   }
 
@@ -185,12 +194,33 @@ export function PropertiesPanel({
             )
           }
 
+          const numberRange =
+            field.kind === 'number'
+              ? LIMITS.numberProp[
+                  field.key as keyof typeof LIMITS.numberProp
+                ]
+              : undefined
+          const maxLength =
+            field.kind === 'text' ? stringPropMaxLength(field.key) : undefined
+
+          const draftValue = draft[field.key] ?? ''
+
           return (
             <label key={field.key} className="prop-field">
-              <span>{field.label}</span>
+              <span className="prop-field__head">
+                <span>{field.label}</span>
+                {maxLength != null ? (
+                  <span className="char-count">
+                    {formatCharCount(draftValue.length, maxLength)}
+                  </span>
+                ) : null}
+              </span>
               <input
                 inputMode={field.kind === 'number' ? 'numeric' : undefined}
-                value={draft[field.key] ?? ''}
+                value={draftValue}
+                min={numberRange?.min}
+                max={numberRange?.max}
+                maxLength={maxLength}
                 onChange={(e) =>
                   setDraft((d) => ({ ...d, [field.key]: e.target.value }))
                 }

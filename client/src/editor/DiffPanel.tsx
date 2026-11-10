@@ -3,6 +3,7 @@ import {
   changeTargetId,
   type ModelChange,
 } from '../model/modelDiff'
+import { PanelHeadLabel } from './PanelHeadLabel'
 
 type DiffPanelProps = {
   changes: ModelChange[]
@@ -27,7 +28,7 @@ export function DiffPanel({ changes, onSelect, onRevert }: DiffPanelProps) {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        Различия модели
+        <PanelHeadLabel text="Различия модели" />
       </button>
       {collapsed ? null : (
         <div className="panel-body diff-body">

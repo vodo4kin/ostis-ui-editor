@@ -141,6 +141,7 @@ export function WorkArea({
 }: WorkAreaProps) {
   const dragRef = useRef<DragState | null>(null)
   const ignoreCanvasClickRef = useRef(false)
+  const shellRef = useRef<HTMLDivElement>(null)
   const workAreaRef = useRef<HTMLDivElement>(null)
   const scaleRef = useRef(1)
   const [zoom, setZoom] = useState(100)
@@ -152,29 +153,34 @@ export function WorkArea({
   scaleRef.current = scale
 
   const bounds = useMemo(() => contentBounds(components), [components])
+  // Размер берём с оболочки без overflow — иначе clientWidth скролла
+  // входит в петлю «появился скроллбар → мир меньше → скроллбар пропал».
   const worldWidth = Math.max(
     bounds.width,
-    viewport.width > 0 ? viewport.width / scale : 0,
+    viewport.width > 0 ? Math.floor(viewport.width / scale) : 0,
   )
   const worldHeight = Math.max(
     bounds.height,
-    viewport.height > 0 ? viewport.height / scale : 0,
+    viewport.height > 0 ? Math.floor(viewport.height / scale) : 0,
   )
 
   useEffect(() => {
-    const area = workAreaRef.current
-    if (!area) {
+    const shell = shellRef.current
+    if (!shell) {
       return
     }
     const update = () => {
-      setViewport({
-        width: area.clientWidth,
-        height: area.clientHeight,
-      })
+      const width = Math.round(shell.clientWidth)
+      const height = Math.round(shell.clientHeight)
+      setViewport((prev) =>
+        prev.width === width && prev.height === height
+          ? prev
+          : { width, height },
+      )
     }
     update()
     const observer = new ResizeObserver(update)
-    observer.observe(area)
+    observer.observe(shell)
     return () => observer.disconnect()
   }, [])
 
@@ -419,82 +425,87 @@ export function WorkArea({
           </div>
         </div>
       </div>
-      <div className="panel-body">
-        <div className="work-area" ref={workAreaRef}>
-          <div
-            className="work-area__zoom-space"
-            style={{
-              width: worldWidth * scale,
-              height: worldHeight * scale,
-            }}
-          >
+      <div className="panel-body panel-body--canvas">
+        <div className="work-area-shell" ref={shellRef}>
+          <div className="work-area" ref={workAreaRef}>
             <div
-              className={
-                showGrid ? 'work-area__world' : 'work-area__world work-area__world--plain'
-              }
+              className="work-area__zoom-space"
               style={{
-                width: worldWidth,
-                height: worldHeight,
-                transform: `scale(${scale})`,
+                width: worldWidth * scale,
+                height: worldHeight * scale,
               }}
-              onClick={onCanvasClick}
             >
-              {sorted.length === 0 ? (
-                <div className="work-area__hint">Выберите тип слева</div>
-              ) : null}
-              {sorted.map((component) => {
-                if (!component.props.visible) {
-                  return null
+              <div
+                className={
+                  showGrid
+                    ? 'work-area__world'
+                    : 'work-area__world work-area__world--plain'
                 }
-                const selected = selectedSet.has(component.id)
-                const title = component.props.text_value || component.props.name
-                return (
-                  <div
-                    key={component.id}
-                    data-id={component.id}
-                    className={
-                      selected
-                        ? 'canvas-item-wrap canvas-item-wrap--selected'
-                        : 'canvas-item-wrap'
-                    }
-                    style={{
-                      left: component.props.x,
-                      top: component.props.y,
-                      width: component.props.width,
-                      height: component.props.height,
-                      margin: component.props.margin,
-                      zIndex: component.props.order,
-                    }}
-                    onPointerDown={(e) => onMovePointerDown(e, component)}
-                    onPointerMove={onPointerMove}
-                    onPointerUp={onPointerUp}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    {showTypeLabels ? (
-                      <div className="canvas-item__badge">
-                        {labelOfType(component.typeId)}
+                style={{
+                  width: worldWidth,
+                  height: worldHeight,
+                  transform: `scale(${scale})`,
+                }}
+                onClick={onCanvasClick}
+              >
+                {sorted.length === 0 ? (
+                  <div className="work-area__hint">Выберите тип слева</div>
+                ) : null}
+                {sorted.map((component) => {
+                  if (!component.props.visible) {
+                    return null
+                  }
+                  const selected = selectedSet.has(component.id)
+                  const title =
+                    component.props.text_value || component.props.name
+                  return (
+                    <div
+                      key={component.id}
+                      data-id={component.id}
+                      className={
+                        selected
+                          ? 'canvas-item-wrap canvas-item-wrap--selected'
+                          : 'canvas-item-wrap'
+                      }
+                      style={{
+                        left: component.props.x,
+                        top: component.props.y,
+                        width: component.props.width,
+                        height: component.props.height,
+                        margin: component.props.margin,
+                        zIndex: component.props.order,
+                      }}
+                      onPointerDown={(e) => onMovePointerDown(e, component)}
+                      onPointerMove={onPointerMove}
+                      onPointerUp={onPointerUp}
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {showTypeLabels ? (
+                        <div className="canvas-item__badge">
+                          {labelOfType(component.typeId)}
+                        </div>
+                      ) : null}
+                      <div className="canvas-item" style={bodyStyle(component)}>
+                        <div className="canvas-item__title">{title}</div>
                       </div>
-                    ) : null}
-                    <div className="canvas-item" style={bodyStyle(component)}>
-                      <div className="canvas-item__title">{title}</div>
+                      {selected && singleSelected
+                        ? HANDLES.map((handle) => (
+                            <span
+                              key={handle}
+                              data-id={component.id}
+                              className={`canvas-handle canvas-handle--${handle}`}
+                              onPointerDown={(e) =>
+                                onResizePointerDown(e, component, handle)
+                              }
+                              onPointerMove={onPointerMove}
+                              onPointerUp={onPointerUp}
+                            />
+                          ))
+                        : null}
                     </div>
-                    {selected && singleSelected
-                      ? HANDLES.map((handle) => (
-                          <span
-                            key={handle}
-                            data-id={component.id}
-                            className={`canvas-handle canvas-handle--${handle}`}
-                            onPointerDown={(e) =>
-                              onResizePointerDown(e, component, handle)
-                            }
-                            onPointerMove={onPointerMove}
-                            onPointerUp={onPointerUp}
-                          />
-                        ))
-                      : null}
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>

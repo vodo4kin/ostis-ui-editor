@@ -1,4 +1,5 @@
 import { getCatalogEntry } from './catalog'
+import { normalizePropPatch } from './limits'
 import type {
   ComponentProps,
   ComponentTypeId,
@@ -18,7 +19,7 @@ function nextId(prefix: string): string {
 
 export function createEmptyModel(title = 'Новый интерфейс'): InterfaceModel {
   return {
-    id: nextId('ui'),
+    id: `ui_${Date.now().toString(36)}_${seq++}`,
     title,
     components: [],
     links: [],
@@ -61,7 +62,7 @@ export function updateComponentProps(
   if (!item) {
     return model
   }
-  item.props = { ...item.props, ...patch }
+  item.props = { ...item.props, ...normalizePropPatch(patch) }
   return next
 }
 

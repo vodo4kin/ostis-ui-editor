@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { PanelHeadLabel } from './PanelHeadLabel'
 import type { UiComponent, UiLink } from '../model/types'
 import {
   ancestorIdsFor,
@@ -154,7 +155,7 @@ export function ContainsTreePanel({
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        Вложения
+        <PanelHeadLabel text="Вложения" />
       </button>
       {collapsed ? null : (
         <div className="panel-body" ref={bodyRef}>
