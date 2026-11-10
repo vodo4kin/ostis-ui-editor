@@ -17,7 +17,7 @@
 
 Для работы необходимы:
 
-1. Установленный и собранный [ostis-example-app](https://github.com/ostis-apps/ostis-example-app) (sc-machine).
+1. Установленный и собранный [ostis-example-app](https://github.com/ostis-apps/ostis-example-app) (sc-machine). (**ВАЖНО! Используйте Native Installation**)
 2. Загрузка в базу знаний формальной схемы UI.
 3. [Node.js](https://nodejs.org/en) для запуска клиентской части.
 
