@@ -1,4 +1,5 @@
 import { LINK_KINDS, labelOfType } from './catalog'
+import { shortId } from './shortId'
 import type {
   ComponentProps,
   InterfaceModel,
@@ -81,7 +82,7 @@ export function diffModels(
         kind: 'add_component',
         componentId: id,
         label: `+ ${componentTitle(component)}`,
-        idHint: id,
+        idHint: shortId(id),
       })
     }
   }
@@ -93,7 +94,7 @@ export function diffModels(
         kind: 'remove_component',
         componentId: id,
         label: `− ${componentTitle(component)}`,
-        idHint: id,
+        idHint: shortId(id),
         component,
       })
     }
@@ -114,7 +115,7 @@ export function diffModels(
           kind: 'prop',
           componentId: id,
           label: `${componentTitle(currentComp)}.${key}: ${from} → ${to}`,
-          idHint: id,
+          idHint: shortId(id),
           prop: key,
           from,
           to,
@@ -135,7 +136,7 @@ export function diffModels(
         linkId: id,
         link,
         label: `+ связь ${linkLabel(link, allComps)}`,
-        idHint: link.targetId,
+        idHint: shortId(link.targetId),
       })
     }
   }
@@ -148,7 +149,7 @@ export function diffModels(
         linkId: id,
         link,
         label: `− связь ${linkLabel(link, allComps)}`,
-        idHint: link.targetId,
+        idHint: shortId(link.targetId),
       })
     }
   }

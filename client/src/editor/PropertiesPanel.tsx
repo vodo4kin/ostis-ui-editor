@@ -11,6 +11,7 @@ import {
   normalizePropValue,
   stringPropMaxLength,
 } from '../model/limits'
+import { shortId } from '../model/shortId'
 import type {
   ComponentProps,
   LinkKindId,
@@ -272,7 +273,11 @@ function LinksBlock({
     }
     return others.filter((item) => {
       const name = componentLabel(item).toLowerCase()
-      return name.includes(q) || item.id.toLowerCase().includes(q)
+      return (
+        name.includes(q) ||
+        item.id.toLowerCase().includes(q) ||
+        shortId(item.id).toLowerCase().includes(q)
+      )
     })
   }, [others, query])
 
@@ -296,9 +301,9 @@ function LinksBlock({
             return (
               <li key={link.id}>
                 <span className="prop-link-text">
-                  {target ? componentLabel(target) : link.targetId}{' '}
+                  {target ? componentLabel(target) : shortId(link.targetId)}{' '}
                   <span className="prop-id">
-                    ({target?.id ?? link.targetId})
+                    ({shortId(target?.id ?? link.targetId)})
                   </span>
                 </span>
                 <button type="button" onClick={() => onDropLink(link.id)}>
@@ -355,7 +360,7 @@ function LinksBlock({
                       value={target.id}
                       disabled={linked}
                     >
-                      {componentLabel(target)} ({target.id})
+                      {componentLabel(target)} ({shortId(target.id)})
                       {linked ? ' — уже добавлен' : ''}
                     </option>
                   )

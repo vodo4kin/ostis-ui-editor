@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useEditorSession } from '../model/useEditorSession'
 import { ChatPanel } from './ChatPanel'
 import { ContainsTreePanel } from './ContainsTreePanel'
@@ -22,28 +22,57 @@ function isTypingTarget(target: EventTarget | null): boolean {
 
 export function EditorShell() {
   const session = useEditorSession()
+  const [toolbarDialogOpen, setToolbarDialogOpen] = useState(false)
   const {
     undo,
+    redo,
     deleteSelected,
     nudgeSelected,
     copySelected,
+    cutSelected,
     pasteFromClipboard,
+    duplicateSelected,
+    selectAll,
+    clearSelection,
     save,
     canSave,
+    canExportCurrent,
+    exportInterfaces,
     hasActiveInterface,
     scBusy,
   } = session
+  const bodyLocked = scBusy || toolbarDialogOpen
 
   useEffect(() => {
     function onKeyDown(e: KeyboardEvent) {
       if (isTypingTarget(e.target)) {
         return
       }
-      if (!hasActiveInterface || scBusy) {
+      if (!hasActiveInterface || bodyLocked) {
         return
       }
 
       const mod = e.ctrlKey || e.metaKey
+
+      if (mod && e.shiftKey && e.code === 'KeyS') {
+        e.preventDefault()
+        if (canExportCurrent) {
+          void exportInterfaces('current', 'scs')
+        }
+        return
+      }
+
+      if (mod && e.code === 'KeyZ' && e.shiftKey) {
+        e.preventDefault()
+        redo()
+        return
+      }
+
+      if (mod && e.code === 'KeyY') {
+        e.preventDefault()
+        redo()
+        return
+      }
 
       if (mod && e.code === 'KeyZ') {
         e.preventDefault()
@@ -59,6 +88,24 @@ export function EditorShell() {
         return
       }
 
+      if (mod && e.code === 'KeyA') {
+        e.preventDefault()
+        selectAll()
+        return
+      }
+
+      if (mod && e.code === 'KeyD') {
+        e.preventDefault()
+        duplicateSelected()
+        return
+      }
+
+      if (mod && e.code === 'KeyX') {
+        e.preventDefault()
+        cutSelected()
+        return
+      }
+
       if (mod && e.code === 'KeyC') {
         e.preventDefault()
         copySelected()
@@ -68,6 +115,12 @@ export function EditorShell() {
       if (mod && e.code === 'KeyV') {
         e.preventDefault()
         pasteFromClipboard()
+        return
+      }
+
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        clearSelection()
         return
       }
 
@@ -95,14 +148,21 @@ export function EditorShell() {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [
     hasActiveInterface,
-    scBusy,
+    bodyLocked,
     undo,
+    redo,
     deleteSelected,
     nudgeSelected,
     copySelected,
+    cutSelected,
     pasteFromClipboard,
+    duplicateSelected,
+    selectAll,
+    clearSelection,
     save,
     canSave,
+    canExportCurrent,
+    exportInterfaces,
   ])
 
   return (
@@ -112,9 +172,15 @@ export function EditorShell() {
         activeInterfaceId={session.activeInterfaceId}
         activeInterfaceTitle={session.model.title}
         canUndo={session.canUndo}
+        canRedo={session.canRedo}
         canSave={session.canSave}
         canCreate={session.canCreate}
+        canRename={session.canRename}
+        canDuplicate={session.canDuplicate}
         canDelete={session.canDelete}
+        canExport={session.canExport}
+        canExportCurrent={session.canExportCurrent}
+        canExportAll={session.canExportAll}
         canSelect={session.canSelect}
         canCopy={session.canCopy}
         canPaste={session.canPaste}
@@ -127,8 +193,17 @@ export function EditorShell() {
         onCreate={(title) => {
           void session.createNew(title)
         }}
+        onRename={(title) => {
+          void session.renameCurrent(title)
+        }}
+        onDuplicate={(title) => {
+          void session.duplicateCurrent(title)
+        }}
         onDelete={() => {
           void session.removeCurrent()
+        }}
+        onExport={(scope, format) => {
+          void session.exportInterfaces(scope, format)
         }}
         onSave={() => {
           void session.save()
@@ -136,15 +211,18 @@ export function EditorShell() {
         onCopy={session.copySelected}
         onPaste={session.pasteFromClipboard}
         onUndo={session.undo}
+        onRedo={session.redo}
         onReconnect={() => {
           void session.reconnect()
         }}
+        onDialogOpenChange={setToolbarDialogOpen}
       />
       {hasActiveInterface ? (
         <div
           className={[
             'editor-body',
             session.selected ? 'editor-body--with-props' : '',
+            toolbarDialogOpen ? 'editor-body--locked' : '',
             scBusy ? 'editor-body--busy' : '',
           ]
             .filter(Boolean)

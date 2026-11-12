@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { PanelHeadLabel } from './PanelHeadLabel'
 import type { UiComponent, UiLink } from '../model/types'
 import {
   ancestorIdsFor,
   buildContainsForest,
   type ContainsNode,
 } from './containsTree'
+import { PanelHeadLabel } from './PanelHeadLabel'
 
 function ContainsItem({
   node,
@@ -45,7 +45,7 @@ function ContainsItem({
         <span className="tree-twist">
           {hasChildren ? (isOpen ? '▾' : '▸') : '·'}
         </span>
-        <span>{node.label}</span>
+        <span className="tree-row__text">{node.label}</span>
       </button>
       {hasChildren && isOpen ? (
         <ul className="tree-list">

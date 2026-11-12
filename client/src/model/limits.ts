@@ -72,13 +72,18 @@ export function interfaceTitlesEqual(a: string, b: string): boolean {
 function isInterfaceTitleTaken(
   raw: string,
   existing: { id: string; title: string }[],
+  exceptId?: string,
 ): boolean {
-  return existing.some((item) => interfaceTitlesEqual(item.title, raw))
+  return existing.some(
+    (item) =>
+      item.id !== exceptId && interfaceTitlesEqual(item.title, raw),
+  )
 }
 
 export function validateInterfaceTitle(
   raw: string,
   existing: { id: string; title: string }[] = [],
+  exceptId?: string,
 ): string | null {
   const title = normalizeInterfaceTitle(raw)
   if (title.length < LIMITS.interfaceTitle.minLength) {
@@ -87,10 +92,26 @@ export function validateInterfaceTitle(
   if (raw.trim().length > LIMITS.interfaceTitle.maxLength) {
     return `Не больше ${LIMITS.interfaceTitle.maxLength} символов`
   }
-  if (isInterfaceTitleTaken(title, existing)) {
+  if (isInterfaceTitleTaken(title, existing, exceptId)) {
     return 'Интерфейс с таким именем уже есть'
   }
   return null
+}
+
+export function nextCopyInterfaceTitle(
+  base: string,
+  existing: { id: string; title: string }[],
+): string {
+  let candidate = normalizeInterfaceTitle(base)
+  for (let i = 0; i < 40; i += 1) {
+    candidate = normalizeInterfaceTitle(`${candidate} copy`)
+    if (!isInterfaceTitleTaken(candidate, existing)) {
+      return candidate
+    }
+  }
+  return normalizeInterfaceTitle(
+    `${normalizeInterfaceTitle(base)} copy ${Date.now().toString(36)}`,
+  )
 }
 
 export function normalizePropValue<K extends PropKey>(

@@ -1,11 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
+import type { ExportFormat, ExportScope } from '../export'
 import {
   LIMITS,
   formatCharCount,
   interfaceTitlesEqual,
+  nextCopyInterfaceTitle,
   validateInterfaceTitle,
 } from '../model/limits'
 import type { ScInterfaceRef } from '../sc'
+import { DeleteConfirmMenu } from './DeleteConfirmMenu'
+import { ExportMenu } from './ExportMenu'
 
 function interfaceOptionLabel(
   item: ScInterfaceRef,
@@ -25,9 +29,15 @@ type ToolbarProps = {
   activeInterfaceId: string
   activeInterfaceTitle: string
   canUndo: boolean
+  canRedo: boolean
   canSave: boolean
   canCreate: boolean
+  canRename: boolean
+  canDuplicate: boolean
   canDelete: boolean
+  canExport: boolean
+  canExportCurrent: boolean
+  canExportAll: boolean
   canSelect: boolean
   canCopy: boolean
   canPaste: boolean
@@ -36,24 +46,35 @@ type ToolbarProps = {
   scMessage: string | null
   onSelectInterface: (id: string) => void
   onCreate: (title: string) => void
+  onRename: (title: string) => void
+  onDuplicate: (title: string) => void
   onDelete: () => void
+  onExport: (scope: ExportScope, format: ExportFormat) => void
   onSave: () => void
   onCopy: () => void
   onPaste: () => void
   onUndo: () => void
+  onRedo: () => void
   onReconnect: () => void
+  onDialogOpenChange?: (open: boolean) => void
 }
 
-type DialogMode = 'none' | 'create' | 'delete'
+type DialogMode = 'none' | 'create' | 'rename' | 'duplicate'
 
 export function Toolbar({
   interfaces,
   activeInterfaceId,
   activeInterfaceTitle,
   canUndo,
+  canRedo,
   canSave,
   canCreate,
+  canRename,
+  canDuplicate,
   canDelete,
+  canExport,
+  canExportCurrent,
+  canExportAll,
   canSelect,
   canCopy,
   canPaste,
@@ -62,25 +83,37 @@ export function Toolbar({
   scMessage,
   onSelectInterface,
   onCreate,
+  onRename,
+  onDuplicate,
   onDelete,
+  onExport,
   onSave,
   onCopy,
   onPaste,
   onUndo,
+  onRedo,
   onReconnect,
+  onDialogOpenChange,
 }: ToolbarProps) {
   const [dialog, setDialog] = useState<DialogMode>('none')
   const [draftName, setDraftName] = useState('')
   const [nameError, setNameError] = useState<string | null>(null)
   const nameRef = useRef<HTMLInputElement>(null)
 
+  const nameDialog =
+    dialog === 'create' || dialog === 'rename' || dialog === 'duplicate'
+
   useEffect(() => {
-    if (dialog !== 'create') {
+    onDialogOpenChange?.(dialog !== 'none')
+  }, [dialog, onDialogOpenChange])
+
+  useEffect(() => {
+    if (!nameDialog) {
       return
     }
     nameRef.current?.focus()
     nameRef.current?.select()
-  }, [dialog])
+  }, [nameDialog, dialog])
 
   useEffect(() => {
     if (dialog === 'create' && !canCreate) {
@@ -88,10 +121,17 @@ export function Toolbar({
       setDraftName('')
       setNameError(null)
     }
-    if (dialog === 'delete' && !canDelete) {
+    if (dialog === 'rename' && !canRename) {
       setDialog('none')
+      setDraftName('')
+      setNameError(null)
     }
-  }, [canCreate, canDelete, dialog])
+    if (dialog === 'duplicate' && !canDuplicate) {
+      setDialog('none')
+      setDraftName('')
+      setNameError(null)
+    }
+  }, [canCreate, canRename, canDuplicate, dialog])
 
   function openCreate() {
     setDraftName('Новый интерфейс')
@@ -99,8 +139,16 @@ export function Toolbar({
     setDialog('create')
   }
 
-  function openDelete() {
-    setDialog('delete')
+  function openRename() {
+    setDraftName(activeInterfaceTitle)
+    setNameError(null)
+    setDialog('rename')
+  }
+
+  function openDuplicate() {
+    setDraftName(nextCopyInterfaceTitle(activeInterfaceTitle, interfaces))
+    setNameError(null)
+    setDialog('duplicate')
   }
 
   function cancelDialog() {
@@ -109,25 +157,30 @@ export function Toolbar({
     setNameError(null)
   }
 
-  function confirmCreate() {
-    const error = validateInterfaceTitle(draftName, interfaces)
+  function confirmNameDialog() {
+    const mode = dialog
+    const exceptId = mode === 'rename' ? activeInterfaceId : undefined
+    const error = validateInterfaceTitle(draftName, interfaces, exceptId)
     if (error) {
       setNameError(error)
       nameRef.current?.focus()
       return
     }
+    const name = draftName
     setDialog('none')
     setDraftName('')
     setNameError(null)
-    onCreate(draftName)
-  }
-
-  function confirmDelete() {
-    setDialog('none')
-    onDelete()
+    if (mode === 'create') {
+      onCreate(name)
+    } else if (mode === 'rename') {
+      onRename(name)
+    } else if (mode === 'duplicate') {
+      onDuplicate(name)
+    }
   }
 
   const statusText = scMessage ?? (!scConnected ? 'Нет связи с БЗ' : '')
+  const dialogOpen = dialog !== 'none'
 
   return (
     <header className="editor-toolbar">
@@ -137,7 +190,7 @@ export function Toolbar({
         <span>Интерфейс</span>
         <select
           value={activeInterfaceId}
-          disabled={!canSelect || dialog !== 'none'}
+          disabled={!canSelect || dialogOpen}
           onChange={(e) => {
             const id = e.target.value
             if (id) {
@@ -153,7 +206,7 @@ export function Toolbar({
         </select>
       </label>
 
-      {dialog === 'create' ? (
+      {nameDialog ? (
         <div className="editor-toolbar__create">
           <span>Имя</span>
           <input
@@ -170,7 +223,7 @@ export function Toolbar({
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 e.preventDefault()
-                confirmCreate()
+                confirmNameDialog()
               }
               if (e.key === 'Escape') {
                 e.preventDefault()
@@ -186,7 +239,7 @@ export function Toolbar({
           ) : null}
           <button
             type="button"
-            onClick={confirmCreate}
+            onClick={confirmNameDialog}
             disabled={scBusy || !draftName.trim()}
           >
             OK
@@ -195,51 +248,69 @@ export function Toolbar({
             Отмена
           </button>
         </div>
-      ) : null}
-
-      {dialog === 'delete' ? (
-        <div className="editor-toolbar__create">
-          <span className="editor-toolbar__confirm">
-            Удалить «{activeInterfaceTitle}»?
-          </span>
-          <button type="button" onClick={confirmDelete} disabled={scBusy}>
-            OK
-          </button>
-          <button type="button" onClick={cancelDialog} disabled={scBusy}>
-            Отмена
-          </button>
-        </div>
-      ) : null}
-
-      {dialog === 'none' ? (
+      ) : (
         <>
           <button type="button" onClick={openCreate} disabled={!canCreate}>
             Новый
           </button>
-          <button type="button" onClick={openDelete} disabled={!canDelete}>
-            Удалить
+          <button type="button" onClick={openRename} disabled={!canRename}>
+            Переименовать
           </button>
+          <button
+            type="button"
+            onClick={openDuplicate}
+            disabled={!canDuplicate}
+          >
+            Дублировать
+          </button>
+          <DeleteConfirmMenu
+            disabled={!canDelete || dialogOpen}
+            busy={scBusy}
+            interfaceTitle={activeInterfaceTitle}
+            onConfirm={onDelete}
+          />
         </>
-      ) : null}
+      )}
 
       <button
         type="button"
         onClick={onSave}
-        disabled={!canSave || dialog !== 'none'}
+        disabled={!canSave || dialogOpen}
       >
         Сохранить
       </button>
 
       <span className="editor-toolbar__gap" />
 
-      <button type="button" onClick={onCopy} disabled={!canCopy}>
+      <button
+        type="button"
+        onClick={onCopy}
+        disabled={!canCopy || dialogOpen}
+      >
         Копировать
       </button>
-      <button type="button" onClick={onPaste} disabled={!canPaste}>
+      <button
+        type="button"
+        onClick={onPaste}
+        disabled={!canPaste || dialogOpen}
+      >
         Вставить
       </button>
-      <button type="button" onClick={onUndo} disabled={!canUndo}>
+      <button
+        type="button"
+        onClick={onUndo}
+        disabled={!canUndo || dialogOpen}
+        title="Ctrl+Z"
+      >
         Отменить
+      </button>
+      <button
+        type="button"
+        onClick={onRedo}
+        disabled={!canRedo || dialogOpen}
+        title="Ctrl+Shift+Z"
+      >
+        Вернуть
       </button>
 
       <span
@@ -253,25 +324,35 @@ export function Toolbar({
         {statusText}
       </span>
 
-      {!scConnected ? (
+      <div className="editor-toolbar__end">
+        {!scConnected ? (
+          <button
+            type="button"
+            className="editor-toolbar__reconnect"
+            onClick={onReconnect}
+            disabled={scBusy || dialogOpen}
+          >
+            Подключиться к БЗ
+          </button>
+        ) : null}
+
+        <ExportMenu
+          disabled={!canExport || dialogOpen}
+          canExportCurrent={canExportCurrent}
+          canExportAll={canExportAll}
+          busy={scBusy}
+          onExport={onExport}
+        />
+
         <button
           type="button"
-          className="editor-toolbar__reconnect"
-          onClick={onReconnect}
-          disabled={scBusy}
+          className="editor-toolbar__preview"
+          disabled
+          title="Сохранение в БЗ, затем транслятор HTML (пока не подключён)"
         >
-          Подключиться к БЗ
+          Предпросмотр
         </button>
-      ) : null}
-
-      <button
-        type="button"
-        className="editor-toolbar__preview"
-        disabled
-        title="Сохранение в БЗ, затем транслятор HTML (пока не подключён)"
-      >
-        Предпросмотр
-      </button>
+      </div>
     </header>
   )
 }

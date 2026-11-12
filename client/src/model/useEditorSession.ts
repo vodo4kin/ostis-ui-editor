@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  exportModelAsScsFile,
+  exportModelsAsScsZip,
+  type ExportFormat,
+  type ExportScope,
+} from '../export'
+import {
   deleteModelFromSc,
   listInterfacesFromSc,
   readModelFromSc,
@@ -17,6 +23,7 @@ import {
   addComponent,
   addLink,
   createEmptyModel,
+  duplicateModel,
   moveComponentLayer,
   pasteClipboard,
   removeComponents,
@@ -60,6 +67,7 @@ export function useEditorSession() {
   )
   const [selectedIds, setSelectedIds] = useState<string[]>([])
   const [history, setHistory] = useState<InterfaceModel[]>([])
+  const [future, setFuture] = useState<InterfaceModel[]>([])
   const [clipboard, setClipboard] = useState<EditorClipboard | null>(null)
   const [revealId, setRevealId] = useState<string | null>(null)
   const [interfaces, setInterfaces] = useState<ScInterfaceRef[]>([])
@@ -74,6 +82,10 @@ export function useEditorSession() {
   selectedIdsRef.current = selectedIds
   const clipboardRef = useRef(clipboard)
   clipboardRef.current = clipboard
+  const historyRef = useRef(history)
+  historyRef.current = history
+  const futureRef = useRef(future)
+  futureRef.current = future
   const pasteCountRef = useRef(0)
   const busyRef = useRef(false)
 
@@ -86,13 +98,27 @@ export function useEditorSession() {
   dirtyRef.current = dirty
 
   const applyLoaded = useCallback((loaded: InterfaceModel) => {
+    historyRef.current = []
+    futureRef.current = []
     setHistory([])
+    setFuture([])
     setSelectedIds([])
     setRevealId(null)
     setClipboard(null)
     pasteCountRef.current = 0
     setBaseline(cloneModel(loaded))
     setModel(loaded)
+  }, [])
+
+  const pushUndoSnapshot = useCallback((snapshot: InterfaceModel) => {
+    const stack = [...historyRef.current, snapshot]
+    if (stack.length > HISTORY_LIMIT) {
+      stack.shift()
+    }
+    historyRef.current = stack
+    futureRef.current = []
+    setHistory(stack)
+    setFuture([])
   }, [])
 
   const clearWorkspace = useCallback(() => {
@@ -181,29 +207,19 @@ export function useEditorSession() {
   }, [boot, booted])
 
   const pushCheckpoint = useCallback(() => {
-    const snapshot = structuredClone(modelRef.current)
-    setHistory((h) => {
-      const stack = [...h, snapshot]
-      if (stack.length > HISTORY_LIMIT) {
-        stack.shift()
-      }
-      return stack
-    })
-  }, [])
+    pushUndoSnapshot(structuredClone(modelRef.current))
+  }, [pushUndoSnapshot])
 
-  const commit = useCallback((prev: InterfaceModel, next: InterfaceModel) => {
-    if (next === prev) {
-      return prev
-    }
-    setHistory((h) => {
-      const stack = [...h, structuredClone(prev)]
-      if (stack.length > HISTORY_LIMIT) {
-        stack.shift()
+  const commit = useCallback(
+    (prev: InterfaceModel, next: InterfaceModel) => {
+      if (next === prev) {
+        return prev
       }
-      return stack
-    })
-    return next
-  }, [])
+      pushUndoSnapshot(structuredClone(prev))
+      return next
+    },
+    [pushUndoSnapshot],
+  )
 
   const hasActiveInterface = interfaces.some(
     (item) => item.id === model.id,
@@ -270,6 +286,86 @@ export function useEditorSession() {
     ],
   )
 
+  const renameCurrent = useCallback(
+    async (title: string) => {
+      if (!hasActiveRef.current) {
+        return
+      }
+      const current = modelRef.current
+      const error = validateInterfaceTitle(title, interfaces, current.id)
+      if (error) {
+        setScMessage(error)
+        return
+      }
+      if (!scConnected) {
+        setScMessage('Нет связи с БЗ')
+        return
+      }
+      const normalized = normalizeInterfaceTitle(title)
+      if (normalized === normalizeInterfaceTitle(current.title)) {
+        setScMessage(null)
+        return
+      }
+      try {
+        await runSc(async () => {
+          const next = { ...current, title: normalized }
+          await writeModelToSc(next)
+          applyLoaded(next)
+          await refreshList()
+          setScMessage('Переименовано')
+        })
+      } catch {
+        /* message already set */
+      }
+    },
+    [applyLoaded, interfaces, refreshList, runSc, scConnected],
+  )
+
+  const duplicateCurrent = useCallback(
+    async (title: string) => {
+      if (!hasActiveRef.current) {
+        return
+      }
+      const error = validateInterfaceTitle(title, interfaces)
+      if (error) {
+        setScMessage(error)
+        return
+      }
+      if (!scConnected) {
+        setScMessage('Нет связи с БЗ')
+        return
+      }
+      const normalized = normalizeInterfaceTitle(title)
+      try {
+        await runSc(async () => {
+          if (dirtyRef.current) {
+            await persistCurrent()
+          }
+          const source = modelRef.current
+          const copy = duplicateModel(
+            source,
+            normalized,
+            interfaces.map((item) => item.id),
+          )
+          await writeModelToSc(copy)
+          applyLoaded(copy)
+          await refreshList()
+          setScMessage('Дублировано')
+        })
+      } catch {
+        /* message already set */
+      }
+    },
+    [
+      applyLoaded,
+      interfaces,
+      persistCurrent,
+      refreshList,
+      runSc,
+      scConnected,
+    ],
+  )
+
   const selectInterface = useCallback(
     async (id: string) => {
       if (!id || (hasActiveRef.current && id === modelRef.current.id)) {
@@ -293,6 +389,52 @@ export function useEditorSession() {
       }
     },
     [applyLoaded, persistCurrent, runSc, scConnected],
+  )
+
+  const exportInterfaces = useCallback(
+    async (scope: ExportScope, format: ExportFormat) => {
+      if (format !== 'scs') {
+        setScMessage('Этот формат пока не поддерживается')
+        return
+      }
+      if (!scConnected) {
+        setScMessage('Нет связи с БЗ')
+        return
+      }
+      if (scope === 'current' && !hasActiveRef.current) {
+        setScMessage('Сначала выберите интерфейс')
+        return
+      }
+
+      try {
+        await runSc(async () => {
+          if (hasActiveRef.current && dirtyRef.current) {
+            await persistCurrent()
+          }
+
+          if (scope === 'current') {
+            const loaded = await readModelFromSc(modelRef.current.id)
+            exportModelAsScsFile(loaded)
+            setScMessage('Экспортировано')
+            return
+          }
+
+          const list = await refreshList()
+          if (list.length === 0) {
+            throw new Error('Нет интерфейсов для экспорта')
+          }
+          const models: InterfaceModel[] = []
+          for (const item of list) {
+            models.push(await readModelFromSc(item.id))
+          }
+          exportModelsAsScsZip(models)
+          setScMessage('Экспортировано')
+        })
+      } catch {
+        /* message already set */
+      }
+    },
+    [persistCurrent, refreshList, runSc, scConnected],
   )
 
   const removeCurrent = useCallback(async () => {
@@ -361,6 +503,20 @@ export function useEditorSession() {
     setSelectedIds((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
     )
+  }, [])
+
+  const selectAll = useCallback(() => {
+    if (busyRef.current || !hasActiveRef.current) {
+      return
+    }
+    setSelectedIds(modelRef.current.components.map((item) => item.id))
+  }, [])
+
+  const clearSelection = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
+    setSelectedIds([])
   }, [])
 
   const patchProps = useCallback(
@@ -448,6 +604,21 @@ export function useEditorSession() {
     setClipboard(clip)
   }, [])
 
+  const cutSelected = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
+    const ids = selectedIdsRef.current
+    const clip = takeClipboard(modelRef.current, ids)
+    if (!clip) {
+      return
+    }
+    pasteCountRef.current = 0
+    setClipboard(clip)
+    setSelectedIds([])
+    setModel((prev) => commit(prev, removeComponents(prev, ids)))
+  }, [commit])
+
   const pasteFromClipboard = useCallback(() => {
     if (busyRef.current) {
       return
@@ -460,6 +631,25 @@ export function useEditorSession() {
     const offset = 24 * pasteCountRef.current
     setModel((prev) => {
       const { model: next, newIds } = pasteClipboard(prev, clip, offset)
+      if (newIds.length === 0) {
+        return prev
+      }
+      setSelectedIds(newIds)
+      setRevealId(newIds[0] ?? null)
+      return commit(prev, next)
+    })
+  }, [commit])
+
+  const duplicateSelected = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
+    const clip = takeClipboard(modelRef.current, selectedIdsRef.current)
+    if (!clip) {
+      return
+    }
+    setModel((prev) => {
+      const { model: next, newIds } = pasteClipboard(prev, clip, 24)
       if (newIds.length === 0) {
         return prev
       }
@@ -532,17 +722,54 @@ export function useEditorSession() {
     if (busyRef.current) {
       return
     }
-    setHistory((h) => {
-      if (h.length === 0) {
-        return h
-      }
-      const prev = h[h.length - 1]
-      setModel(prev)
-      setSelectedIds((cur) =>
-        cur.filter((id) => prev.components.some((c) => c.id === id)),
-      )
-      return h.slice(0, -1)
-    })
+    const stack = historyRef.current
+    if (stack.length === 0) {
+      return
+    }
+    const prev = stack[stack.length - 1]
+    const nextHistory = stack.slice(0, -1)
+    const nextFuture = [
+      ...futureRef.current,
+      structuredClone(modelRef.current),
+    ]
+    if (nextFuture.length > HISTORY_LIMIT) {
+      nextFuture.shift()
+    }
+    historyRef.current = nextHistory
+    futureRef.current = nextFuture
+    setHistory(nextHistory)
+    setFuture(nextFuture)
+    setModel(prev)
+    setSelectedIds((cur) =>
+      cur.filter((id) => prev.components.some((c) => c.id === id)),
+    )
+  }, [])
+
+  const redo = useCallback(() => {
+    if (busyRef.current) {
+      return
+    }
+    const stack = futureRef.current
+    if (stack.length === 0) {
+      return
+    }
+    const next = stack[stack.length - 1]
+    const nextFuture = stack.slice(0, -1)
+    const nextHistory = [
+      ...historyRef.current,
+      structuredClone(modelRef.current),
+    ]
+    if (nextHistory.length > HISTORY_LIMIT) {
+      nextHistory.shift()
+    }
+    historyRef.current = nextHistory
+    futureRef.current = nextFuture
+    setHistory(nextHistory)
+    setFuture(nextFuture)
+    setModel(next)
+    setSelectedIds((cur) =>
+      cur.filter((id) => next.components.some((c) => c.id === id)),
+    )
   }, [])
 
   const revertModelChange = useCallback(
@@ -590,6 +817,7 @@ export function useEditorSession() {
     scBusy,
     scMessage,
     canUndo: hasActiveInterface && history.length > 0 && !scBusy,
+    canRedo: hasActiveInterface && future.length > 0 && !scBusy,
     canCopy: hasActiveInterface && selectedIds.length > 0 && !scBusy,
     canPaste: hasActiveInterface && clipboard !== null && !scBusy,
     canMoveUp:
@@ -604,10 +832,23 @@ export function useEditorSession() {
     dirty: hasActiveInterface && dirty,
     canSave: hasActiveInterface && scConnected && dirty && !scBusy,
     canCreate: scConnected && !scBusy,
+    canRename: hasActiveInterface && scConnected && !scBusy,
+    canDuplicate: hasActiveInterface && scConnected && !scBusy,
     canDelete: hasActiveInterface && scConnected && !scBusy,
+    canExport:
+      scConnected &&
+      !scBusy &&
+      (hasActiveInterface || interfaces.length > 0),
+    canExportCurrent: hasActiveInterface && scConnected && !scBusy,
+    canExportAll:
+      scConnected &&
+      !scBusy &&
+      (interfaces.length > 0 || hasActiveInterface),
     canSelect: scConnected && !scBusy && interfaces.length > 0,
     placeType,
     select,
+    selectAll,
+    clearSelection,
     patchProps,
     patchPropsLive,
     patchPropsLiveMany,
@@ -615,15 +856,21 @@ export function useEditorSession() {
     deleteSelected,
     moveSelectedLayer,
     copySelected,
+    cutSelected,
     pasteFromClipboard,
+    duplicateSelected,
     clearReveal,
     nudgeSelected,
     linkTo,
     dropLink,
     undo,
+    redo,
     revertModelChange,
     save,
     createNew,
+    renameCurrent,
+    duplicateCurrent,
+    exportInterfaces,
     removeCurrent,
     selectInterface,
     reconnect,

@@ -16,7 +16,11 @@ function formatPropValue(value: ComponentProps[PropKey]): string {
   return normalizeScContent(String(value))
 }
 
-function emitProp(ownerIdtf: string, key: PropKey, value: ComponentProps[PropKey]): string {
+function emitProp(
+  ownerIdtf: string,
+  key: PropKey,
+  value: ComponentProps[PropKey],
+): string {
   const propNode = `${ownerIdtf}_${key}`
   const className = PROP_TO_CLASS[key]
   const content = escapeScsContent(formatPropValue(value))
@@ -40,10 +44,6 @@ export function modelToScs(model: InterfaceModel): string {
   parts.push(emitProp(iface, 'name', model.title))
   parts.push('')
 
-  const childTargets = new Set(
-    model.links.filter((l) => l.kind === 'contains').map((l) => l.targetId),
-  )
-
   for (const component of model.components) {
     const cid = toIdtf(component.id)
     const typeClass = TYPE_TO_CLASS[component.typeId]
@@ -58,10 +58,20 @@ export function modelToScs(model: InterfaceModel): string {
       parts.push(emitProp(cid, key, component.props[key]))
       parts.push('')
     }
+  }
 
-    parts.push(`${iface} => ${REL.has_component}: ${cid};;`)
+  for (const component of model.components) {
+    parts.push(
+      `${iface} => ${REL.has_component}: ${toIdtf(component.id)};;`,
+    )
+  }
+  if (model.components.length > 0) {
     parts.push('')
   }
+
+  const childTargets = new Set(
+    model.links.filter((l) => l.kind === 'contains').map((l) => l.targetId),
+  )
 
   for (const component of model.components) {
     if (childTargets.has(component.id)) {
@@ -79,5 +89,6 @@ export function modelToScs(model: InterfaceModel): string {
     )
   }
 
-  return parts.join('\n')
+  let text = parts.join('\n').replace(/\n+$/g, '')
+  return `${text}\n`
 }

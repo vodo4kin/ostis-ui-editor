@@ -82,6 +82,48 @@ export function createEmptyModel(
   }
 }
 
+export function duplicateModel(
+  source: InterfaceModel,
+  title: string,
+  existingIds: Iterable<string> = [],
+): InterfaceModel {
+  const shell = createEmptyModel(title, existingIds)
+  syncIdSeq(source)
+  const taken = new Set<string>([...existingIds, ...takenIds(shell)])
+  const idMap = new Map<string, string>()
+  for (const component of source.components) {
+    idMap.set(component.id, nextScopedId(shell.id, 'cmp', taken))
+  }
+
+  const components: UiComponent[] = source.components.map((component) => ({
+    id: idMap.get(component.id) as string,
+    typeId: component.typeId,
+    props: structuredClone(component.props),
+  }))
+
+  const links: UiLink[] = []
+  for (const link of source.links) {
+    const sourceId = idMap.get(link.sourceId)
+    const targetId = idMap.get(link.targetId)
+    if (!sourceId || !targetId) {
+      continue
+    }
+    links.push({
+      id: nextScopedId(shell.id, 'lnk', taken),
+      kind: link.kind,
+      sourceId,
+      targetId,
+    })
+  }
+
+  return {
+    id: shell.id,
+    title: shell.title,
+    components,
+    links,
+  }
+}
+
 function cloneModel(model: InterfaceModel): InterfaceModel {
   return structuredClone(model)
 }
