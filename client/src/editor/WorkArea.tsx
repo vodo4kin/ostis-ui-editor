@@ -453,8 +453,6 @@ export function WorkArea({
                     return null
                   }
                   const selected = selectedSet.has(component.id)
-                  const title =
-                    component.props.text_value || component.props.name
                   return (
                     <div
                       key={component.id}
@@ -483,7 +481,9 @@ export function WorkArea({
                         </div>
                       ) : null}
                       <div className="canvas-item" style={bodyStyle(component)}>
-                        <div className="canvas-item__title">{title}</div>
+                        <div className="canvas-item__title">
+                          {component.props.text_value}
+                        </div>
                       </div>
                       {selected && singleSelected
                         ? HANDLES.map((handle) => (

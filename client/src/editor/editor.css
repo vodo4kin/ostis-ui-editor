@@ -716,6 +716,9 @@
 .canvas-item {
   box-sizing: border-box;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .canvas-item__badge {
@@ -740,8 +743,11 @@
 }
 
 .canvas-item__title {
+  width: 100%;
   font-weight: 600;
   line-height: 1.2;
+  white-space: pre-wrap;
+  overflow: hidden;
 }
 
 .props-body {

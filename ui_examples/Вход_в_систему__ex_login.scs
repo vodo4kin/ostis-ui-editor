@@ -1,0 +1,1715 @@
+ex_login
+<- concept_ui_interface;;
+
+ex_login => nrel_ui_id: [ex_login];;
+
+ex_login_name
+<- concept_ui_name;
+=> nrel_ui_value: [Вход в систему];
+-> ex_login;;
+
+ex_login_cmp_1
+<- concept_ui_window;;
+
+ex_login_cmp_1 => nrel_ui_id: [ex_login_cmp_1];;
+
+ex_login_cmp_1_name
+<- concept_ui_name;
+=> nrel_ui_value: [Окно входа];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_x
+<- concept_ui_x;
+=> nrel_ui_value: [80];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_y
+<- concept_ui_y;
+=> nrel_ui_value: [40];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_width
+<- concept_ui_width;
+=> nrel_ui_value: [400];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_height
+<- concept_ui_height;
+=> nrel_ui_value: [500];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_order
+<- concept_ui_order;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#f7f8fa];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a1a1a];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#c5c9d1];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [solid];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [14];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_1_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_1;;
+
+ex_login_cmp_2
+<- concept_ui_image;;
+
+ex_login_cmp_2 => nrel_ui_id: [ex_login_cmp_2];;
+
+ex_login_cmp_2_name
+<- concept_ui_name;
+=> nrel_ui_value: [Логотип];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_x
+<- concept_ui_x;
+=> nrel_ui_value: [220];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_y
+<- concept_ui_y;
+=> nrel_ui_value: [68];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_width
+<- concept_ui_width;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_height
+<- concept_ui_height;
+=> nrel_ui_value: [64];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_order
+<- concept_ui_order;
+=> nrel_ui_value: [2];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [Логотип приложения];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#dbe7ff];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a1a1a];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [10];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [center];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_2_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_2;;
+
+ex_login_cmp_3
+<- concept_ui_text;;
+
+ex_login_cmp_3 => nrel_ui_id: [ex_login_cmp_3];;
+
+ex_login_cmp_3_name
+<- concept_ui_name;
+=> nrel_ui_value: [Заголовок];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_y
+<- concept_ui_y;
+=> nrel_ui_value: [148];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_height
+<- concept_ui_height;
+=> nrel_ui_value: [36];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_order
+<- concept_ui_order;
+=> nrel_ui_value: [3];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Добро пожаловать];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [transparent];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a2433];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [22];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [bold];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [center];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_3_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_3;;
+
+ex_login_cmp_4
+<- concept_ui_text;;
+
+ex_login_cmp_4 => nrel_ui_id: [ex_login_cmp_4];;
+
+ex_login_cmp_4_name
+<- concept_ui_name;
+=> nrel_ui_value: [Метка логина];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_y
+<- concept_ui_y;
+=> nrel_ui_value: [200];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_height
+<- concept_ui_height;
+=> nrel_ui_value: [20];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_order
+<- concept_ui_order;
+=> nrel_ui_value: [4];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Имя пользователя];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [transparent];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_color
+<- concept_ui_color;
+=> nrel_ui_value: [#4a5568];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_4_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_4;;
+
+ex_login_cmp_5
+<- concept_ui_text_field;;
+
+ex_login_cmp_5 => nrel_ui_id: [ex_login_cmp_5];;
+
+ex_login_cmp_5_name
+<- concept_ui_name;
+=> nrel_ui_value: [Поле логина];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_y
+<- concept_ui_y;
+=> nrel_ui_value: [224];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_height
+<- concept_ui_height;
+=> nrel_ui_value: [40];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_order
+<- concept_ui_order;
+=> nrel_ui_value: [5];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [Введите логин];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [auth_username];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#ffffff];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a1a1a];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#9aa3b2];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [solid];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [8];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [10];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_5_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_5;;
+
+ex_login_cmp_6
+<- concept_ui_text;;
+
+ex_login_cmp_6 => nrel_ui_id: [ex_login_cmp_6];;
+
+ex_login_cmp_6_name
+<- concept_ui_name;
+=> nrel_ui_value: [Метка пароля];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_y
+<- concept_ui_y;
+=> nrel_ui_value: [280];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_height
+<- concept_ui_height;
+=> nrel_ui_value: [20];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_order
+<- concept_ui_order;
+=> nrel_ui_value: [6];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Пароль];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [transparent];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_color
+<- concept_ui_color;
+=> nrel_ui_value: [#4a5568];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_6_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_6;;
+
+ex_login_cmp_7
+<- concept_ui_text_field;;
+
+ex_login_cmp_7 => nrel_ui_id: [ex_login_cmp_7];;
+
+ex_login_cmp_7_name
+<- concept_ui_name;
+=> nrel_ui_value: [Поле пароля];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_y
+<- concept_ui_y;
+=> nrel_ui_value: [304];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_height
+<- concept_ui_height;
+=> nrel_ui_value: [40];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_order
+<- concept_ui_order;
+=> nrel_ui_value: [7];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [Введите пароль];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [auth_password];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#ffffff];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a1a1a];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#9aa3b2];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [solid];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [8];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [10];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_7_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_7;;
+
+ex_login_cmp_8
+<- concept_ui_text;;
+
+ex_login_cmp_8 => nrel_ui_id: [ex_login_cmp_8];;
+
+ex_login_cmp_8_name
+<- concept_ui_name;
+=> nrel_ui_value: [Подсказка сессии];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_y
+<- concept_ui_y;
+=> nrel_ui_value: [356];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_height
+<- concept_ui_height;
+=> nrel_ui_value: [20];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_order
+<- concept_ui_order;
+=> nrel_ui_value: [8];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Сессия сохранится на этом устройстве];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [transparent];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_color
+<- concept_ui_color;
+=> nrel_ui_value: [#6b7280];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [12];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_8_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_8;;
+
+ex_login_cmp_9
+<- concept_ui_divider;;
+
+ex_login_cmp_9 => nrel_ui_id: [ex_login_cmp_9];;
+
+ex_login_cmp_9_name
+<- concept_ui_name;
+=> nrel_ui_value: [Разделитель];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_y
+<- concept_ui_y;
+=> nrel_ui_value: [388];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_height
+<- concept_ui_height;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_order
+<- concept_ui_order;
+=> nrel_ui_value: [9];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#d7dbe3];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a1a1a];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [left];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_9_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_9;;
+
+ex_login_cmp_10
+<- concept_ui_button;;
+
+ex_login_cmp_10 => nrel_ui_id: [ex_login_cmp_10];;
+
+ex_login_cmp_10_name
+<- concept_ui_name;
+=> nrel_ui_value: [Войти];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_y
+<- concept_ui_y;
+=> nrel_ui_value: [408];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_width
+<- concept_ui_width;
+=> nrel_ui_value: [152];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_height
+<- concept_ui_height;
+=> nrel_ui_value: [40];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_order
+<- concept_ui_order;
+=> nrel_ui_value: [10];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Войти];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [auth_submit];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#2f6fed];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_color
+<- concept_ui_color;
+=> nrel_ui_value: [#ffffff];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [8];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [bold];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [center];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_10_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_10;;
+
+ex_login_cmp_11
+<- concept_ui_button;;
+
+ex_login_cmp_11 => nrel_ui_id: [ex_login_cmp_11];;
+
+ex_login_cmp_11_name
+<- concept_ui_name;
+=> nrel_ui_value: [Гость];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_x
+<- concept_ui_x;
+=> nrel_ui_value: [288];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_y
+<- concept_ui_y;
+=> nrel_ui_value: [408];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_width
+<- concept_ui_width;
+=> nrel_ui_value: [152];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_height
+<- concept_ui_height;
+=> nrel_ui_value: [40];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_order
+<- concept_ui_order;
+=> nrel_ui_value: [11];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Как гость];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [auth_guest];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [#eef1f6];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_color
+<- concept_ui_color;
+=> nrel_ui_value: [#1a2433];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#c5c9d1];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [solid];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [8];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [13];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [bold];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [center];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_11_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_11;;
+
+ex_login_cmp_12
+<- concept_ui_text;;
+
+ex_login_cmp_12 => nrel_ui_id: [ex_login_cmp_12];;
+
+ex_login_cmp_12_name
+<- concept_ui_name;
+=> nrel_ui_value: [Ссылка восстановления];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_x
+<- concept_ui_x;
+=> nrel_ui_value: [120];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_y
+<- concept_ui_y;
+=> nrel_ui_value: [468];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_width
+<- concept_ui_width;
+=> nrel_ui_value: [320];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_height
+<- concept_ui_height;
+=> nrel_ui_value: [24];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_order
+<- concept_ui_order;
+=> nrel_ui_value: [12];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_visible
+<- concept_ui_visible;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_enabled
+<- concept_ui_enabled;
+=> nrel_ui_value: [true];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_opacity
+<- concept_ui_opacity;
+=> nrel_ui_value: [1];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_text_value
+<- concept_ui_text_value;
+=> nrel_ui_value: [Забыли пароль?];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_tooltip
+<- concept_ui_tooltip;
+=> nrel_ui_value: [];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_action_id
+<- concept_ui_action_id;
+=> nrel_ui_value: [auth_recover];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_background_color
+<- concept_ui_background_color;
+=> nrel_ui_value: [transparent];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_color
+<- concept_ui_color;
+=> nrel_ui_value: [#2f6fed];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_border_color
+<- concept_ui_border_color;
+=> nrel_ui_value: [#6f6f6f];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_border_width
+<- concept_ui_border_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_border_style
+<- concept_ui_border_style;
+=> nrel_ui_value: [none];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_corner_radius
+<- concept_ui_corner_radius;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_font_size
+<- concept_ui_font_size;
+=> nrel_ui_value: [12];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_font_weight
+<- concept_ui_font_weight;
+=> nrel_ui_value: [normal];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_text_align
+<- concept_ui_text_align;
+=> nrel_ui_value: [center];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_padding
+<- concept_ui_padding;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_margin
+<- concept_ui_margin;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_min_width
+<- concept_ui_min_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_min_height
+<- concept_ui_min_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_max_width
+<- concept_ui_max_width;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login_cmp_12_max_height
+<- concept_ui_max_height;
+=> nrel_ui_value: [0];
+-> ex_login_cmp_12;;
+
+ex_login => nrel_ui_has_component: ex_login_cmp_1;;
+ex_login => nrel_ui_has_component: ex_login_cmp_2;;
+ex_login => nrel_ui_has_component: ex_login_cmp_3;;
+ex_login => nrel_ui_has_component: ex_login_cmp_4;;
+ex_login => nrel_ui_has_component: ex_login_cmp_5;;
+ex_login => nrel_ui_has_component: ex_login_cmp_6;;
+ex_login => nrel_ui_has_component: ex_login_cmp_7;;
+ex_login => nrel_ui_has_component: ex_login_cmp_8;;
+ex_login => nrel_ui_has_component: ex_login_cmp_9;;
+ex_login => nrel_ui_has_component: ex_login_cmp_10;;
+ex_login => nrel_ui_has_component: ex_login_cmp_11;;
+ex_login => nrel_ui_has_component: ex_login_cmp_12;;
+
+ex_login => nrel_ui_contains: ex_login_cmp_1;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_2;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_3;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_4;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_5;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_6;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_7;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_8;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_9;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_10;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_11;;
+ex_login_cmp_1 => nrel_ui_contains: ex_login_cmp_12;;
