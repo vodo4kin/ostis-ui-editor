@@ -8,7 +8,8 @@ import {
   type PointerEvent,
 } from 'react'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
-import type { ComponentProps, UiComponent } from '../model/types'
+import type { ComponentProps, UiComponent, UiLink } from '../model/types'
+import { expandWithDescendants } from '../model/containsRelations'
 
 type GeometryPatch = Partial<
   Pick<ComponentProps, 'x' | 'y' | 'width' | 'height'>
@@ -16,10 +17,12 @@ type GeometryPatch = Partial<
 
 type WorkAreaProps = {
   components: UiComponent[]
+  links: UiLink[]
   selectedIds: string[]
   revealId: string | null
   onRevealDone: () => void
   onSelect: (id: string | null, additive?: boolean) => void
+  onSelectMany: (ids: string[], additive?: boolean) => void
   onGeometryLive: (id: string, patch: GeometryPatch) => void
   onMoveLiveMany: (items: { id: string; x: number; y: number }[]) => void
   onGeometryStart: () => void
@@ -59,6 +62,15 @@ type DragState =
       minH: number
       moved: boolean
       checkpointed: boolean
+    }
+  | {
+      mode: 'marquee'
+      ox: number
+      oy: number
+      x: number
+      y: number
+      additive: boolean
+      moved: boolean
     }
 
 const HANDLES: ResizeHandle[] = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw']
@@ -126,12 +138,35 @@ function contentBounds(components: UiComponent[]): { width: number; height: numb
   }
 }
 
+function normalizeRect(ax: number, ay: number, bx: number, by: number) {
+  return {
+    left: Math.min(ax, bx),
+    top: Math.min(ay, by),
+    right: Math.max(ax, bx),
+    bottom: Math.max(ay, by),
+  }
+}
+
+function rectsIntersect(
+  a: { left: number; top: number; right: number; bottom: number },
+  b: { left: number; top: number; right: number; bottom: number },
+): boolean {
+  return !(
+    a.right < b.left ||
+    a.left > b.right ||
+    a.bottom < b.top ||
+    a.top > b.bottom
+  )
+}
+
 export function WorkArea({
   components,
+  links,
   selectedIds,
   revealId,
   onRevealDone,
   onSelect,
+  onSelectMany,
   onGeometryLive,
   onMoveLiveMany,
   onGeometryStart,
@@ -140,18 +175,23 @@ export function WorkArea({
   const ignoreCanvasClickRef = useRef(false)
   const shellRef = useRef<HTMLDivElement>(null)
   const workAreaRef = useRef<HTMLDivElement>(null)
+  const worldRef = useRef<HTMLDivElement>(null)
   const scaleRef = useRef(1)
   const [zoom, setZoom] = useState(100)
   const [showTypeLabels, setShowTypeLabels] = useState(true)
   const [showGrid, setShowGrid] = useState(true)
+  const [marquee, setMarquee] = useState<{
+    left: number
+    top: number
+    width: number
+    height: number
+  } | null>(null)
   const [viewport, setViewport] = useState({ width: 0, height: 0 })
   const selectedSet = new Set(selectedIds)
   const scale = zoom / 100
   scaleRef.current = scale
 
   const bounds = useMemo(() => contentBounds(components), [components])
-  // Размер берём с оболочки без overflow — иначе clientWidth скролла
-  // входит в петлю «появился скроллбар → мир меньше → скроллбар пропал».
   const worldWidth = Math.max(
     bounds.width,
     viewport.width > 0 ? Math.floor(viewport.width / scale) : 0,
@@ -224,7 +264,23 @@ export function WorkArea({
     setZoom(100)
   }, [])
 
+  function clientToWorld(clientX: number, clientY: number) {
+    const world = worldRef.current
+    if (!world) {
+      return { x: 0, y: 0 }
+    }
+    const rect = world.getBoundingClientRect()
+    const s = scaleRef.current || 1
+    return {
+      x: (clientX - rect.left) / s,
+      y: (clientY - rect.top) / s,
+    }
+  }
+
   function beginCheckpoint(drag: DragState) {
+    if (drag.mode === 'marquee') {
+      return
+    }
     if (!drag.checkpointed) {
       onGeometryStart()
       drag.checkpointed = true
@@ -243,11 +299,13 @@ export function WorkArea({
     }
 
     const already = selectedSet.has(component.id)
-    const moveIds = already && selectedIds.length > 0 ? selectedIds : [component.id]
+    const seedIds =
+      already && selectedIds.length > 0 ? selectedIds : [component.id]
     if (!already || selectedIds.length <= 1) {
       onSelect(component.id, false)
     }
 
+    const moveIds = expandWithDescendants(components, links, seedIds)
     const origins = moveIds
       .map((id) => {
         const item = components.find((c) => c.id === id)
@@ -295,9 +353,57 @@ export function WorkArea({
     }
   }
 
+  function onWorldPointerDown(e: PointerEvent<HTMLDivElement>) {
+    if (e.button !== 0) {
+      return
+    }
+    if (e.target !== e.currentTarget) {
+      return
+    }
+    const point = clientToWorld(e.clientX, e.clientY)
+    e.currentTarget.setPointerCapture(e.pointerId)
+    dragRef.current = {
+      mode: 'marquee',
+      ox: point.x,
+      oy: point.y,
+      x: point.x,
+      y: point.y,
+      additive: e.ctrlKey || e.metaKey,
+      moved: false,
+    }
+    setMarquee({ left: point.x, top: point.y, width: 0, height: 0 })
+  }
+
   function onPointerMove(e: PointerEvent<HTMLElement>) {
     const drag = dragRef.current
-    if (!drag || drag.id !== e.currentTarget.dataset.id) {
+    if (!drag) {
+      return
+    }
+
+    if (drag.mode === 'marquee') {
+      if (!e.currentTarget.hasPointerCapture(e.pointerId)) {
+        return
+      }
+      const point = clientToWorld(e.clientX, e.clientY)
+      const dx = point.x - drag.ox
+      const dy = point.y - drag.oy
+      if (!drag.moved && Math.abs(dx) < 2 && Math.abs(dy) < 2) {
+        return
+      }
+      drag.moved = true
+      drag.x = point.x
+      drag.y = point.y
+      const box = normalizeRect(drag.ox, drag.oy, drag.x, drag.y)
+      setMarquee({
+        left: box.left,
+        top: box.top,
+        width: box.right - box.left,
+        height: box.bottom - box.top,
+      })
+      return
+    }
+
+    if (drag.id !== e.currentTarget.dataset.id) {
       return
     }
 
@@ -346,6 +452,32 @@ export function WorkArea({
     onGeometryLive(drag.id, { x, y, width, height })
   }
 
+  function finishMarquee(drag: Extract<DragState, { mode: 'marquee' }>) {
+    setMarquee(null)
+    if (!drag.moved) {
+      if (!drag.additive) {
+        onSelect(null)
+      }
+      return
+    }
+    const box = normalizeRect(drag.ox, drag.oy, drag.x, drag.y)
+    const hit = components
+      .filter((component) => {
+        if (!component.props.visible) {
+          return false
+        }
+        const p = component.props
+        return rectsIntersect(box, {
+          left: p.x,
+          top: p.y,
+          right: p.x + p.width,
+          bottom: p.y + p.height,
+        })
+      })
+      .map((component) => component.id)
+    onSelectMany(hit, drag.additive)
+  }
+
   function onPointerUp(e: PointerEvent<HTMLElement>) {
     const drag = dragRef.current
     if (!drag) {
@@ -358,6 +490,9 @@ export function WorkArea({
       e.currentTarget.releasePointerCapture(e.pointerId)
     }
     dragRef.current = null
+    if (drag.mode === 'marquee') {
+      finishMarquee(drag)
+    }
   }
 
   function onCanvasClick() {
@@ -433,6 +568,7 @@ export function WorkArea({
               }}
             >
               <div
+                ref={worldRef}
                 className={
                   showGrid
                     ? 'work-area__world'
@@ -443,6 +579,9 @@ export function WorkArea({
                   height: worldHeight,
                   transform: `scale(${scale})`,
                 }}
+                onPointerDown={onWorldPointerDown}
+                onPointerMove={onPointerMove}
+                onPointerUp={onPointerUp}
                 onClick={onCanvasClick}
               >
                 {sorted.length === 0 ? (
@@ -502,6 +641,17 @@ export function WorkArea({
                     </div>
                   )
                 })}
+                {marquee ? (
+                  <div
+                    className="work-area__marquee"
+                    style={{
+                      left: marquee.left,
+                      top: marquee.top,
+                      width: marquee.width,
+                      height: marquee.height,
+                    }}
+                  />
+                ) : null}
               </div>
             </div>
           </div>

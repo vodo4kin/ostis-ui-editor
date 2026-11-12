@@ -19,7 +19,7 @@ import type {
   UiComponent,
   UiLink,
 } from '../model/types'
-import { FIELD_SPECS } from './propFields'
+import { FIELD_SPECS, PROP_GROUPS } from './propFields'
 
 function componentLabel(component: UiComponent): string {
   return component.props.name || labelOfType(component.typeId)
@@ -121,6 +121,91 @@ export function PropertiesPanel({
     }
   }
 
+  function renderField(key: PropKey) {
+    const field = fields.find((item) => item.key === key)
+    if (!field) {
+      return null
+    }
+
+    if (field.kind === 'checkbox') {
+      const checked = Boolean(selected.props[field.key])
+      return (
+        <label key={field.key} className="prop-check">
+          <input
+            type="checkbox"
+            checked={checked}
+            onChange={(e) =>
+              onPatch(selected.id, {
+                [field.key]: e.target.checked,
+              } as Partial<ComponentProps>)
+            }
+          />
+          <span>{field.label}</span>
+        </label>
+      )
+    }
+
+    if (field.kind === 'select') {
+      return (
+        <label key={field.key} className="prop-field">
+          <span>{field.label}</span>
+          <select
+            value={String(selected.props[field.key])}
+            onChange={(e) =>
+              onPatch(selected.id, {
+                [field.key]: e.target.value,
+              } as Partial<ComponentProps>)
+            }
+          >
+            {field.options?.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </label>
+      )
+    }
+
+    const numberRange =
+      field.kind === 'number'
+        ? LIMITS.numberProp[field.key as keyof typeof LIMITS.numberProp]
+        : undefined
+    const maxLength =
+      field.kind === 'text' ? stringPropMaxLength(field.key) : undefined
+    const draftValue = draft[field.key] ?? ''
+
+    return (
+      <label key={field.key} className="prop-field">
+        <span className="prop-field__head">
+          <span>{field.label}</span>
+          {maxLength != null ? (
+            <span className="char-count">
+              {formatCharCount(draftValue.length, maxLength)}
+            </span>
+          ) : null}
+        </span>
+        <input
+          inputMode={field.kind === 'number' ? 'numeric' : undefined}
+          value={draftValue}
+          min={numberRange?.min}
+          max={numberRange?.max}
+          maxLength={maxLength}
+          onChange={(e) =>
+            setDraft((d) => ({ ...d, [field.key]: e.target.value }))
+          }
+          onBlur={() => commitKey(field.key)}
+          onKeyDown={(e) => onKeyDown(e, field.key)}
+        />
+      </label>
+    )
+  }
+
+  const grouped = PROP_GROUPS.map((group) => ({
+    ...group,
+    keys: group.keys.filter((key) => allowed.includes(key)),
+  })).filter((group) => group.keys.length > 0)
+
   return (
     <section className="editor-col editor-col--props">
       <div className="panel-head">Свойства</div>
@@ -154,83 +239,12 @@ export function PropertiesPanel({
           </button>
         </div>
 
-        {fields.map((field) => {
-          if (field.kind === 'checkbox') {
-            const checked = Boolean(selected.props[field.key])
-            return (
-              <label key={field.key} className="prop-check">
-                <input
-                  type="checkbox"
-                  checked={checked}
-                  onChange={(e) =>
-                    onPatch(selected.id, {
-                      [field.key]: e.target.checked,
-                    } as Partial<ComponentProps>)
-                  }
-                />
-                <span>{field.label}</span>
-              </label>
-            )
-          }
-
-          if (field.kind === 'select') {
-            return (
-              <label key={field.key} className="prop-field">
-                <span>{field.label}</span>
-                <select
-                  value={String(selected.props[field.key])}
-                  onChange={(e) =>
-                    onPatch(selected.id, {
-                      [field.key]: e.target.value,
-                    } as Partial<ComponentProps>)
-                  }
-                >
-                  {field.options?.map((opt) => (
-                    <option key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            )
-          }
-
-          const numberRange =
-            field.kind === 'number'
-              ? LIMITS.numberProp[
-                  field.key as keyof typeof LIMITS.numberProp
-                ]
-              : undefined
-          const maxLength =
-            field.kind === 'text' ? stringPropMaxLength(field.key) : undefined
-
-          const draftValue = draft[field.key] ?? ''
-
-          return (
-            <label key={field.key} className="prop-field">
-              <span className="prop-field__head">
-                <span>{field.label}</span>
-                {maxLength != null ? (
-                  <span className="char-count">
-                    {formatCharCount(draftValue.length, maxLength)}
-                  </span>
-                ) : null}
-              </span>
-              <input
-                inputMode={field.kind === 'number' ? 'numeric' : undefined}
-                value={draftValue}
-                min={numberRange?.min}
-                max={numberRange?.max}
-                maxLength={maxLength}
-                onChange={(e) =>
-                  setDraft((d) => ({ ...d, [field.key]: e.target.value }))
-                }
-                onBlur={() => commitKey(field.key)}
-                onKeyDown={(e) => onKeyDown(e, field.key)}
-              />
-            </label>
-          )
-        })}
+        {grouped.map((group) => (
+          <div key={group.id} className="prop-block">
+            <div className="prop-block__title">{group.label}</div>
+            <div className="prop-group">{group.keys.map(renderField)}</div>
+          </div>
+        ))}
 
         <LinksBlock
           key={selected.id}

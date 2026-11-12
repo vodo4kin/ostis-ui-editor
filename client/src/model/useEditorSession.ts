@@ -38,6 +38,7 @@ import {
   revertChange,
   type ModelChange,
 } from './modelDiff'
+import { expandWithDescendants } from './containsRelations'
 import { normalizeInterfaceTitle, validateInterfaceTitle } from './limits'
 
 const HISTORY_LIMIT = 50
@@ -505,6 +506,26 @@ export function useEditorSession() {
     )
   }, [])
 
+  const selectMany = useCallback((ids: string[], additive = false) => {
+    if (busyRef.current) {
+      return
+    }
+    if (!additive) {
+      setSelectedIds(ids)
+      return
+    }
+    if (ids.length === 0) {
+      return
+    }
+    setSelectedIds((prev) => {
+      const next = new Set(prev)
+      for (const id of ids) {
+        next.add(id)
+      }
+      return [...next]
+    })
+  }, [])
+
   const selectAll = useCallback(() => {
     if (busyRef.current || !hasActiveRef.current) {
       return
@@ -668,11 +689,12 @@ export function useEditorSession() {
       if (busyRef.current) {
         return
       }
-      const ids = selectedIdsRef.current
-      if (ids.length === 0) {
+      const seed = selectedIdsRef.current
+      if (seed.length === 0) {
         return
       }
       setModel((prev) => {
+        const ids = expandWithDescendants(prev.components, prev.links, seed)
         let next = prev
         let changed = false
         for (const id of ids) {
@@ -847,6 +869,7 @@ export function useEditorSession() {
     canSelect: scConnected && !scBusy && interfaces.length > 0,
     placeType,
     select,
+    selectMany,
     selectAll,
     clearSelection,
     patchProps,

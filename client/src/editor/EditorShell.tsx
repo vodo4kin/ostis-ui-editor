@@ -239,10 +239,12 @@ export function EditorShell() {
           </aside>
           <WorkArea
             components={session.model.components}
+            links={session.model.links}
             selectedIds={session.selectedIds}
             revealId={session.revealId}
             onRevealDone={session.clearReveal}
             onSelect={session.select}
+            onSelectMany={session.selectMany}
             onGeometryStart={session.pushCheckpoint}
             onGeometryLive={(id, patch) => session.patchPropsLive(id, patch)}
             onMoveLiveMany={(items) =>

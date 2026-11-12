@@ -1,4 +1,5 @@
 import { labelOfType } from '../model/catalog'
+import { buildContainsMaps } from '../model/containsRelations'
 import type { UiComponent, UiLink } from '../model/types'
 
 export type ContainsNode = {
@@ -7,56 +8,10 @@ export type ContainsNode = {
   children: ContainsNode[]
 }
 
+export { ancestorIdsFor } from '../model/containsRelations'
+
 function componentLabel(component: UiComponent): string {
   return component.props.name || labelOfType(component.typeId)
-}
-
-function buildContainsMaps(
-  components: UiComponent[],
-  links: UiLink[],
-): {
-  byId: Map<string, UiComponent>
-  childrenOf: Map<string, string[]>
-  parentOf: Map<string, string>
-} {
-  const byId = new Map(components.map((c) => [c.id, c]))
-  const childrenOf = new Map<string, string[]>()
-  const parentOf = new Map<string, string>()
-
-  for (const link of links) {
-    if (link.kind !== 'contains') {
-      continue
-    }
-    if (!byId.has(link.sourceId) || !byId.has(link.targetId)) {
-      continue
-    }
-    const list = childrenOf.get(link.sourceId)
-    if (list) {
-      list.push(link.targetId)
-    } else {
-      childrenOf.set(link.sourceId, [link.targetId])
-    }
-    parentOf.set(link.targetId, link.sourceId)
-  }
-
-  return { byId, childrenOf, parentOf }
-}
-
-export function ancestorIdsFor(
-  components: UiComponent[],
-  links: UiLink[],
-  componentId: string,
-): string[] {
-  const { parentOf } = buildContainsMaps(components, links)
-  const ancestors: string[] = []
-  let current: string | undefined = parentOf.get(componentId)
-  const seen = new Set<string>()
-  while (current && !seen.has(current)) {
-    ancestors.push(current)
-    seen.add(current)
-    current = parentOf.get(current)
-  }
-  return ancestors
 }
 
 export function buildContainsForest(

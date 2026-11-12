@@ -637,6 +637,15 @@
   pointer-events: none;
 }
 
+.work-area__marquee {
+  position: absolute;
+  z-index: 20;
+  box-sizing: border-box;
+  border: 1px solid #2563eb;
+  background: rgba(37, 99, 235, 0.12);
+  pointer-events: none;
+}
+
 .canvas-item-wrap {
   position: absolute;
   box-sizing: border-box;
@@ -795,13 +804,19 @@
 }
 
 .prop-block {
-  padding-top: 4px;
+  padding-top: 8px;
   border-top: 1px solid #ddd;
 }
 
 .prop-block__title {
   margin-bottom: 6px;
   font-weight: 600;
+}
+
+.prop-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .prop-links {

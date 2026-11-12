@@ -9,6 +9,12 @@ export type FieldSpec = {
   options?: { value: string; label: string }[]
 }
 
+export type PropGroup = {
+  id: string
+  label: string
+  keys: PropKey[]
+}
+
 export const FIELD_SPECS: FieldSpec[] = [
   { key: 'name', label: 'имя', kind: 'text' },
   { key: 'x', label: 'x', kind: 'number' },
@@ -63,4 +69,52 @@ export const FIELD_SPECS: FieldSpec[] = [
   { key: 'min_height', label: 'min высота', kind: 'number' },
   { key: 'max_width', label: 'max ширина', kind: 'number' },
   { key: 'max_height', label: 'max высота', kind: 'number' },
+]
+
+export const PROP_GROUPS: PropGroup[] = [
+  {
+    id: 'main',
+    label: 'Основное',
+    keys: ['name', 'order', 'visible', 'enabled', 'opacity'],
+  },
+  {
+    id: 'geometry',
+    label: 'Геометрия',
+    keys: [
+      'x',
+      'y',
+      'width',
+      'height',
+      'padding',
+      'margin',
+      'min_width',
+      'min_height',
+      'max_width',
+      'max_height',
+    ],
+  },
+  {
+    id: 'text',
+    label: 'Текст',
+    keys: [
+      'text_value',
+      'tooltip',
+      'action_id',
+      'color',
+      'font_size',
+      'font_weight',
+      'text_align',
+    ],
+  },
+  {
+    id: 'look',
+    label: 'Оформление',
+    keys: [
+      'background_color',
+      'border_color',
+      'border_width',
+      'border_style',
+      'corner_radius',
+    ],
+  },
 ]
