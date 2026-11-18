@@ -5,20 +5,14 @@ import { ContainsTreePanel } from './ContainsTreePanel'
 import { DiffPanel } from './DiffPanel'
 import { LibraryPanel } from './LibraryPanel'
 import { PropertiesPanel } from './PropertiesPanel'
+import {
+  isTypingTarget,
+  matchShortcut,
+  nudgeStep,
+} from './shortcuts'
 import { Toolbar } from './Toolbar'
 import { WorkArea } from './WorkArea'
 import './editor.css'
-
-function isTypingTarget(target: EventTarget | null): boolean {
-  if (!(target instanceof HTMLElement)) {
-    return false
-  }
-  const tag = target.tagName
-  if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') {
-    return true
-  }
-  return target.isContentEditable
-}
 
 export function EditorShell() {
   const session = useEditorSession()
@@ -38,6 +32,9 @@ export function EditorShell() {
     canSave,
     canExportCurrent,
     exportInterfaces,
+    moveSelectedLayer,
+    canMoveUp,
+    canMoveDown,
     hasActiveInterface,
     scBusy,
   } = session
@@ -52,95 +49,73 @@ export function EditorShell() {
         return
       }
 
-      const mod = e.ctrlKey || e.metaKey
-
-      if (mod && e.shiftKey && e.code === 'KeyS') {
-        e.preventDefault()
-        if (canExportCurrent) {
-          void exportInterfaces('current', 'scs')
-        }
+      const action = matchShortcut(e)
+      if (!action) {
         return
       }
 
-      if (mod && e.code === 'KeyZ' && e.shiftKey) {
-        e.preventDefault()
-        redo()
-        return
-      }
+      e.preventDefault()
 
-      if (mod && e.code === 'KeyY') {
-        e.preventDefault()
-        redo()
-        return
-      }
-
-      if (mod && e.code === 'KeyZ') {
-        e.preventDefault()
-        undo()
-        return
-      }
-
-      if (mod && e.code === 'KeyS') {
-        e.preventDefault()
-        if (canSave) {
-          void save()
-        }
-        return
-      }
-
-      if (mod && e.code === 'KeyA') {
-        e.preventDefault()
-        selectAll()
-        return
-      }
-
-      if (mod && e.code === 'KeyD') {
-        e.preventDefault()
-        duplicateSelected()
-        return
-      }
-
-      if (mod && e.code === 'KeyX') {
-        e.preventDefault()
-        cutSelected()
-        return
-      }
-
-      if (mod && e.code === 'KeyC') {
-        e.preventDefault()
-        copySelected()
-        return
-      }
-
-      if (mod && e.code === 'KeyV') {
-        e.preventDefault()
-        pasteFromClipboard()
-        return
-      }
-
-      if (e.key === 'Escape') {
-        e.preventDefault()
-        clearSelection()
-        return
-      }
-
-      if (e.key === 'Delete') {
-        e.preventDefault()
-        deleteSelected()
-        return
-      }
-
-      if (
-        e.key === 'ArrowLeft' ||
-        e.key === 'ArrowRight' ||
-        e.key === 'ArrowUp' ||
-        e.key === 'ArrowDown'
-      ) {
-        e.preventDefault()
-        if (e.key === 'ArrowLeft') nudgeSelected(-1, 0)
-        if (e.key === 'ArrowRight') nudgeSelected(1, 0)
-        if (e.key === 'ArrowUp') nudgeSelected(0, -1)
-        if (e.key === 'ArrowDown') nudgeSelected(0, 1)
+      switch (action) {
+        case 'exportCurrent':
+          if (canExportCurrent) {
+            void exportInterfaces('current', 'scs')
+          }
+          break
+        case 'redo':
+          redo()
+          break
+        case 'undo':
+          undo()
+          break
+        case 'save':
+          if (canSave) {
+            void save()
+          }
+          break
+        case 'selectAll':
+          selectAll()
+          break
+        case 'duplicate':
+          duplicateSelected()
+          break
+        case 'cut':
+          cutSelected()
+          break
+        case 'copy':
+          copySelected()
+          break
+        case 'paste':
+          pasteFromClipboard()
+          break
+        case 'delete':
+          deleteSelected()
+          break
+        case 'clearSelection':
+          clearSelection()
+          break
+        case 'bringForward':
+          if (canMoveUp) {
+            moveSelectedLayer('up')
+          }
+          break
+        case 'sendBackward':
+          if (canMoveDown) {
+            moveSelectedLayer('down')
+          }
+          break
+        case 'nudgeLeft':
+          nudgeSelected(-nudgeStep(e), 0)
+          break
+        case 'nudgeRight':
+          nudgeSelected(nudgeStep(e), 0)
+          break
+        case 'nudgeUp':
+          nudgeSelected(0, -nudgeStep(e))
+          break
+        case 'nudgeDown':
+          nudgeSelected(0, nudgeStep(e))
+          break
       }
     }
 
@@ -163,6 +138,9 @@ export function EditorShell() {
     canSave,
     canExportCurrent,
     exportInterfaces,
+    moveSelectedLayer,
+    canMoveUp,
+    canMoveDown,
   ])
 
   return (
