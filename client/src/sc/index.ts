@@ -19,3 +19,8 @@ export {
   listInterfaceIdtfs,
 } from './modelFromSc'
 export { TYPE_TO_CLASS, PROP_TO_CLASS, REL, CLASS_INTERFACE } from './names'
+export {
+  isHtmlTranslatorAvailable,
+  translateInterfaceToHtml,
+  openHtmlPreview,
+} from './previewHtml'

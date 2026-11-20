@@ -73,17 +73,61 @@ npm run build
 
 1. Разместить схему UI в базе знаний ostis-example-app.
 2. Выполнить `./scripts/start.sh build_kb`.
-3. Выполнить `./scripts/start.sh machine` и убедиться, что сервер слушает порт `8090`.
-4. В каталоге `client` выполнить `npm install`, затем `npm run dev`.
-5. Открыть адрес клиента в браузере.
+3. При необходимости установить модуль трансляции SC-HTML (см. ниже).
+4. Выполнить `./scripts/start.sh machine` и убедиться, что сервер слушает порт `8090`.
+5. В каталоге `client` выполнить `npm install`, затем `npm run dev`.
+6. Открыть адрес клиента в браузере.
 
 В редакторе доступны получение списка интерфейсов из базы знаний, создание, сохранение и удаление интерфейса. При отсутствии связи с базой знаний используется команда «Подключиться к БЗ».
 
-## Дополнительные сведения
+## Модуль трансляции SC-HTML
 
-Клиент и sc-machine должны быть доступны на одном хосте по адресу `127.0.0.1:8090`.
+Предпросмотр и экспорт HTML выполняются агентом внешней библиотеки [ostis-ui](https://github.com/Glentas/ostis-ui) (ветка `feature/SCS_to_HTML`).
 
-В поставку редактора входит только фрагмент базы знаний `knowledge-base/ui_editor_model/`. Ядро ostis-example-app, сценарии установки и конфигурация сборки платформы не модифицируются.
+Сборка модуля выполняется отдельно от ostis-example-app. Версия sc-machine — `0.10.5`, как у ostis-example-app. Для C++ необходим стандарт **20**.
+
+```bash
+git clone https://github.com/Glentas/ostis-ui.git
+cd ostis-ui
+git switch feature/SCS_to_HTML
+
+python3 -m venv .venv
+source .venv/bin/activate
+pip install conan
+
+conan profile detect
+conan remote add ostis-ai https://conan.ostis.net/artifactory/api/conan/ostis-ai-library
+
+conan install . -s build_type=Release -s compiler.cppstd=20 --build=missing
+cmake --preset release-conan
+cmake --build --preset release
+```
+
+Готовая библиотека:
+
+```text
+ostis-ui/build/Release/lib/libostis-ui-html-translator.so
+```
+
+Её нужно скопировать в каталог расширений ostis-example-app:
+
+```bash
+cp build/Release/lib/libostis-ui-html-translator.so \
+  /path/to/ostis-example-app/build/Release/extensions/
+```
+
+Перезапустите sc-machine. В журнале старта должны быть строки вида:
+
+```text
+Initialize module: .../libostis-ui-html-translator.so
+Initialize HTMLTranslatorModule
+Subscribe agent implementation `htmlTranslationModule::HTMLTranslatorAgent` ...
+```
+
+После этого в редакторе:
+
+- **Предпросмотр** — сохранение текущего интерфейса в БЗ, запуск агента и открытие HTML во вкладке браузера;
+- **Экспорт → html** — то же для выбранного интерфейса с сохранением файла `.html` на диск.
 
 ## Примеры
 
@@ -113,6 +157,5 @@ npm run build
 
 ## В разработке
 
-- предпросмотр интерфейса (трансляция модели в HTML);
 - диалоговый режим и генерация интерфейса по запросу пользователя;
 - адаптация интерфейса под контекст использования.

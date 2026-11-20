@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
+  exportHtmlFile,
   exportModelAsScsFile,
   exportModelsAsScsZip,
   type ExportFormat,
@@ -7,9 +8,12 @@ import {
 } from '../export'
 import {
   deleteModelFromSc,
+  isHtmlTranslatorAvailable,
   listInterfacesFromSc,
+  openHtmlPreview,
   readModelFromSc,
   resetScClient,
+  translateInterfaceToHtml,
   writeModelToSc,
   type ScInterfaceRef,
 } from '../sc'
@@ -73,6 +77,7 @@ export function useEditorSession() {
   const [revealId, setRevealId] = useState<string | null>(null)
   const [interfaces, setInterfaces] = useState<ScInterfaceRef[]>([])
   const [scConnected, setScConnected] = useState(false)
+  const [htmlTranslatorAvailable, setHtmlTranslatorAvailable] = useState(false)
   const [scBusy, setScBusy] = useState(false)
   const [scMessage, setScMessage] = useState<string | null>(KB_CONNECTING)
   const [booted, setBooted] = useState(false)
@@ -162,6 +167,7 @@ export function useEditorSession() {
       } catch (err) {
         if (isKbConnectionError(err)) {
           setScConnected(false)
+          setHtmlTranslatorAvailable(false)
           resetScClient()
         }
         setScMessage(errText(err))
@@ -179,6 +185,7 @@ export function useEditorSession() {
     await runSc(
       async () => {
         const list = await refreshList()
+        setHtmlTranslatorAvailable(await isHtmlTranslatorAvailable())
         setScConnected(true)
         if (list.length === 0) {
           clearWorkspace()
@@ -192,6 +199,7 @@ export function useEditorSession() {
       { pendingMessage: KB_CONNECTING },
     ).catch(() => {
       setScConnected(false)
+      setHtmlTranslatorAvailable(false)
     })
   }, [applyLoaded, clearWorkspace, refreshList, runSc])
 
@@ -246,6 +254,43 @@ export function useEditorSession() {
       /* message already set */
     }
   }, [persistCurrent, runSc, scConnected])
+
+  const preview = useCallback(async () => {
+    if (!scConnected || !htmlTranslatorAvailable) {
+      return
+    }
+    if (!hasActiveRef.current) {
+      setScMessage('Сначала выберите или создайте интерфейс')
+      return
+    }
+
+    const previewWindow = window.open('about:blank', '_blank')
+    if (!previewWindow) {
+      setScMessage('Разрешите всплывающие окна для предпросмотра')
+      return
+    }
+    previewWindow.document.write(
+      '<!doctype html><title>Предпросмотр</title><body>Предпросмотр…</body>',
+    )
+
+    try {
+      await runSc(
+        async () => {
+          await persistCurrent()
+          const html = await translateInterfaceToHtml(modelRef.current.id)
+          openHtmlPreview(html, previewWindow)
+          setScMessage('Предпросмотр готов')
+        },
+        { pendingMessage: 'Предпросмотр…' },
+      )
+    } catch {
+      try {
+        previewWindow.close()
+      } catch {
+        /* ignore */
+      }
+    }
+  }, [htmlTranslatorAvailable, persistCurrent, runSc, scConnected])
 
   const createNew = useCallback(
     async (title: string) => {
@@ -394,10 +439,6 @@ export function useEditorSession() {
 
   const exportInterfaces = useCallback(
     async (scope: ExportScope, format: ExportFormat) => {
-      if (format !== 'scs') {
-        setScMessage('Этот формат пока не поддерживается')
-        return
-      }
       if (!scConnected) {
         setScMessage('Нет связи с БЗ')
         return
@@ -406,36 +447,56 @@ export function useEditorSession() {
         setScMessage('Сначала выберите интерфейс')
         return
       }
+      if (format === 'html') {
+        if (!htmlTranslatorAvailable || scope !== 'current') {
+          return
+        }
+      }
 
       try {
-        await runSc(async () => {
-          if (hasActiveRef.current && dirtyRef.current) {
-            await persistCurrent()
-          }
+        await runSc(
+          async () => {
+            if (format === 'html') {
+              await persistCurrent()
+              const current = modelRef.current
+              const html = await translateInterfaceToHtml(current.id)
+              exportHtmlFile(html, current)
+              setScMessage('HTML сохранён')
+              return
+            }
 
-          if (scope === 'current') {
-            const loaded = await readModelFromSc(modelRef.current.id)
-            exportModelAsScsFile(loaded)
+            if (hasActiveRef.current && dirtyRef.current) {
+              await persistCurrent()
+            }
+
+            if (scope === 'current') {
+              const loaded = await readModelFromSc(modelRef.current.id)
+              exportModelAsScsFile(loaded)
+              setScMessage('Экспортировано')
+              return
+            }
+
+            const list = await refreshList()
+            if (list.length === 0) {
+              throw new Error('Нет интерфейсов для экспорта')
+            }
+            const models: InterfaceModel[] = []
+            for (const item of list) {
+              models.push(await readModelFromSc(item.id))
+            }
+            exportModelsAsScsZip(models)
             setScMessage('Экспортировано')
-            return
-          }
-
-          const list = await refreshList()
-          if (list.length === 0) {
-            throw new Error('Нет интерфейсов для экспорта')
-          }
-          const models: InterfaceModel[] = []
-          for (const item of list) {
-            models.push(await readModelFromSc(item.id))
-          }
-          exportModelsAsScsZip(models)
-          setScMessage('Экспортировано')
-        })
+          },
+          {
+            pendingMessage:
+              format === 'html' ? 'Трансляция HTML…' : undefined,
+          },
+        )
       } catch {
         /* message already set */
       }
     },
-    [persistCurrent, refreshList, runSc, scConnected],
+    [htmlTranslatorAvailable, persistCurrent, refreshList, runSc, scConnected],
   )
 
   const removeCurrent = useCallback(async () => {
@@ -853,6 +914,12 @@ export function useEditorSession() {
     changes: hasActiveInterface ? changes : [],
     dirty: hasActiveInterface && dirty,
     canSave: hasActiveInterface && scConnected && dirty && !scBusy,
+    htmlTranslatorAvailable,
+    canPreview:
+      hasActiveInterface &&
+      scConnected &&
+      htmlTranslatorAvailable &&
+      !scBusy,
     canCreate: scConnected && !scBusy,
     canRename: hasActiveInterface && scConnected && !scBusy,
     canDuplicate: hasActiveInterface && scConnected && !scBusy,
@@ -890,6 +957,7 @@ export function useEditorSession() {
     redo,
     revertModelChange,
     save,
+    preview,
     createNew,
     renameCurrent,
     duplicateCurrent,

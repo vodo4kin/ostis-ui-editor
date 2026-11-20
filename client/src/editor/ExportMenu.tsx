@@ -6,6 +6,7 @@ type ExportMenuProps = {
   disabled: boolean
   canExportCurrent: boolean
   canExportAll: boolean
+  htmlAvailable: boolean
   busy: boolean
   onExport: (scope: ExportScope, format: ExportFormat) => void
 }
@@ -14,6 +15,7 @@ export function ExportMenu({
   disabled,
   canExportCurrent,
   canExportAll,
+  htmlAvailable,
   busy,
   onExport,
 }: ExportMenuProps) {
@@ -34,12 +36,32 @@ export function ExportMenu({
   }, [open, canExportCurrent])
 
   useEffect(() => {
+    if (!htmlAvailable && format === 'html') {
+      setFormat('scs')
+    }
+  }, [format, htmlAvailable])
+
+  useEffect(() => {
+    if (format === 'html' && scope === 'all') {
+      setScope('current')
+    }
+  }, [format, scope])
+
+  useEffect(() => {
     if (disabled || busy) {
       setOpen(false)
     }
   }, [disabled, busy])
 
   function confirm() {
+    if (format === 'html') {
+      if (!htmlAvailable || !canExportCurrent) {
+        return
+      }
+      setOpen(false)
+      onExport('current', 'html')
+      return
+    }
     if (scope === 'current' && !canExportCurrent) {
       return
     }
@@ -76,7 +98,10 @@ export function ExportMenu({
               <option value="current" disabled={!canExportCurrent}>
                 выбранный интерфейс
               </option>
-              <option value="all" disabled={!canExportAll}>
+              <option
+                value="all"
+                disabled={!canExportAll || format === 'html'}
+              >
                 все интерфейсы
               </option>
             </select>
@@ -89,6 +114,11 @@ export function ExportMenu({
               onChange={(e) => setFormat(e.target.value as ExportFormat)}
             >
               <option value="scs">scs</option>
+              {htmlAvailable ? (
+                <option value="html" disabled={!canExportCurrent}>
+                  html
+                </option>
+              ) : null}
             </select>
           </label>
           <div className="toolbar-popover__actions">
@@ -97,7 +127,11 @@ export function ExportMenu({
               onClick={confirm}
               disabled={
                 busy ||
-                (scope === 'current' ? !canExportCurrent : !canExportAll)
+                (format === 'html'
+                  ? !canExportCurrent
+                  : scope === 'current'
+                    ? !canExportCurrent
+                    : !canExportAll)
               }
             >
               OK

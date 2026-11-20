@@ -11,10 +11,16 @@ function safeFilePart(raw: string): string {
   return cleaned || 'interface'
 }
 
+function interfaceFileName(model: InterfaceModel, ext: string): string {
+  return `${safeFilePart(model.title)}__${toIdtf(model.id)}.${ext}`
+}
+
 export function scsFileName(model: InterfaceModel): string {
-  const titlePart = safeFilePart(model.title)
-  const idPart = toIdtf(model.id)
-  return `${titlePart}__${idPart}.scs`
+  return interfaceFileName(model, 'scs')
+}
+
+export function htmlFileName(model: InterfaceModel): string {
+  return interfaceFileName(model, 'html')
 }
 
 export function scsZipFileName(): string {

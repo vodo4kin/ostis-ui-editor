@@ -31,6 +31,8 @@ type ToolbarProps = {
   canUndo: boolean
   canRedo: boolean
   canSave: boolean
+  htmlTranslatorAvailable: boolean
+  canPreview: boolean
   canCreate: boolean
   canRename: boolean
   canDuplicate: boolean
@@ -51,6 +53,7 @@ type ToolbarProps = {
   onDelete: () => void
   onExport: (scope: ExportScope, format: ExportFormat) => void
   onSave: () => void
+  onPreview: () => void
   onCopy: () => void
   onPaste: () => void
   onUndo: () => void
@@ -68,6 +71,8 @@ export function Toolbar({
   canUndo,
   canRedo,
   canSave,
+  htmlTranslatorAvailable,
+  canPreview,
   canCreate,
   canRename,
   canDuplicate,
@@ -88,6 +93,7 @@ export function Toolbar({
   onDelete,
   onExport,
   onSave,
+  onPreview,
   onCopy,
   onPaste,
   onUndo,
@@ -340,18 +346,22 @@ export function Toolbar({
           disabled={!canExport || dialogOpen}
           canExportCurrent={canExportCurrent}
           canExportAll={canExportAll}
+          htmlAvailable={htmlTranslatorAvailable}
           busy={scBusy}
           onExport={onExport}
         />
 
-        <button
-          type="button"
-          className="editor-toolbar__preview"
-          disabled
-          title="Сохранение в БЗ, затем транслятор HTML (пока не подключён)"
-        >
-          Предпросмотр
-        </button>
+        {htmlTranslatorAvailable ? (
+          <button
+            type="button"
+            className="editor-toolbar__preview"
+            onClick={onPreview}
+            disabled={!canPreview || dialogOpen}
+            title="Сохранить в БЗ и открыть HTML"
+          >
+            Предпросмотр
+          </button>
+        ) : null}
       </div>
     </header>
   )

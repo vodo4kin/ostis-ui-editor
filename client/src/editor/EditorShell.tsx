@@ -152,6 +152,8 @@ export function EditorShell() {
         canUndo={session.canUndo}
         canRedo={session.canRedo}
         canSave={session.canSave}
+        htmlTranslatorAvailable={session.htmlTranslatorAvailable}
+        canPreview={session.canPreview}
         canCreate={session.canCreate}
         canRename={session.canRename}
         canDuplicate={session.canDuplicate}
@@ -185,6 +187,9 @@ export function EditorShell() {
         }}
         onSave={() => {
           void session.save()
+        }}
+        onPreview={() => {
+          void session.preview()
         }}
         onCopy={session.copySelected}
         onPaste={session.pasteFromClipboard}
