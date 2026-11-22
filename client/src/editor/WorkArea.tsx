@@ -7,6 +7,7 @@ import {
   type CSSProperties,
   type PointerEvent,
 } from 'react'
+import { useT } from '../i18n'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
 import type { ComponentProps, UiComponent, UiLink } from '../model/types'
 import { expandWithDescendants } from '../model/containsRelations'
@@ -171,6 +172,7 @@ export function WorkArea({
   onMoveLiveMany,
   onGeometryStart,
 }: WorkAreaProps) {
+  const t = useT()
   const dragRef = useRef<DragState | null>(null)
   const ignoreCanvasClickRef = useRef(false)
   const shellRef = useRef<HTMLDivElement>(null)
@@ -509,7 +511,7 @@ export function WorkArea({
   return (
     <section className="editor-col editor-col--canvas">
       <div className="panel-head panel-head--split">
-        <span>Рабочая область</span>
+        <span>{t('workArea.title')}</span>
         <div className="work-area-tools">
           <label className="work-area-tools__check">
             <input
@@ -517,7 +519,7 @@ export function WorkArea({
               checked={showTypeLabels}
               onChange={(e) => setShowTypeLabels(e.target.checked)}
             />
-            Тип компонента
+            {t('workArea.showType')}
           </label>
           <label className="work-area-tools__check">
             <input
@@ -525,15 +527,15 @@ export function WorkArea({
               checked={showGrid}
               onChange={(e) => setShowGrid(e.target.checked)}
             />
-            Сетка
+            {t('workArea.showGrid')}
           </label>
-          <div className="zoom-controls" title="Ctrl + колёсико">
+          <div className="zoom-controls" title={t('workArea.zoomHint')}>
             <button
               type="button"
               className="zoom-controls__btn"
               disabled={zoom <= ZOOM_MIN}
               onClick={zoomOut}
-              aria-label="Отдалить"
+              aria-label={t('workArea.zoomOut')}
             >
               −
             </button>
@@ -541,7 +543,7 @@ export function WorkArea({
               type="button"
               className="zoom-controls__value"
               onClick={zoomReset}
-              title="Сбросить до 100%"
+              title={t('workArea.zoomReset')}
             >
               {zoom}%
             </button>
@@ -550,7 +552,7 @@ export function WorkArea({
               className="zoom-controls__btn"
               disabled={zoom >= ZOOM_MAX}
               onClick={zoomIn}
-              aria-label="Приблизить"
+              aria-label={t('workArea.zoomIn')}
             >
               +
             </button>
@@ -585,7 +587,7 @@ export function WorkArea({
                 onClick={onCanvasClick}
               >
                 {sorted.length === 0 ? (
-                  <div className="work-area__hint">Выберите тип слева</div>
+                  <div className="work-area__hint">{t('workArea.hint')}</div>
                 ) : null}
                 {sorted.map((component) => {
                   if (!component.props.visible) {

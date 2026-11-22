@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useT } from '../i18n'
 import { useEditorSession } from '../model/useEditorSession'
 import { ChatPanel } from './ChatPanel'
 import { ContainsTreePanel } from './ContainsTreePanel'
@@ -15,6 +16,7 @@ import { WorkArea } from './WorkArea'
 import './editor.css'
 
 export function EditorShell() {
+  const t = useT()
   const session = useEditorSession()
   const [toolbarDialogOpen, setToolbarDialogOpen] = useState(false)
   const {
@@ -264,7 +266,7 @@ export function EditorShell() {
         </div>
       ) : (
         <div className="editor-empty">
-          <p>Выберите существующий интерфейс или создайте новый</p>
+          <p>{t('empty.pickInterface')}</p>
         </div>
       )}
     </div>

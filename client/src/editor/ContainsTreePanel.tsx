@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { useT } from '../i18n'
 import type { UiComponent, UiLink } from '../model/types'
 import {
   ancestorIdsFor,
@@ -79,6 +80,7 @@ export function ContainsTreePanel({
   selectedIds,
   onSelect,
 }: ContainsTreePanelProps) {
+  const t = useT()
   const forest = useMemo(
     () => buildContainsForest(components, links),
     [components, links],
@@ -155,12 +157,12 @@ export function ContainsTreePanel({
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        <PanelHeadLabel text="Вложения" />
+        <PanelHeadLabel text={t('contains.title')} />
       </button>
       {collapsed ? null : (
         <div className="panel-body" ref={bodyRef}>
           {forest.length === 0 ? (
-            <p className="prop-empty">Нет компонентов.</p>
+            <p className="prop-empty">{t('contains.empty')}</p>
           ) : (
             <ul className="tree-list tree-list--root">
               {forest.map((node) => (

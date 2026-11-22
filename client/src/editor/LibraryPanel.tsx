@@ -1,10 +1,15 @@
 import { useMemo, useState } from 'react'
 
+import { useT, type MessageKey } from '../i18n'
 import type { ComponentTypeId } from '../model/types'
 import { PanelHeadLabel } from './PanelHeadLabel'
 import { LIBRARY_TREE, type LibraryNode } from './libraryTree'
 
-function filterTree(nodes: LibraryNode[], query: string): LibraryNode[] {
+function filterTree(
+  nodes: LibraryNode[],
+  query: string,
+  labelOf: (key: MessageKey) => string,
+): LibraryNode[] {
   const q = query.trim().toLowerCase()
   if (!q) {
     return nodes
@@ -12,15 +17,16 @@ function filterTree(nodes: LibraryNode[], query: string): LibraryNode[] {
 
   const result: LibraryNode[] = []
   for (const node of nodes) {
+    const label = labelOf(node.labelKey)
     if (node.typeId) {
-      if (node.label.toLowerCase().includes(q)) {
+      if (label.toLowerCase().includes(q)) {
         result.push(node)
       }
       continue
     }
 
-    const children = filterTree(node.children ?? [], q)
-    if (children.length > 0 || node.label.toLowerCase().includes(q)) {
+    const children = filterTree(node.children ?? [], q, labelOf)
+    if (children.length > 0 || label.toLowerCase().includes(q)) {
       result.push({
         ...node,
         children: children.length > 0 ? children : node.children,
@@ -36,12 +42,14 @@ function TreeItem({
   onToggle,
   onPlace,
   depth,
+  labelOf,
 }: {
   node: LibraryNode
   openIds: Set<string>
   onToggle: (id: string) => void
   onPlace: (typeId: ComponentTypeId) => void
   depth: number
+  labelOf: (key: MessageKey) => string
 }) {
   const hasChildren = Boolean(node.children?.length)
   const isOpen = openIds.has(node.id)
@@ -65,7 +73,7 @@ function TreeItem({
         <span className="tree-twist">
           {hasChildren ? (isOpen ? '▾' : '▸') : '·'}
         </span>
-        <span>{node.label}</span>
+        <span>{labelOf(node.labelKey)}</span>
       </button>
       {hasChildren && isOpen ? (
         <ul className="tree-list">
@@ -77,6 +85,7 @@ function TreeItem({
               onToggle={onToggle}
               onPlace={onPlace}
               depth={depth + 1}
+              labelOf={labelOf}
             />
           ))}
         </ul>
@@ -90,13 +99,17 @@ type LibraryPanelProps = {
 }
 
 export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
+  const t = useT()
   const [collapsed, setCollapsed] = useState(false)
   const [query, setQuery] = useState('')
   const [openIds, setOpenIds] = useState<Set<string>>(
-    () => new Set(['layout', 'input', 'display', 'dialog', 'tutor']),
+    () => new Set(['output', 'decor', 'containers', 'input', 'actions']),
   )
 
-  const visible = useMemo(() => filterTree(LIBRARY_TREE, query), [query])
+  const visible = useMemo(
+    () => filterTree(LIBRARY_TREE, query, t),
+    [query, t],
+  )
 
   function toggle(id: string) {
     setOpenIds((prev) => {
@@ -124,14 +137,14 @@ export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        <PanelHeadLabel text="Типовые компоненты" />
+        <PanelHeadLabel text={t('library.title')} />
       </button>
       {collapsed ? null : (
         <div className="panel-body library-body">
           <input
             className="library-search"
             type="search"
-            placeholder="Поиск компонента..."
+            placeholder={t('library.search')}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
@@ -145,6 +158,7 @@ export function LibraryPanel({ onPlaceType }: LibraryPanelProps) {
                   onToggle={toggle}
                   onPlace={onPlaceType}
                   depth={0}
+                  labelOf={t}
                 />
               ))}
             </ul>

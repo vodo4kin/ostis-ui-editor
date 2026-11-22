@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { useT } from '../i18n'
 import { useDismissible } from './useDismissible'
 
 type DeleteConfirmMenuProps = {
@@ -14,6 +15,7 @@ export function DeleteConfirmMenu({
   interfaceTitle,
   onConfirm,
 }: DeleteConfirmMenuProps) {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const rootRef = useRef<HTMLDivElement>(null)
   const close = useCallback(() => setOpen(false), [])
@@ -39,23 +41,23 @@ export function DeleteConfirmMenu({
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        Удалить
+        {t('toolbar.delete')}
       </button>
       {open ? (
         <div
           className="toolbar-popover__panel"
           role="dialog"
-          aria-label="Подтверждение удаления"
+          aria-label={t('delete.dialog')}
         >
           <p className="toolbar-popover__text">
-            Вы точно желаете удалить «{interfaceTitle}»?
+            {t('delete.confirm', { title: interfaceTitle })}
           </p>
           <div className="toolbar-popover__actions">
             <button type="button" onClick={confirm} disabled={busy}>
-              OK
+              {t('toolbar.ok')}
             </button>
             <button type="button" onClick={close} disabled={busy}>
-              Отмена
+              {t('toolbar.cancel')}
             </button>
           </div>
         </div>

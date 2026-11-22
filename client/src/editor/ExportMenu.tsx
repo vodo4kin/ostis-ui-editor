@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ExportFormat, ExportScope } from '../export'
+import { useT } from '../i18n'
 import { useDismissible } from './useDismissible'
 
 type ExportMenuProps = {
@@ -19,6 +20,7 @@ export function ExportMenu({
   busy,
   onExport,
 }: ExportMenuProps) {
+  const t = useT()
   const [open, setOpen] = useState(false)
   const [scope, setScope] = useState<ExportScope>('current')
   const [format, setFormat] = useState<ExportFormat>('scs')
@@ -80,34 +82,34 @@ export function ExportMenu({
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
       >
-        Экспорт
+        {t('toolbar.export')}
       </button>
       {open ? (
         <div
           className="toolbar-popover__panel toolbar-popover__panel--end"
           role="dialog"
-          aria-label="Экспорт"
+          aria-label={t('export.dialog')}
         >
           <label className="toolbar-popover__field">
-            <span>что</span>
+            <span>{t('export.what')}</span>
             <select
               value={scope}
               disabled={busy}
               onChange={(e) => setScope(e.target.value as ExportScope)}
             >
               <option value="current" disabled={!canExportCurrent}>
-                выбранный интерфейс
+                {t('export.current')}
               </option>
               <option
                 value="all"
                 disabled={!canExportAll || format === 'html'}
               >
-                все интерфейсы
+                {t('export.all')}
               </option>
             </select>
           </label>
           <label className="toolbar-popover__field">
-            <span>формат</span>
+            <span>{t('export.format')}</span>
             <select
               value={format}
               disabled={busy}
@@ -134,7 +136,7 @@ export function ExportMenu({
                     : !canExportAll)
               }
             >
-              OK
+              {t('toolbar.ok')}
             </button>
           </div>
         </div>

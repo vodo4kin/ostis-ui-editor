@@ -43,12 +43,16 @@ import {
   type ModelChange,
 } from './modelDiff'
 import { expandWithDescendants } from './containsRelations'
-import { normalizeInterfaceTitle, validateInterfaceTitle } from './limits'
+import { t } from '../i18n'
+import {
+  normalizeInterfaceTitle,
+  validateInterfaceTitle,
+} from './limits'
 
 const HISTORY_LIMIT = 50
 
-const KB_CONNECTING = 'Подключение к БЗ…'
-const KB_WORKING = 'Выполнение…'
+const KB_CONNECTING = 'status.connecting'
+const KB_WORKING = 'status.working'
 
 function errText(err: unknown): string {
   return err instanceof Error ? err.message : String(err)
@@ -58,8 +62,11 @@ function isKbConnectionError(err: unknown): boolean {
   const text = errText(err).toLowerCase()
   return (
     text.includes('таймаут') ||
+    text.includes('timeout') ||
     text.includes('подключен') ||
+    text.includes('connect') ||
     text.includes('связи') ||
+    text.includes('connection') ||
     text.includes('websocket') ||
     text.includes('network')
   )
@@ -238,17 +245,17 @@ export function useEditorSession() {
 
   const save = useCallback(async () => {
     if (!scConnected) {
-      setScMessage('Нет связи с БЗ')
+      setScMessage('status.noConnection')
       return
     }
     if (!hasActiveRef.current) {
-      setScMessage('Сначала выберите или создайте интерфейс')
+      setScMessage('status.pickOrCreate')
       return
     }
     try {
       await runSc(async () => {
         await persistCurrent()
-        setScMessage('Сохранено')
+        setScMessage('status.saved')
       })
     } catch {
       /* message already set */
@@ -260,18 +267,22 @@ export function useEditorSession() {
       return
     }
     if (!hasActiveRef.current) {
-      setScMessage('Сначала выберите или создайте интерфейс')
+      setScMessage('status.pickOrCreate')
       return
     }
 
     const previewWindow = window.open('about:blank', '_blank')
     if (!previewWindow) {
-      setScMessage('Разрешите всплывающие окна для предпросмотра')
+      setScMessage('status.allowPopups')
       return
     }
-    previewWindow.document.write(
-      '<!doctype html><title>Предпросмотр</title><body>Предпросмотр…</body>',
-    )
+    {
+      const title = t('status.previewDocument')
+      const pending = t('status.previewPending')
+      previewWindow.document.write(
+        `<!doctype html><title>${title}</title><body>${pending}</body>`,
+      )
+    }
 
     try {
       await runSc(
@@ -279,9 +290,9 @@ export function useEditorSession() {
           await persistCurrent()
           const html = await translateInterfaceToHtml(modelRef.current.id)
           openHtmlPreview(html, previewWindow)
-          setScMessage('Предпросмотр готов')
+          setScMessage('status.previewReady')
         },
-        { pendingMessage: 'Предпросмотр…' },
+        { pendingMessage: 'status.previewPending' },
       )
     } catch {
       try {
@@ -300,7 +311,7 @@ export function useEditorSession() {
         return
       }
       if (!scConnected) {
-        setScMessage('Нет связи с БЗ')
+        setScMessage('status.noConnection')
         return
       }
       const normalized = normalizeInterfaceTitle(title)
@@ -316,7 +327,7 @@ export function useEditorSession() {
           await writeModelToSc(empty)
           applyLoaded(empty)
           await refreshList()
-          setScMessage('Создано')
+          setScMessage('status.created')
         })
       } catch {
         /* message already set */
@@ -344,7 +355,7 @@ export function useEditorSession() {
         return
       }
       if (!scConnected) {
-        setScMessage('Нет связи с БЗ')
+        setScMessage('status.noConnection')
         return
       }
       const normalized = normalizeInterfaceTitle(title)
@@ -358,7 +369,7 @@ export function useEditorSession() {
           await writeModelToSc(next)
           applyLoaded(next)
           await refreshList()
-          setScMessage('Переименовано')
+          setScMessage('status.renamed')
         })
       } catch {
         /* message already set */
@@ -378,7 +389,7 @@ export function useEditorSession() {
         return
       }
       if (!scConnected) {
-        setScMessage('Нет связи с БЗ')
+        setScMessage('status.noConnection')
         return
       }
       const normalized = normalizeInterfaceTitle(title)
@@ -396,7 +407,7 @@ export function useEditorSession() {
           await writeModelToSc(copy)
           applyLoaded(copy)
           await refreshList()
-          setScMessage('Дублировано')
+          setScMessage('status.duplicated')
         })
       } catch {
         /* message already set */
@@ -418,7 +429,7 @@ export function useEditorSession() {
         return
       }
       if (!scConnected) {
-        setScMessage('Нет связи с БЗ')
+        setScMessage('status.noConnection')
         return
       }
       try {
@@ -440,11 +451,11 @@ export function useEditorSession() {
   const exportInterfaces = useCallback(
     async (scope: ExportScope, format: ExportFormat) => {
       if (!scConnected) {
-        setScMessage('Нет связи с БЗ')
+        setScMessage('status.noConnection')
         return
       }
       if (scope === 'current' && !hasActiveRef.current) {
-        setScMessage('Сначала выберите интерфейс')
+        setScMessage('status.pickInterface')
         return
       }
       if (format === 'html') {
@@ -461,7 +472,7 @@ export function useEditorSession() {
               const current = modelRef.current
               const html = await translateInterfaceToHtml(current.id)
               exportHtmlFile(html, current)
-              setScMessage('HTML сохранён')
+              setScMessage('status.htmlSaved')
               return
             }
 
@@ -472,24 +483,24 @@ export function useEditorSession() {
             if (scope === 'current') {
               const loaded = await readModelFromSc(modelRef.current.id)
               exportModelAsScsFile(loaded)
-              setScMessage('Экспортировано')
+              setScMessage('status.exported')
               return
             }
 
             const list = await refreshList()
             if (list.length === 0) {
-              throw new Error('Нет интерфейсов для экспорта')
+              throw new Error('error.noInterfacesExport')
             }
             const models: InterfaceModel[] = []
             for (const item of list) {
               models.push(await readModelFromSc(item.id))
             }
             exportModelsAsScsZip(models)
-            setScMessage('Экспортировано')
+            setScMessage('status.exported')
           },
           {
             pendingMessage:
-              format === 'html' ? 'Трансляция HTML…' : undefined,
+              format === 'html' ? 'status.htmlPending' : undefined,
           },
         )
       } catch {
@@ -501,13 +512,13 @@ export function useEditorSession() {
 
   const removeCurrent = useCallback(async () => {
     if (!scConnected) {
-      setScMessage('Нет связи с БЗ')
+      setScMessage('status.noConnection')
       return
     }
     const current = modelRef.current
     const known = interfaces.some((item) => item.id === current.id)
     if (!known) {
-      setScMessage('Интерфейс ещё не в БЗ')
+      setScMessage('status.notInKb')
       return
     }
     try {
@@ -516,12 +527,12 @@ export function useEditorSession() {
         const list = await refreshList()
         if (list.length === 0) {
           clearWorkspace()
-          setScMessage('Удалено')
+          setScMessage('status.deleted')
           return
         }
         const loaded = await readModelFromSc(list[0].id)
         applyLoaded(loaded)
-        setScMessage('Удалено')
+        setScMessage('status.deleted')
       })
     } catch {
       /* message already set */

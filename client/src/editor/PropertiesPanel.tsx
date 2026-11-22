@@ -4,6 +4,7 @@ import {
   useState,
   type KeyboardEvent,
 } from 'react'
+import { useT } from '../i18n'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
 import {
   LIMITS,
@@ -69,6 +70,7 @@ export function PropertiesPanel({
   onLinkTo,
   onDropLink,
 }: PropertiesPanelProps) {
+  const t = useT()
   const allowed = useMemo(
     () => getCatalogEntry(selected.typeId).allowedProps,
     [selected.typeId],
@@ -140,7 +142,7 @@ export function PropertiesPanel({
               } as Partial<ComponentProps>)
             }
           />
-          <span>{field.label}</span>
+          <span>{t(field.labelKey)}</span>
         </label>
       )
     }
@@ -148,7 +150,7 @@ export function PropertiesPanel({
     if (field.kind === 'select') {
       return (
         <label key={field.key} className="prop-field">
-          <span>{field.label}</span>
+          <span>{t(field.labelKey)}</span>
           <select
             value={String(selected.props[field.key])}
             onChange={(e) =>
@@ -159,7 +161,7 @@ export function PropertiesPanel({
           >
             {field.options?.map((opt) => (
               <option key={opt.value} value={opt.value}>
-                {opt.label}
+                {opt.labelKey ? t(opt.labelKey) : (opt.label ?? opt.value)}
               </option>
             ))}
           </select>
@@ -178,7 +180,7 @@ export function PropertiesPanel({
     return (
       <label key={field.key} className="prop-field">
         <span className="prop-field__head">
-          <span>{field.label}</span>
+          <span>{t(field.labelKey)}</span>
           {maxLength != null ? (
             <span className="char-count">
               {formatCharCount(draftValue.length, maxLength)}
@@ -208,10 +210,10 @@ export function PropertiesPanel({
 
   return (
     <section className="editor-col editor-col--props">
-      <div className="panel-head">Свойства</div>
+      <div className="panel-head">{t('props.title')}</div>
       <div className="panel-body props-body">
         <label className="prop-field">
-          <span>тип</span>
+          <span>{t('props.type')}</span>
           <input value={labelOfType(selected.typeId)} readOnly />
         </label>
         <label className="prop-field">
@@ -225,23 +227,23 @@ export function PropertiesPanel({
             onClick={() => onMoveLayer('up')}
             disabled={!canMoveUp}
           >
-            наверх
+            {t('props.bringForward')}
           </button>
           <button
             type="button"
             onClick={() => onMoveLayer('down')}
             disabled={!canMoveDown}
           >
-            вниз
+            {t('props.sendBackward')}
           </button>
           <button type="button" onClick={onDelete}>
-            удалить
+            {t('props.delete')}
           </button>
         </div>
 
         {grouped.map((group) => (
           <div key={group.id} className="prop-block">
-            <div className="prop-block__title">{group.label}</div>
+            <div className="prop-block__title">{t(group.labelKey)}</div>
             <div className="prop-group">{group.keys.map(renderField)}</div>
           </div>
         ))}
@@ -274,6 +276,7 @@ function LinksBlock({
   onLinkTo: (kind: LinkKindId, targetId: string) => void
   onDropLink: (linkId: string) => void
 }) {
+  const t = useT()
   const [query, setQuery] = useState('')
   const linkedTargets = useMemo(
     () => new Set(outgoing.map((link) => link.targetId)),
@@ -305,9 +308,9 @@ function LinksBlock({
 
   return (
     <div className="prop-block">
-      <div className="prop-block__title">Вложения</div>
+      <div className="prop-block__title">{t('props.contains')}</div>
       {outgoing.length === 0 ? (
-        <p className="prop-empty">Нет вложений.</p>
+        <p className="prop-empty">{t('props.containsEmpty')}</p>
       ) : (
         <ul className="prop-links">
           {outgoing.map((link) => {
@@ -331,16 +334,16 @@ function LinksBlock({
       {others.length > 0 ? (
         <div className="prop-link-add">
           <label className="prop-field">
-            <span>поиск</span>
+            <span>{t('props.search')}</span>
             <input
               type="search"
-              placeholder="имя или id"
+              placeholder={t('props.searchPlaceholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
           </label>
           <label className="prop-field">
-            <span>добавить вложение</span>
+            <span>{t('props.addContains')}</span>
             <select
               size={TARGET_LIST_ROWS}
               className="prop-target-select"
@@ -363,7 +366,7 @@ function LinksBlock({
             >
               {filteredTargets.length === 0 ? (
                 <option value="" disabled>
-                  ничего не найдено
+                  {t('props.nothingFound')}
                 </option>
               ) : (
                 filteredTargets.map((target) => {
@@ -375,7 +378,7 @@ function LinksBlock({
                       disabled={linked}
                     >
                       {componentLabel(target)} ({shortId(target.id)})
-                      {linked ? ' — уже добавлен' : ''}
+                      {linked ? t('props.alreadyAdded') : ''}
                     </option>
                   )
                 })

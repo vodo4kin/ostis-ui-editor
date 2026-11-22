@@ -14,7 +14,7 @@ export function exportModelAsScsFile(model: InterfaceModel): void {
 
 export function exportModelsAsScsZip(models: InterfaceModel[]): void {
   if (models.length === 0) {
-    throw new Error('Нет интерфейсов для экспорта')
+    throw new Error('error.noInterfacesExport')
   }
 
   const usedNames = new Set<string>()

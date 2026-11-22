@@ -1,4 +1,5 @@
-import { LINK_KINDS, labelOfType } from './catalog'
+import { t } from '../i18n'
+import { labelOfType, linkKindLabel } from './catalog'
 import { shortId } from './shortId'
 import type {
   ComponentProps,
@@ -58,8 +59,7 @@ function linkLabel(
   link: UiLink,
   components: UiComponent[],
 ): string {
-  const kind =
-    LINK_KINDS.find((item) => item.id === link.kind)?.label ?? link.kind
+  const kind = linkKindLabel(link.kind)
   const source = components.find((c) => c.id === link.sourceId)
   const target = components.find((c) => c.id === link.targetId)
   const from = source ? componentTitle(source) : link.sourceId
@@ -135,7 +135,7 @@ export function diffModels(
         kind: 'add_link',
         linkId: id,
         link,
-        label: `+ связь ${linkLabel(link, allComps)}`,
+        label: `+ ${t('diff.link')} ${linkLabel(link, allComps)}`,
         idHint: shortId(link.targetId),
       })
     }
@@ -148,7 +148,7 @@ export function diffModels(
         kind: 'remove_link',
         linkId: id,
         link,
-        label: `− связь ${linkLabel(link, allComps)}`,
+        label: `− ${t('diff.link')} ${linkLabel(link, allComps)}`,
         idHint: shortId(link.targetId),
       })
     }

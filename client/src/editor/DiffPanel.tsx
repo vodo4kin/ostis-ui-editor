@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useT } from '../i18n'
 import {
   changeTargetId,
   type ModelChange,
@@ -12,6 +13,7 @@ type DiffPanelProps = {
 }
 
 export function DiffPanel({ changes, onSelect, onRevert }: DiffPanelProps) {
+  const t = useT()
   const [collapsed, setCollapsed] = useState(false)
 
   return (
@@ -28,12 +30,12 @@ export function DiffPanel({ changes, onSelect, onRevert }: DiffPanelProps) {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        <PanelHeadLabel text="Различия модели" />
+        <PanelHeadLabel text={t('diff.title')} />
       </button>
       {collapsed ? null : (
         <div className="panel-body diff-body">
           {changes.length === 0 ? (
-            <p className="prop-empty">Нет несохранённых изменений.</p>
+            <p className="prop-empty">{t('diff.empty')}</p>
           ) : (
             <ul className="diff-list">
               {changes.map((change) => {
@@ -51,7 +53,7 @@ export function DiffPanel({ changes, onSelect, onRevert }: DiffPanelProps) {
                     <button
                       type="button"
                       className="diff-item__revert"
-                      title="Вернуть"
+                      title={t('diff.revert')}
                       onClick={() => onRevert(change)}
                     >
                       ×

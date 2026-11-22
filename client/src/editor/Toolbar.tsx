@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import type { ExportFormat, ExportScope } from '../export'
+import { resolveMessage, useLocale } from '../i18n'
 import {
   LIMITS,
   formatCharCount,
@@ -101,6 +102,7 @@ export function Toolbar({
   onReconnect,
   onDialogOpenChange,
 }: ToolbarProps) {
+  const { locale, toggleLocale, t } = useLocale()
   const [dialog, setDialog] = useState<DialogMode>('none')
   const [draftName, setDraftName] = useState('')
   const [nameError, setNameError] = useState<string | null>(null)
@@ -140,7 +142,7 @@ export function Toolbar({
   }, [canCreate, canRename, canDuplicate, dialog])
 
   function openCreate() {
-    setDraftName('Новый интерфейс')
+    setDraftName(t('interface.defaultTitle'))
     setNameError(null)
     setDialog('create')
   }
@@ -168,7 +170,14 @@ export function Toolbar({
     const exceptId = mode === 'rename' ? activeInterfaceId : undefined
     const error = validateInterfaceTitle(draftName, interfaces, exceptId)
     if (error) {
-      setNameError(error)
+      setNameError(
+        resolveMessage(
+          error,
+          error === 'validation.nameTooLong'
+            ? { max: LIMITS.interfaceTitle.maxLength }
+            : undefined,
+        ),
+      )
       nameRef.current?.focus()
       return
     }
@@ -185,15 +194,22 @@ export function Toolbar({
     }
   }
 
-  const statusText = scMessage ?? (!scConnected ? 'Нет связи с БЗ' : '')
+  const statusRaw = scMessage ?? (!scConnected ? 'status.noConnection' : '')
+  const statusText = resolveMessage(
+    statusRaw,
+    statusRaw === 'validation.nameTooLong'
+      ? { max: LIMITS.interfaceTitle.maxLength }
+      : undefined,
+  )
   const dialogOpen = dialog !== 'none'
+  const langButtonLabel = locale === 'en' ? 'RU' : 'EN'
 
   return (
     <header className="editor-toolbar">
-      <span className="editor-toolbar__title">Редактор ПИ</span>
+      <span className="editor-toolbar__title">{t('toolbar.appTitle')}</span>
 
       <label className="editor-toolbar__iface">
-        <span>Интерфейс</span>
+        <span>{t('toolbar.interface')}</span>
         <select
           value={activeInterfaceId}
           disabled={!canSelect || dialogOpen}
@@ -214,7 +230,7 @@ export function Toolbar({
 
       {nameDialog ? (
         <div className="editor-toolbar__create">
-          <span>Имя</span>
+          <span>{t('toolbar.name')}</span>
           <input
             ref={nameRef}
             className="editor-toolbar__name-input"
@@ -248,26 +264,26 @@ export function Toolbar({
             onClick={confirmNameDialog}
             disabled={scBusy || !draftName.trim()}
           >
-            OK
+            {t('toolbar.ok')}
           </button>
           <button type="button" onClick={cancelDialog} disabled={scBusy}>
-            Отмена
+            {t('toolbar.cancel')}
           </button>
         </div>
       ) : (
         <>
           <button type="button" onClick={openCreate} disabled={!canCreate}>
-            Новый
+            {t('toolbar.new')}
           </button>
           <button type="button" onClick={openRename} disabled={!canRename}>
-            Переименовать
+            {t('toolbar.rename')}
           </button>
           <button
             type="button"
             onClick={openDuplicate}
             disabled={!canDuplicate}
           >
-            Дублировать
+            {t('toolbar.duplicate')}
           </button>
           <DeleteConfirmMenu
             disabled={!canDelete || dialogOpen}
@@ -283,7 +299,7 @@ export function Toolbar({
         onClick={onSave}
         disabled={!canSave || dialogOpen}
       >
-        Сохранить
+        {t('toolbar.save')}
       </button>
 
       <span className="editor-toolbar__gap" />
@@ -293,14 +309,14 @@ export function Toolbar({
         onClick={onCopy}
         disabled={!canCopy || dialogOpen}
       >
-        Копировать
+        {t('toolbar.copy')}
       </button>
       <button
         type="button"
         onClick={onPaste}
         disabled={!canPaste || dialogOpen}
       >
-        Вставить
+        {t('toolbar.paste')}
       </button>
       <button
         type="button"
@@ -308,7 +324,7 @@ export function Toolbar({
         disabled={!canUndo || dialogOpen}
         title="Ctrl+Z"
       >
-        Отменить
+        {t('toolbar.undo')}
       </button>
       <button
         type="button"
@@ -316,7 +332,7 @@ export function Toolbar({
         disabled={!canRedo || dialogOpen}
         title="Ctrl+Shift+Z"
       >
-        Вернуть
+        {t('toolbar.redo')}
       </button>
 
       <span
@@ -331,6 +347,16 @@ export function Toolbar({
       </span>
 
       <div className="editor-toolbar__end">
+        <button
+          type="button"
+          className="editor-toolbar__lang"
+          onClick={() => toggleLocale()}
+          title={t('toolbar.langTitle')}
+          aria-label={t('toolbar.langTitle')}
+        >
+          {langButtonLabel}
+        </button>
+
         {!scConnected ? (
           <button
             type="button"
@@ -338,7 +364,7 @@ export function Toolbar({
             onClick={onReconnect}
             disabled={scBusy || dialogOpen}
           >
-            Подключиться к БЗ
+            {t('toolbar.reconnect')}
           </button>
         ) : null}
 
@@ -357,9 +383,9 @@ export function Toolbar({
             className="editor-toolbar__preview"
             onClick={onPreview}
             disabled={!canPreview || dialogOpen}
-            title="Сохранить в БЗ и открыть HTML"
+            title={t('toolbar.previewTitle')}
           >
-            Предпросмотр
+            {t('toolbar.preview')}
           </button>
         ) : null}
       </div>

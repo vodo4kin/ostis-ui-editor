@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useT } from '../i18n'
 import { PanelHeadLabel } from './PanelHeadLabel'
 
 type RequestKind = 'change' | 'add' | 'question'
@@ -19,6 +20,7 @@ function nextMessageId(): string {
 }
 
 export function ChatPanel() {
+  const t = useT()
   const [collapsed, setCollapsed] = useState(false)
   const [extraOpen, setExtraOpen] = useState(false)
   const [domain, setDomain] = useState('')
@@ -48,7 +50,7 @@ export function ChatPanel() {
       {
         id: nextMessageId(),
         role: 'assistant',
-        text: 'Ошибка подключения.',
+        text: t('chat.connectError'),
       },
     ])
     setText('')
@@ -68,13 +70,13 @@ export function ChatPanel() {
         onClick={() => setCollapsed((v) => !v)}
       >
         <span className="panel-head__mark">{collapsed ? '▸' : '▾'}</span>
-        <PanelHeadLabel text="Чат" />
+        <PanelHeadLabel text={t('chat.title')} />
       </button>
       {collapsed ? null : (
         <div className="panel-body chat-body">
           <div className="chat-thread" ref={threadRef}>
             {messages.length === 0 ? (
-              <p className="chat-thread-empty">Нет сообщений.</p>
+              <p className="chat-thread-empty">{t('chat.empty')}</p>
             ) : (
               messages.map((msg) => (
                 <div
@@ -87,7 +89,7 @@ export function ChatPanel() {
                 >
                   <div className="chat-bubble">{msg.text}</div>
                   <div className="chat-msg__who">
-                    {msg.role === 'user' ? 'Вы' : 'AI'}
+                    {msg.role === 'user' ? t('chat.you') : t('chat.ai')}
                   </div>
                 </div>
               ))
@@ -100,55 +102,57 @@ export function ChatPanel() {
               open={extraOpen}
               onToggle={(e) => setExtraOpen(e.currentTarget.open)}
             >
-              <summary>Дополнительно</summary>
+              <summary>{t('chat.extra')}</summary>
               <div className="chat-extra__body">
                 <label className="chat-field">
-                  <span>предметная область</span>
+                  <span>{t('chat.domain')}</span>
                   <input
                     type="text"
                     value={domain}
                     onChange={(e) => setDomain(e.target.value)}
-                    placeholder="необязательно"
+                    placeholder={t('chat.optional')}
                   />
                 </label>
                 <label className="chat-field">
-                  <span>конечные пользователи</span>
+                  <span>{t('chat.users')}</span>
                   <input
                     type="text"
                     value={users}
                     onChange={(e) => setUsers(e.target.value)}
-                    placeholder="необязательно"
+                    placeholder={t('chat.optional')}
                   />
                 </label>
                 <label className="chat-field">
-                  <span>контекст</span>
+                  <span>{t('chat.context')}</span>
                   <select
                     value={contextKind}
                     onChange={(e) =>
                       setContextKind(e.target.value as ContextKind)
                     }
                   >
-                    <option value="">ничего</option>
-                    <option value="selected">выделенное</option>
-                    <option value="structure">вся структура</option>
+                    <option value="">{t('chat.context.none')}</option>
+                    <option value="selected">{t('chat.context.selected')}</option>
+                    <option value="structure">
+                      {t('chat.context.structure')}
+                    </option>
                   </select>
                 </label>
               </div>
             </details>
 
             <label className="chat-field">
-              <span>тип запроса</span>
+              <span>{t('chat.requestKind')}</span>
               <select
                 value={kind}
                 onChange={(e) => setKind(e.target.value as RequestKind)}
               >
-                <option value="change">изменение</option>
-                <option value="add">добавление</option>
-                <option value="question">вопрос по области</option>
+                <option value="change">{t('chat.request.change')}</option>
+                <option value="add">{t('chat.request.add')}</option>
+                <option value="question">{t('chat.request.question')}</option>
               </select>
             </label>
             <label className="chat-field">
-              <span>текст запроса</span>
+              <span>{t('chat.requestText')}</span>
               <textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
@@ -167,7 +171,7 @@ export function ChatPanel() {
               disabled={!text.trim()}
               onClick={send}
             >
-              Отправить
+              {t('chat.send')}
             </button>
           </div>
         </div>

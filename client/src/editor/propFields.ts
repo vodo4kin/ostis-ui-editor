@@ -1,40 +1,41 @@
+import type { MessageKey } from '../i18n'
 import type { PropKey } from '../model/types'
 
 export type FieldKind = 'text' | 'number' | 'checkbox' | 'select'
 
 export type FieldSpec = {
   key: PropKey
-  label: string
+  labelKey: MessageKey
   kind: FieldKind
-  options?: { value: string; label: string }[]
+  options?: { value: string; labelKey?: MessageKey; label?: string }[]
 }
 
 export type PropGroup = {
   id: string
-  label: string
+  labelKey: MessageKey
   keys: PropKey[]
 }
 
 export const FIELD_SPECS: FieldSpec[] = [
-  { key: 'name', label: 'имя', kind: 'text' },
-  { key: 'x', label: 'x', kind: 'number' },
-  { key: 'y', label: 'y', kind: 'number' },
-  { key: 'width', label: 'ширина', kind: 'number' },
-  { key: 'height', label: 'высота', kind: 'number' },
-  { key: 'order', label: 'порядок', kind: 'number' },
-  { key: 'visible', label: 'видимость', kind: 'checkbox' },
-  { key: 'enabled', label: 'доступность', kind: 'checkbox' },
-  { key: 'opacity', label: 'прозрачность', kind: 'number' },
-  { key: 'text_value', label: 'текст', kind: 'text' },
-  { key: 'tooltip', label: 'подсказка', kind: 'text' },
-  { key: 'action_id', label: 'действие', kind: 'text' },
-  { key: 'background_color', label: 'цвет фона', kind: 'text' },
-  { key: 'color', label: 'цвет текста', kind: 'text' },
-  { key: 'border_color', label: 'цвет рамки', kind: 'text' },
-  { key: 'border_width', label: 'толщина рамки', kind: 'number' },
+  { key: 'name', labelKey: 'prop.name', kind: 'text' },
+  { key: 'x', labelKey: 'prop.x', kind: 'number' },
+  { key: 'y', labelKey: 'prop.y', kind: 'number' },
+  { key: 'width', labelKey: 'prop.width', kind: 'number' },
+  { key: 'height', labelKey: 'prop.height', kind: 'number' },
+  { key: 'order', labelKey: 'prop.order', kind: 'number' },
+  { key: 'visible', labelKey: 'prop.visible', kind: 'checkbox' },
+  { key: 'enabled', labelKey: 'prop.enabled', kind: 'checkbox' },
+  { key: 'opacity', labelKey: 'prop.opacity', kind: 'number' },
+  { key: 'text_value', labelKey: 'prop.text_value', kind: 'text' },
+  { key: 'tooltip', labelKey: 'prop.tooltip', kind: 'text' },
+  { key: 'action_id', labelKey: 'prop.action_id', kind: 'text' },
+  { key: 'background_color', labelKey: 'prop.background_color', kind: 'text' },
+  { key: 'color', labelKey: 'prop.color', kind: 'text' },
+  { key: 'border_color', labelKey: 'prop.border_color', kind: 'text' },
+  { key: 'border_width', labelKey: 'prop.border_width', kind: 'number' },
   {
     key: 'border_style',
-    label: 'стиль рамки',
+    labelKey: 'prop.border_style',
     kind: 'select',
     options: [
       { value: 'solid', label: 'solid' },
@@ -42,44 +43,44 @@ export const FIELD_SPECS: FieldSpec[] = [
       { value: 'none', label: 'none' },
     ],
   },
-  { key: 'corner_radius', label: 'скругление углов', kind: 'number' },
-  { key: 'font_size', label: 'размер шрифта', kind: 'number' },
+  { key: 'corner_radius', labelKey: 'prop.corner_radius', kind: 'number' },
+  { key: 'font_size', labelKey: 'prop.font_size', kind: 'number' },
   {
     key: 'font_weight',
-    label: 'начертание',
+    labelKey: 'prop.font_weight',
     kind: 'select',
     options: [
-      { value: 'normal', label: 'обычный' },
-      { value: 'bold', label: 'жирный' },
+      { value: 'normal', labelKey: 'prop.font_weight.normal' },
+      { value: 'bold', labelKey: 'prop.font_weight.bold' },
     ],
   },
   {
     key: 'text_align',
-    label: 'выравнивание текста',
+    labelKey: 'prop.text_align',
     kind: 'select',
     options: [
-      { value: 'left', label: 'слева' },
-      { value: 'center', label: 'по центру' },
-      { value: 'right', label: 'справа' },
+      { value: 'left', labelKey: 'prop.text_align.left' },
+      { value: 'center', labelKey: 'prop.text_align.center' },
+      { value: 'right', labelKey: 'prop.text_align.right' },
     ],
   },
-  { key: 'padding', label: 'внутренний отступ', kind: 'number' },
-  { key: 'margin', label: 'внешний отступ', kind: 'number' },
-  { key: 'min_width', label: 'min ширина', kind: 'number' },
-  { key: 'min_height', label: 'min высота', kind: 'number' },
-  { key: 'max_width', label: 'max ширина', kind: 'number' },
-  { key: 'max_height', label: 'max высота', kind: 'number' },
+  { key: 'padding', labelKey: 'prop.padding', kind: 'number' },
+  { key: 'margin', labelKey: 'prop.margin', kind: 'number' },
+  { key: 'min_width', labelKey: 'prop.min_width', kind: 'number' },
+  { key: 'min_height', labelKey: 'prop.min_height', kind: 'number' },
+  { key: 'max_width', labelKey: 'prop.max_width', kind: 'number' },
+  { key: 'max_height', labelKey: 'prop.max_height', kind: 'number' },
 ]
 
 export const PROP_GROUPS: PropGroup[] = [
   {
     id: 'main',
-    label: 'Основное',
+    labelKey: 'propGroup.main',
     keys: ['name', 'order', 'visible', 'enabled', 'opacity'],
   },
   {
     id: 'geometry',
-    label: 'Геометрия',
+    labelKey: 'propGroup.geometry',
     keys: [
       'x',
       'y',
@@ -95,7 +96,7 @@ export const PROP_GROUPS: PropGroup[] = [
   },
   {
     id: 'text',
-    label: 'Текст',
+    labelKey: 'propGroup.text',
     keys: [
       'text_value',
       'tooltip',
@@ -108,7 +109,7 @@ export const PROP_GROUPS: PropGroup[] = [
   },
   {
     id: 'look',
-    label: 'Оформление',
+    labelKey: 'propGroup.look',
     keys: [
       'background_color',
       'border_color',

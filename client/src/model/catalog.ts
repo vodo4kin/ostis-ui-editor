@@ -1,3 +1,4 @@
+import { t, type MessageKey } from '../i18n'
 import { CORE_PROPS } from './propSets'
 import type {
   CatalogEntry,
@@ -44,13 +45,12 @@ function baseProps(
 
 function entry(
   typeId: ComponentTypeId,
-  label: string,
   preview: PreviewShape,
   defaults: ComponentProps,
 ): CatalogEntry {
   return {
     typeId,
-    label,
+    label: typeId,
     preview,
     allowedProps: [...CORE_PROPS],
     defaults,
@@ -60,10 +60,9 @@ function entry(
 export const COMPONENT_CATALOG: CatalogEntry[] = [
   entry(
     'image',
-    'Изображение',
     'rect',
     baseProps({
-      name: 'Изображение',
+      name: 'Image',
       width: 160,
       height: 120,
       background_color: '#e4e4e4',
@@ -73,10 +72,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'sound',
-    'Звук',
     'rect',
     baseProps({
-      name: 'Звук',
+      name: 'Sound',
       width: 160,
       height: 40,
       background_color: '#e8e8e8',
@@ -85,24 +83,22 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'text',
-    'Текст',
     'rect',
     baseProps({
-      name: 'Текст',
+      name: 'Text',
       width: 200,
       height: 36,
       background_color: 'transparent',
       border_style: 'none',
       border_width: 0,
-      text_value: 'Текст',
+      text_value: 'Text',
     }),
   ),
   entry(
     'divider',
-    'Разделитель',
     'rect',
     baseProps({
-      name: 'Разделитель',
+      name: 'Divider',
       width: 280,
       height: 10,
       background_color: '#b0b0b0',
@@ -112,10 +108,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'spacer',
-    'Пустое пространство',
     'rect',
     baseProps({
-      name: 'Пустое пространство',
+      name: 'Spacer',
       width: 80,
       height: 80,
       background_color: 'transparent',
@@ -125,10 +120,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'menu',
-    'Меню',
     'rect',
     baseProps({
-      name: 'Меню',
+      name: 'Menu',
       width: 180,
       height: 160,
       background_color: '#f0f0f0',
@@ -137,10 +131,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'menu_bar',
-    'Строка меню',
     'rect',
     baseProps({
-      name: 'Строка меню',
+      name: 'Menu bar',
       width: 320,
       height: 32,
       background_color: '#ececec',
@@ -149,10 +142,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'list',
-    'Список',
     'rect',
     baseProps({
-      name: 'Список',
+      name: 'List',
       width: 220,
       height: 130,
       background_color: '#ffffff',
@@ -160,10 +152,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'scroll',
-    'Панель прокрутки',
     'rect',
     baseProps({
-      name: 'Панель прокрутки',
+      name: 'Scroll panel',
       width: 240,
       height: 160,
       background_color: '#f2f2f2',
@@ -172,23 +163,21 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'window',
-    'Окно',
     'rect',
     baseProps({
-      name: 'Окно',
+      name: 'Window',
       width: 320,
       height: 200,
       background_color: '#ffffff',
       padding: 8,
-      text_value: 'Окно',
+      text_value: 'Window',
     }),
   ),
   entry(
     'text_field',
-    'Однострочное поле',
     'rounded',
     baseProps({
-      name: 'Однострочное поле',
+      name: 'Text field',
       width: 240,
       height: 36,
       background_color: '#ffffff',
@@ -197,10 +186,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'text_area',
-    'Многострочное поле',
     'rounded',
     baseProps({
-      name: 'Многострочное поле',
+      name: 'Text area',
       width: 240,
       height: 100,
       background_color: '#ffffff',
@@ -210,10 +198,9 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'slider',
-    'Ползунок',
     'rect',
     baseProps({
-      name: 'Ползунок',
+      name: 'Slider',
       width: 200,
       height: 28,
       background_color: '#e6e6e6',
@@ -225,27 +212,25 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'select',
-    'Выбор',
     'rounded',
     baseProps({
-      name: 'Выбор',
+      name: 'Select',
       width: 200,
       height: 36,
       background_color: '#ffffff',
-      text_value: 'Вариант',
+      text_value: 'Option',
       corner_radius: 4,
     }),
   ),
   entry(
     'button',
-    'Кнопка',
     'rounded',
     baseProps({
-      name: 'Кнопка',
+      name: 'Button',
       width: 120,
       height: 36,
       background_color: '#e0e0e0',
-      text_value: 'Кнопка',
+      text_value: 'Button',
       text_align: 'center',
       font_weight: 'bold',
       corner_radius: 4,
@@ -253,24 +238,21 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
   entry(
     'menu_item',
-    'Пункт меню',
     'rect',
     baseProps({
-      name: 'Пункт меню',
+      name: 'Menu item',
       width: 160,
       height: 28,
       background_color: 'transparent',
       border_style: 'none',
       border_width: 0,
-      text_value: 'Пункт',
+      text_value: 'Item',
       padding: 4,
     }),
   ),
 ]
 
-export const LINK_KINDS: { id: LinkKindId; label: string }[] = [
-  { id: 'contains', label: 'Вложение' },
-]
+export const LINK_KINDS: { id: LinkKindId }[] = [{ id: 'contains' }]
 
 const byId = new Map(COMPONENT_CATALOG.map((e) => [e.typeId, e]))
 
@@ -282,10 +264,42 @@ export function getCatalogEntry(typeId: ComponentTypeId): CatalogEntry {
   return entryItem
 }
 
+export function typeLabelKey(typeId: ComponentTypeId): MessageKey {
+  return `type.${typeId}` as MessageKey
+}
+
+export function typeTextKey(typeId: ComponentTypeId): MessageKey | null {
+  if (typeId === 'select' || typeId === 'menu_item') {
+    return `type.${typeId}.text` as MessageKey
+  }
+  return null
+}
+
 export function labelOfType(typeId: ComponentTypeId): string {
-  return getCatalogEntry(typeId).label
+  return t(typeLabelKey(typeId))
+}
+
+export function localizedDefaults(typeId: ComponentTypeId): ComponentProps {
+  const defaults = structuredClone(getCatalogEntry(typeId).defaults)
+  const label = labelOfType(typeId)
+  defaults.name = label
+  if (typeId === 'slider') {
+    return defaults
+  }
+  if (defaults.text_value) {
+    const textKey = typeTextKey(typeId)
+    defaults.text_value = textKey ? t(textKey) : label
+  }
+  return defaults
 }
 
 export function isPropAllowed(typeId: ComponentTypeId, key: PropKey): boolean {
   return getCatalogEntry(typeId).allowedProps.includes(key)
+}
+
+export function linkKindLabel(kind: LinkKindId): string {
+  if (kind === 'contains') {
+    return t('link.contains')
+  }
+  return kind
 }

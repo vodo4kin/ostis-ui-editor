@@ -1,3 +1,4 @@
+import { t, type MessageKey } from '../i18n'
 import type { ComponentProps, PropKey } from './types'
 
 export const LIMITS = {
@@ -84,16 +85,16 @@ export function validateInterfaceTitle(
   raw: string,
   existing: { id: string; title: string }[] = [],
   exceptId?: string,
-): string | null {
+): MessageKey | null {
   const title = normalizeInterfaceTitle(raw)
   if (title.length < LIMITS.interfaceTitle.minLength) {
-    return 'Укажите имя'
+    return 'validation.nameRequired'
   }
   if (raw.trim().length > LIMITS.interfaceTitle.maxLength) {
-    return `Не больше ${LIMITS.interfaceTitle.maxLength} символов`
+    return 'validation.nameTooLong'
   }
   if (isInterfaceTitleTaken(title, existing, exceptId)) {
-    return 'Интерфейс с таким именем уже есть'
+    return 'validation.nameTaken'
   }
   return null
 }
@@ -102,15 +103,16 @@ export function nextCopyInterfaceTitle(
   base: string,
   existing: { id: string; title: string }[],
 ): string {
+  const suffix = t('interface.copySuffix')
   let candidate = normalizeInterfaceTitle(base)
   for (let i = 0; i < 40; i += 1) {
-    candidate = normalizeInterfaceTitle(`${candidate} copy`)
+    candidate = normalizeInterfaceTitle(`${candidate} ${suffix}`)
     if (!isInterfaceTitleTaken(candidate, existing)) {
       return candidate
     }
   }
   return normalizeInterfaceTitle(
-    `${normalizeInterfaceTitle(base)} copy ${Date.now().toString(36)}`,
+    `${normalizeInterfaceTitle(base)} ${suffix} ${Date.now().toString(36)}`,
   )
 }
 
