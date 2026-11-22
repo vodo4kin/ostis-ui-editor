@@ -43,6 +43,7 @@ import {
   type ModelChange,
 } from './modelDiff'
 import { expandWithDescendants } from './containsRelations'
+import { clampGroupMoveDelta } from './geometry'
 import { t } from '../i18n'
 import {
   normalizeInterfaceTitle,
@@ -615,13 +616,21 @@ export function useEditorSession() {
   }, [])
 
   const patchProps = useCallback(
-    (componentId: string, patch: Partial<ComponentProps>) => {
+    (componentIds: string | string[], patch: Partial<ComponentProps>) => {
       if (busyRef.current) {
         return
       }
-      setModel((prev) =>
-        commit(prev, updateComponentProps(prev, componentId, patch)),
-      )
+      const ids = Array.isArray(componentIds) ? componentIds : [componentIds]
+      if (ids.length === 0) {
+        return
+      }
+      setModel((prev) => {
+        let next = prev
+        for (const id of ids) {
+          next = updateComponentProps(next, id, patch)
+        }
+        return next === prev ? prev : commit(prev, next)
+      })
     },
     [commit],
   )
@@ -769,22 +778,26 @@ export function useEditorSession() {
       }
       setModel((prev) => {
         const ids = expandWithDescendants(prev.components, prev.links, seed)
-        let next = prev
-        let changed = false
+        const origins: { id: string; x: number; y: number }[] = []
         for (const id of ids) {
-          const item = next.components.find((c) => c.id === id)
+          const item = prev.components.find((c) => c.id === id)
           if (!item) {
             continue
           }
-          const x = Math.max(0, item.props.x + dx)
-          const y = Math.max(0, item.props.y + dy)
-          if (x === item.props.x && y === item.props.y) {
-            continue
-          }
-          next = updateComponentProps(next, id, { x, y })
-          changed = true
+          origins.push({ id, x: item.props.x, y: item.props.y })
         }
-        return changed ? commit(prev, next) : prev
+        const clamped = clampGroupMoveDelta(origins, dx, dy)
+        if (clamped.dx === 0 && clamped.dy === 0) {
+          return prev
+        }
+        let next = prev
+        for (const item of origins) {
+          next = updateComponentProps(next, item.id, {
+            x: Math.round(item.x + clamped.dx),
+            y: Math.round(item.y + clamped.dy),
+          })
+        }
+        return commit(prev, next)
       })
     },
     [commit],
@@ -889,6 +902,18 @@ export function useEditorSession() {
       ? (model.components.find((c) => c.id === selectedIds[0]) ?? null)
       : null
 
+  const selection = useMemo(() => {
+    const byId = new Map(model.components.map((c) => [c.id, c]))
+    const items: typeof model.components = []
+    for (const id of selectedIds) {
+      const item = byId.get(id)
+      if (item) {
+        items.push(item)
+      }
+    }
+    return items
+  }, [model.components, selectedIds])
+
   const layerIndex = useMemo(() => {
     if (!selected) {
       return -1
@@ -904,6 +929,7 @@ export function useEditorSession() {
   return {
     model,
     selected,
+    selection,
     selectedIds,
     revealId,
     interfaces,

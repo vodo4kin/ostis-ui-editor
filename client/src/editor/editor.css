@@ -667,6 +667,19 @@
   box-shadow: 0 0 0 1px #1a1a1a;
 }
 
+.canvas-group-frame {
+  position: absolute;
+  z-index: 10000;
+  box-sizing: border-box;
+  border: 1px dashed #1a1a1a;
+  pointer-events: none;
+}
+
+.canvas-group-frame .canvas-handle {
+  pointer-events: auto;
+  z-index: 10001;
+}
+
 .canvas-handle {
   position: absolute;
   z-index: 5;

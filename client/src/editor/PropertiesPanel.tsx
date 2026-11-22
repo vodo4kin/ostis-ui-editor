@@ -26,11 +26,19 @@ function componentLabel(component: UiComponent): string {
   return component.props.name || labelOfType(component.typeId)
 }
 
+const MULTI_SKIP = new Set<PropKey>([
+  'name',
+  'text_value',
+  'tooltip',
+  'action_id',
+  'order',
+])
+
 type PropertiesPanelProps = {
-  selected: UiComponent
+  selection: UiComponent[]
   components: UiComponent[]
   links: UiLink[]
-  onPatch: (id: string, patch: Partial<ComponentProps>) => void
+  onPatch: (ids: string[], patch: Partial<ComponentProps>) => void
   onDelete: () => void
   onMoveLayer: (direction: 'up' | 'down') => void
   canMoveUp: boolean
@@ -41,10 +49,27 @@ type PropertiesPanelProps = {
 
 type Draft = Record<string, string>
 
-function buildDraft(props: ComponentProps, keys: PropKey[]): Draft {
+function sharedValue(
+  selection: UiComponent[],
+  key: PropKey,
+): { mixed: boolean; value: string } {
+  const first = String(selection[0].props[key])
+  for (let i = 1; i < selection.length; i += 1) {
+    if (String(selection[i].props[key]) !== first) {
+      return { mixed: true, value: '' }
+    }
+  }
+  return { mixed: false, value: first }
+}
+
+function buildDraft(
+  selection: UiComponent[],
+  keys: PropKey[],
+): Draft {
   const draft: Draft = {}
   for (const key of keys) {
-    draft[key] = String(props[key])
+    const shared = sharedValue(selection, key)
+    draft[key] = shared.mixed ? '' : shared.value
   }
   return draft
 }
@@ -59,7 +84,7 @@ function parseNumber(raw: string, fallback: number): number {
 }
 
 export function PropertiesPanel({
-  selected,
+  selection,
   components,
   links,
   onPatch,
@@ -71,25 +96,51 @@ export function PropertiesPanel({
   onDropLink,
 }: PropertiesPanelProps) {
   const t = useT()
-  const allowed = useMemo(
-    () => getCatalogEntry(selected.typeId).allowedProps,
-    [selected.typeId],
-  )
+  const multi = selection.length > 1
+  const selected = selection[0]
+  const selectedIds = selection.map((item) => item.id)
+
+  const allowed = useMemo(() => {
+    if (selection.length === 0) {
+      return [] as PropKey[]
+    }
+    let keys = new Set(getCatalogEntry(selection[0].typeId).allowedProps)
+    for (let i = 1; i < selection.length; i += 1) {
+      const next = new Set(getCatalogEntry(selection[i].typeId).allowedProps)
+      keys = new Set([...keys].filter((key) => next.has(key)))
+    }
+    if (multi) {
+      keys = new Set([...keys].filter((key) => !MULTI_SKIP.has(key)))
+    }
+    return [...keys]
+  }, [multi, selection])
+
   const fields = useMemo(
     () => FIELD_SPECS.filter((f) => allowed.includes(f.key)),
     [allowed],
   )
   const [draft, setDraft] = useState<Draft>({})
+  const selectionKey = selection
+    .map((item) => item.id)
+    .join(',')
   const propsKey = allowed
-    .map((key) => String(selected.props[key]))
+    .map((key) => selection.map((item) => String(item.props[key])).join('~'))
     .join('|')
 
   useEffect(() => {
-    setDraft(buildDraft(selected.props, allowed))
-  }, [selected.id, selected.typeId, propsKey, allowed])
+    if (selection.length === 0) {
+      setDraft({})
+      return
+    }
+    setDraft(buildDraft(selection, allowed))
+  }, [selectionKey, propsKey, allowed, selection])
 
-  const outgoing = links.filter((l) => l.sourceId === selected.id)
-  const others = components.filter((c) => c.id !== selected.id)
+  const outgoing = multi
+    ? []
+    : links.filter((l) => l.sourceId === selected.id)
+  const others = multi
+    ? []
+    : components.filter((c) => c.id !== selected.id)
 
   function commitKey(key: PropKey) {
     const spec = FIELD_SPECS.find((f) => f.key === key)
@@ -98,22 +149,22 @@ export function PropertiesPanel({
     }
 
     const raw = draft[key] ?? ''
+    if (raw === '' && sharedValue(selection, key).mixed) {
+      return
+    }
+
     if (spec.kind === 'number') {
-      const fallback = Number(selected.props[key])
+      const fallback = Number(selection[0].props[key])
       const parsed = parseNumber(raw, fallback)
       const next = normalizePropValue(key, parsed as never) as number
       setDraft((d) => ({ ...d, [key]: String(next) }))
-      if (next !== selected.props[key]) {
-        onPatch(selected.id, { [key]: next } as Partial<ComponentProps>)
-      }
+      onPatch(selectedIds, { [key]: next } as Partial<ComponentProps>)
       return
     }
 
     const next = normalizePropValue(key, raw as never) as string
     setDraft((d) => ({ ...d, [key]: next }))
-    if (next !== String(selected.props[key])) {
-      onPatch(selected.id, { [key]: next } as Partial<ComponentProps>)
-    }
+    onPatch(selectedIds, { [key]: next } as Partial<ComponentProps>)
   }
 
   function onKeyDown(e: KeyboardEvent<HTMLInputElement>, key: PropKey) {
@@ -129,15 +180,21 @@ export function PropertiesPanel({
       return null
     }
 
+    const shared = sharedValue(selection, field.key)
+
     if (field.kind === 'checkbox') {
-      const checked = Boolean(selected.props[field.key])
       return (
         <label key={field.key} className="prop-check">
           <input
             type="checkbox"
-            checked={checked}
+            checked={!shared.mixed && shared.value === 'true'}
+            ref={(el) => {
+              if (el) {
+                el.indeterminate = shared.mixed
+              }
+            }}
             onChange={(e) =>
-              onPatch(selected.id, {
+              onPatch(selectedIds, {
                 [field.key]: e.target.checked,
               } as Partial<ComponentProps>)
             }
@@ -152,13 +209,18 @@ export function PropertiesPanel({
         <label key={field.key} className="prop-field">
           <span>{t(field.labelKey)}</span>
           <select
-            value={String(selected.props[field.key])}
+            value={shared.mixed ? '' : shared.value}
             onChange={(e) =>
-              onPatch(selected.id, {
+              onPatch(selectedIds, {
                 [field.key]: e.target.value,
               } as Partial<ComponentProps>)
             }
           >
+            {shared.mixed ? (
+              <option value="" disabled>
+                {t('props.mixed')}
+              </option>
+            ) : null}
             {field.options?.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.labelKey ? t(opt.labelKey) : (opt.label ?? opt.value)}
@@ -190,6 +252,7 @@ export function PropertiesPanel({
         <input
           inputMode={field.kind === 'number' ? 'numeric' : undefined}
           value={draftValue}
+          placeholder={shared.mixed ? t('props.mixed') : undefined}
           min={numberRange?.min}
           max={numberRange?.max}
           maxLength={maxLength}
@@ -208,34 +271,50 @@ export function PropertiesPanel({
     keys: group.keys.filter((key) => allowed.includes(key)),
   })).filter((group) => group.keys.length > 0)
 
+  if (!selected) {
+    return null
+  }
+
   return (
     <section className="editor-col editor-col--props">
-      <div className="panel-head">{t('props.title')}</div>
+      <div className="panel-head">
+        {multi
+          ? t('props.multiTitle', { count: selection.length })
+          : t('props.title')}
+      </div>
       <div className="panel-body props-body">
-        <label className="prop-field">
-          <span>{t('props.type')}</span>
-          <input value={labelOfType(selected.typeId)} readOnly />
-        </label>
-        <label className="prop-field">
-          <span>id</span>
-          <input value={selected.id} readOnly />
-        </label>
+        {multi ? null : (
+          <>
+            <label className="prop-field">
+              <span>{t('props.type')}</span>
+              <input value={labelOfType(selected.typeId)} readOnly />
+            </label>
+            <label className="prop-field">
+              <span>id</span>
+              <input value={selected.id} readOnly />
+            </label>
+          </>
+        )}
 
         <div className="prop-actions">
-          <button
-            type="button"
-            onClick={() => onMoveLayer('up')}
-            disabled={!canMoveUp}
-          >
-            {t('props.bringForward')}
-          </button>
-          <button
-            type="button"
-            onClick={() => onMoveLayer('down')}
-            disabled={!canMoveDown}
-          >
-            {t('props.sendBackward')}
-          </button>
+          {multi ? null : (
+            <>
+              <button
+                type="button"
+                onClick={() => onMoveLayer('up')}
+                disabled={!canMoveUp}
+              >
+                {t('props.bringForward')}
+              </button>
+              <button
+                type="button"
+                onClick={() => onMoveLayer('down')}
+                disabled={!canMoveDown}
+              >
+                {t('props.sendBackward')}
+              </button>
+            </>
+          )}
           <button type="button" onClick={onDelete}>
             {t('props.delete')}
           </button>
@@ -248,14 +327,16 @@ export function PropertiesPanel({
           </div>
         ))}
 
-        <LinksBlock
-          key={selected.id}
-          outgoing={outgoing}
-          others={others}
-          components={components}
-          onLinkTo={onLinkTo}
-          onDropLink={onDropLink}
-        />
+        {multi ? null : (
+          <LinksBlock
+            key={selected.id}
+            outgoing={outgoing}
+            others={others}
+            components={components}
+            onLinkTo={onLinkTo}
+            onDropLink={onDropLink}
+          />
+        )}
       </div>
     </section>
   )

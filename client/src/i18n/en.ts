@@ -51,6 +51,8 @@ export const en = {
   'contains.empty': 'No components.',
 
   'props.title': 'Properties',
+  'props.multiTitle': '{count} selected',
+  'props.mixed': 'mixed',
   'props.type': 'type',
   'props.bringForward': 'bring forward',
   'props.sendBackward': 'send backward',

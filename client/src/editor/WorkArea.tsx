@@ -11,6 +11,13 @@ import { useT } from '../i18n'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
 import type { ComponentProps, UiComponent, UiLink } from '../model/types'
 import { expandWithDescendants } from '../model/containsRelations'
+import {
+  boundsOfRects,
+  clampGroupBox,
+  clampGroupMoveDelta,
+  transformGroupResize,
+  type RectOrigin,
+} from '../model/geometry'
 
 type GeometryPatch = Partial<
   Pick<ComponentProps, 'x' | 'y' | 'width' | 'height'>
@@ -26,6 +33,9 @@ type WorkAreaProps = {
   onSelectMany: (ids: string[], additive?: boolean) => void
   onGeometryLive: (id: string, patch: GeometryPatch) => void
   onMoveLiveMany: (items: { id: string; x: number; y: number }[]) => void
+  onGeometryLiveMany: (
+    items: { id: string; patch: GeometryPatch }[],
+  ) => void
   onGeometryStart: () => void
 }
 
@@ -65,6 +75,18 @@ type DragState =
       checkpointed: boolean
     }
   | {
+      mode: 'group-resize'
+      id: string
+      handle: ResizeHandle
+      ox: number
+      oy: number
+      box: { x: number; y: number; width: number; height: number }
+      origins: RectOrigin[]
+      minSize: number
+      moved: boolean
+      checkpointed: boolean
+    }
+  | {
       mode: 'marquee'
       ox: number
       oy: number
@@ -73,6 +95,8 @@ type DragState =
       additive: boolean
       moved: boolean
     }
+
+const GROUP_RESIZE_MIN = 32
 
 const HANDLES: ResizeHandle[] = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw']
 const ZOOM_MIN = 25
@@ -170,6 +194,7 @@ export function WorkArea({
   onSelectMany,
   onGeometryLive,
   onMoveLiveMany,
+  onGeometryLiveMany,
   onGeometryStart,
 }: WorkAreaProps) {
   const t = useT()
@@ -194,6 +219,22 @@ export function WorkArea({
   scaleRef.current = scale
 
   const bounds = useMemo(() => contentBounds(components), [components])
+  const multiSelected = selectedIds.length > 1
+  const groupBox = useMemo(() => {
+    if (!multiSelected) {
+      return null
+    }
+    const rects = selectedIds
+      .map((id) => components.find((c) => c.id === id))
+      .filter((c): c is UiComponent => Boolean(c?.props.visible))
+      .map((c) => ({
+        x: c.props.x,
+        y: c.props.y,
+        width: c.props.width,
+        height: c.props.height,
+      }))
+    return boundsOfRects(rects)
+  }, [components, multiSelected, selectedIds])
   const worldWidth = Math.max(
     bounds.width,
     viewport.width > 0 ? Math.floor(viewport.width / scale) : 0,
@@ -355,6 +396,45 @@ export function WorkArea({
     }
   }
 
+  function onGroupResizePointerDown(
+    e: PointerEvent<HTMLSpanElement>,
+    handle: ResizeHandle,
+  ) {
+    e.stopPropagation()
+    const moveIds = expandWithDescendants(components, links, selectedIds)
+    const origins: RectOrigin[] = []
+    for (const id of moveIds) {
+      const item = components.find((c) => c.id === id)
+      if (!item) {
+        continue
+      }
+      origins.push({
+        id,
+        x: item.props.x,
+        y: item.props.y,
+        width: item.props.width,
+        height: item.props.height,
+      })
+    }
+    const box = boundsOfRects(origins)
+    if (!box || origins.length === 0) {
+      return
+    }
+    e.currentTarget.setPointerCapture(e.pointerId)
+    dragRef.current = {
+      mode: 'group-resize',
+      id: 'group-resize',
+      handle,
+      ox: e.clientX,
+      oy: e.clientY,
+      box,
+      origins,
+      minSize: GROUP_RESIZE_MIN,
+      moved: false,
+      checkpointed: false,
+    }
+  }
+
   function onWorldPointerDown(e: PointerEvent<HTMLDivElement>) {
     if (e.button !== 0) {
       return
@@ -420,11 +500,52 @@ export function WorkArea({
     drag.moved = true
 
     if (drag.mode === 'move') {
+      const clamped = clampGroupMoveDelta(drag.origins, dx, dy)
       onMoveLiveMany(
         drag.origins.map((item) => ({
           id: item.id,
-          x: Math.max(0, Math.round(item.x + dx)),
-          y: Math.max(0, Math.round(item.y + dy)),
+          x: Math.round(item.x + clamped.dx),
+          y: Math.round(item.y + clamped.dy),
+        })),
+      )
+      return
+    }
+
+    if (drag.mode === 'group-resize') {
+      const { handle, box, minSize } = drag
+      let next = { ...box }
+      if (handle.includes('e')) {
+        next.width = Math.max(minSize, box.width + dx)
+      }
+      if (handle.includes('s')) {
+        next.height = Math.max(minSize, box.height + dy)
+      }
+      if (handle.includes('w')) {
+        const width = Math.max(minSize, box.width - dx)
+        next.x = box.x + (box.width - width)
+        next.width = width
+      }
+      if (handle.includes('n')) {
+        const height = Math.max(minSize, box.height - dy)
+        next.y = box.y + (box.height - height)
+        next.height = height
+      }
+      next = clampGroupBox(next, minSize)
+      const transformed = transformGroupResize(
+        drag.origins,
+        box,
+        next,
+        16,
+      )
+      onGeometryLiveMany(
+        transformed.map((item) => ({
+          id: item.id,
+          patch: {
+            x: item.x,
+            y: item.y,
+            width: item.width,
+            height: item.height,
+          },
         })),
       )
       return
@@ -643,6 +764,33 @@ export function WorkArea({
                     </div>
                   )
                 })}
+                {groupBox ? (
+                  <div
+                    className="canvas-group-frame"
+                    data-id="group-resize"
+                    style={{
+                      left: groupBox.x,
+                      top: groupBox.y,
+                      width: groupBox.width,
+                      height: groupBox.height,
+                    }}
+                    onPointerMove={onPointerMove}
+                    onPointerUp={onPointerUp}
+                  >
+                    {HANDLES.map((handle) => (
+                      <span
+                        key={handle}
+                        data-id="group-resize"
+                        className={`canvas-handle canvas-handle--${handle}`}
+                        onPointerDown={(e) =>
+                          onGroupResizePointerDown(e, handle)
+                        }
+                        onPointerMove={onPointerMove}
+                        onPointerUp={onPointerUp}
+                      />
+                    ))}
+                  </div>
+                ) : null}
                 {marquee ? (
                   <div
                     className="work-area__marquee"

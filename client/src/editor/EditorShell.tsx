@@ -206,7 +206,7 @@ export function EditorShell() {
         <div
           className={[
             'editor-body',
-            session.selected ? 'editor-body--with-props' : '',
+            session.selection.length > 0 ? 'editor-body--with-props' : '',
             toolbarDialogOpen ? 'editor-body--locked' : '',
             scBusy ? 'editor-body--busy' : '',
           ]
@@ -240,10 +240,13 @@ export function EditorShell() {
                 })),
               )
             }
+            onGeometryLiveMany={(items) =>
+              session.patchPropsLiveMany(items)
+            }
           />
-          {session.selected ? (
+          {session.selection.length > 0 ? (
             <PropertiesPanel
-              selected={session.selected}
+              selection={session.selection}
               components={session.model.components}
               links={session.model.links}
               onPatch={session.patchProps}

@@ -54,6 +54,8 @@ export const ru: Record<MessageKey, string> = {
   'contains.empty': 'Нет компонентов.',
 
   'props.title': 'Свойства',
+  'props.multiTitle': 'выбрано: {count}',
+  'props.mixed': 'разные',
   'props.type': 'тип',
   'props.bringForward': 'наверх',
   'props.sendBackward': 'вниз',
