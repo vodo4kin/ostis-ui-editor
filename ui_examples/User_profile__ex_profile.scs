@@ -5,7 +5,7 @@ ex_profile => nrel_ui_id: [ex_profile];;
 
 ex_profile_name
 <- concept_ui_name;
-=> nrel_ui_value: [Профиль пользователя];
+=> nrel_ui_value: [User profile];
 -> ex_profile;;
 
 ex_profile_cmp_1
@@ -15,7 +15,7 @@ ex_profile_cmp_1 => nrel_ui_id: [ex_profile_cmp_1];;
 
 ex_profile_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Профиль];
+=> nrel_ui_value: [Profile];
 -> ex_profile_cmp_1;;
 
 ex_profile_cmp_1_x
@@ -155,7 +155,7 @@ ex_profile_cmp_2 => nrel_ui_id: [ex_profile_cmp_2];;
 
 ex_profile_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Обложка];
+=> nrel_ui_value: [Cover];
 -> ex_profile_cmp_2;;
 
 ex_profile_cmp_2_x
@@ -295,7 +295,7 @@ ex_profile_cmp_3 => nrel_ui_id: [ex_profile_cmp_3];;
 
 ex_profile_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Аватар];
+=> nrel_ui_value: [Avatar];
 -> ex_profile_cmp_3;;
 
 ex_profile_cmp_3_x
@@ -435,7 +435,7 @@ ex_profile_cmp_4 => nrel_ui_id: [ex_profile_cmp_4];;
 
 ex_profile_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Имя];
+=> nrel_ui_value: [Name];
 -> ex_profile_cmp_4;;
 
 ex_profile_cmp_4_x
@@ -480,7 +480,7 @@ ex_profile_cmp_4_opacity
 
 ex_profile_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Анна Ковалёва];
+=> nrel_ui_value: [Anna Kovalyova];
 -> ex_profile_cmp_4;;
 
 ex_profile_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_profile_cmp_5 => nrel_ui_id: [ex_profile_cmp_5];;
 
 ex_profile_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Роль];
+=> nrel_ui_value: [Role];
 -> ex_profile_cmp_5;;
 
 ex_profile_cmp_5_x
@@ -620,7 +620,7 @@ ex_profile_cmp_5_opacity
 
 ex_profile_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Дизайнер интерфейсов · Минск];
+=> nrel_ui_value: [UI designer · Minsk];
 -> ex_profile_cmp_5;;
 
 ex_profile_cmp_5_tooltip
@@ -715,7 +715,7 @@ ex_profile_cmp_6 => nrel_ui_id: [ex_profile_cmp_6];;
 
 ex_profile_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Изменить];
+=> nrel_ui_value: [Edit];
 -> ex_profile_cmp_6;;
 
 ex_profile_cmp_6_x
@@ -760,7 +760,7 @@ ex_profile_cmp_6_opacity
 
 ex_profile_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Изменить];
+=> nrel_ui_value: [Edit];
 -> ex_profile_cmp_6;;
 
 ex_profile_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_profile_cmp_7 => nrel_ui_id: [ex_profile_cmp_7];;
 
 ex_profile_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Линия];
+=> nrel_ui_value: [Line];
 -> ex_profile_cmp_7;;
 
 ex_profile_cmp_7_x
@@ -995,7 +995,7 @@ ex_profile_cmp_8 => nrel_ui_id: [ex_profile_cmp_8];;
 
 ex_profile_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Секция];
+=> nrel_ui_value: [Section];
 -> ex_profile_cmp_8;;
 
 ex_profile_cmp_8_x
@@ -1040,7 +1040,7 @@ ex_profile_cmp_8_opacity
 
 ex_profile_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Контакты];
+=> nrel_ui_value: [Contacts];
 -> ex_profile_cmp_8;;
 
 ex_profile_cmp_8_tooltip
@@ -1135,7 +1135,7 @@ ex_profile_cmp_9 => nrel_ui_id: [ex_profile_cmp_9];;
 
 ex_profile_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Email метка];
+=> nrel_ui_value: [Email label];
 -> ex_profile_cmp_9;;
 
 ex_profile_cmp_9_x
@@ -1180,7 +1180,7 @@ ex_profile_cmp_9_opacity
 
 ex_profile_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Электронная почта];
+=> nrel_ui_value: [Email];
 -> ex_profile_cmp_9;;
 
 ex_profile_cmp_9_tooltip
@@ -1415,7 +1415,7 @@ ex_profile_cmp_11 => nrel_ui_id: [ex_profile_cmp_11];;
 
 ex_profile_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Телефон метка];
+=> nrel_ui_value: [Phone label];
 -> ex_profile_cmp_11;;
 
 ex_profile_cmp_11_x
@@ -1460,7 +1460,7 @@ ex_profile_cmp_11_opacity
 
 ex_profile_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Телефон];
+=> nrel_ui_value: [Phone];
 -> ex_profile_cmp_11;;
 
 ex_profile_cmp_11_tooltip
@@ -1555,7 +1555,7 @@ ex_profile_cmp_12 => nrel_ui_id: [ex_profile_cmp_12];;
 
 ex_profile_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Телефон];
+=> nrel_ui_value: [Phone];
 -> ex_profile_cmp_12;;
 
 ex_profile_cmp_12_x
@@ -1695,7 +1695,7 @@ ex_profile_cmp_13 => nrel_ui_id: [ex_profile_cmp_13];;
 
 ex_profile_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [О себе метка];
+=> nrel_ui_value: [About me label];
 -> ex_profile_cmp_13;;
 
 ex_profile_cmp_13_x
@@ -1740,7 +1740,7 @@ ex_profile_cmp_13_opacity
 
 ex_profile_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [О себе];
+=> nrel_ui_value: [About me];
 -> ex_profile_cmp_13;;
 
 ex_profile_cmp_13_tooltip
@@ -1835,7 +1835,7 @@ ex_profile_cmp_14 => nrel_ui_id: [ex_profile_cmp_14];;
 
 ex_profile_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [О себе];
+=> nrel_ui_value: [About me];
 -> ex_profile_cmp_14;;
 
 ex_profile_cmp_14_x
@@ -1880,7 +1880,7 @@ ex_profile_cmp_14_opacity
 
 ex_profile_cmp_14_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Проектирую понятные интерфейсы для образовательных и корпоративных систем.];
+=> nrel_ui_value: [I design clear interfaces for educational and enterprise systems.];
 -> ex_profile_cmp_14;;
 
 ex_profile_cmp_14_tooltip
@@ -1975,7 +1975,7 @@ ex_profile_cmp_15 => nrel_ui_id: [ex_profile_cmp_15];;
 
 ex_profile_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сохранить];
+=> nrel_ui_value: [Save];
 -> ex_profile_cmp_15;;
 
 ex_profile_cmp_15_x
@@ -2020,7 +2020,7 @@ ex_profile_cmp_15_opacity
 
 ex_profile_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Сохранить];
+=> nrel_ui_value: [Save];
 -> ex_profile_cmp_15;;
 
 ex_profile_cmp_15_tooltip
@@ -2115,7 +2115,7 @@ ex_profile_cmp_16 => nrel_ui_id: [ex_profile_cmp_16];;
 
 ex_profile_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Отмена];
+=> nrel_ui_value: [Cancel];
 -> ex_profile_cmp_16;;
 
 ex_profile_cmp_16_x
@@ -2160,7 +2160,7 @@ ex_profile_cmp_16_opacity
 
 ex_profile_cmp_16_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Отмена];
+=> nrel_ui_value: [Cancel];
 -> ex_profile_cmp_16;;
 
 ex_profile_cmp_16_tooltip

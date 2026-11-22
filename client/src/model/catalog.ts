@@ -268,29 +268,8 @@ export function typeLabelKey(typeId: ComponentTypeId): MessageKey {
   return `type.${typeId}` as MessageKey
 }
 
-export function typeTextKey(typeId: ComponentTypeId): MessageKey | null {
-  if (typeId === 'select' || typeId === 'menu_item') {
-    return `type.${typeId}.text` as MessageKey
-  }
-  return null
-}
-
 export function labelOfType(typeId: ComponentTypeId): string {
   return t(typeLabelKey(typeId))
-}
-
-export function localizedDefaults(typeId: ComponentTypeId): ComponentProps {
-  const defaults = structuredClone(getCatalogEntry(typeId).defaults)
-  const label = labelOfType(typeId)
-  defaults.name = label
-  if (typeId === 'slider') {
-    return defaults
-  }
-  if (defaults.text_value) {
-    const textKey = typeTextKey(typeId)
-    defaults.text_value = textKey ? t(textKey) : label
-  }
-  return defaults
 }
 
 export function isPropAllowed(typeId: ComponentTypeId, key: PropKey): boolean {

@@ -5,7 +5,7 @@ ex_select_demo => nrel_ui_id: [ex_select_demo];;
 
 ex_select_demo_name
 <- concept_ui_name;
-=> nrel_ui_value: [Выпадающий список];
+=> nrel_ui_value: [Dropdown];
 -> ex_select_demo;;
 
 
@@ -16,7 +16,7 @@ ex_select_demo_cmp_1 => nrel_ui_id: [ex_select_demo_cmp_1];;
 
 ex_select_demo_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Окно];
+=> nrel_ui_value: [Window];
 -> ex_select_demo_cmp_1;;
 
 ex_select_demo_cmp_1_x
@@ -156,7 +156,7 @@ ex_select_demo_cmp_2 => nrel_ui_id: [ex_select_demo_cmp_2];;
 
 ex_select_demo_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Подпись];
+=> nrel_ui_value: [Caption];
 -> ex_select_demo_cmp_2;;
 
 ex_select_demo_cmp_2_x
@@ -201,7 +201,7 @@ ex_select_demo_cmp_2_opacity
 
 ex_select_demo_cmp_2_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Режим];
+=> nrel_ui_value: [Mode];
 -> ex_select_demo_cmp_2;;
 
 ex_select_demo_cmp_2_tooltip
@@ -296,7 +296,7 @@ ex_select_demo_cmp_3 => nrel_ui_id: [ex_select_demo_cmp_3];;
 
 ex_select_demo_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Выбор режима];
+=> nrel_ui_value: [Mode selection];
 -> ex_select_demo_cmp_3;;
 
 ex_select_demo_cmp_3_x
@@ -436,7 +436,7 @@ ex_select_demo_cmp_4 => nrel_ui_id: [ex_select_demo_cmp_4];;
 
 ex_select_demo_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Выберите режим...];
+=> nrel_ui_value: [Select mode...];
 -> ex_select_demo_cmp_4;;
 
 ex_select_demo_cmp_4_x
@@ -481,7 +481,7 @@ ex_select_demo_cmp_4_opacity
 
 ex_select_demo_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Выберите режим...];
+=> nrel_ui_value: [Select mode...];
 -> ex_select_demo_cmp_4;;
 
 ex_select_demo_cmp_4_tooltip
@@ -576,7 +576,7 @@ ex_select_demo_cmp_5 => nrel_ui_id: [ex_select_demo_cmp_5];;
 
 ex_select_demo_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Режим А];
+=> nrel_ui_value: [Mode A];
 -> ex_select_demo_cmp_5;;
 
 ex_select_demo_cmp_5_x
@@ -621,7 +621,7 @@ ex_select_demo_cmp_5_opacity
 
 ex_select_demo_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Режим А];
+=> nrel_ui_value: [Mode A];
 -> ex_select_demo_cmp_5;;
 
 ex_select_demo_cmp_5_tooltip
@@ -716,7 +716,7 @@ ex_select_demo_cmp_6 => nrel_ui_id: [ex_select_demo_cmp_6];;
 
 ex_select_demo_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Режим Б];
+=> nrel_ui_value: [Mode B];
 -> ex_select_demo_cmp_6;;
 
 ex_select_demo_cmp_6_x
@@ -761,7 +761,7 @@ ex_select_demo_cmp_6_opacity
 
 ex_select_demo_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Режим Б];
+=> nrel_ui_value: [Mode B];
 -> ex_select_demo_cmp_6;;
 
 ex_select_demo_cmp_6_tooltip
@@ -856,7 +856,7 @@ ex_select_demo_cmp_7 => nrel_ui_id: [ex_select_demo_cmp_7];;
 
 ex_select_demo_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Режим В];
+=> nrel_ui_value: [Mode C];
 -> ex_select_demo_cmp_7;;
 
 ex_select_demo_cmp_7_x
@@ -901,7 +901,7 @@ ex_select_demo_cmp_7_opacity
 
 ex_select_demo_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Режим В];
+=> nrel_ui_value: [Mode C];
 -> ex_select_demo_cmp_7;;
 
 ex_select_demo_cmp_7_tooltip

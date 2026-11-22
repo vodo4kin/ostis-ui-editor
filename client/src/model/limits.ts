@@ -1,5 +1,6 @@
-import { t, type MessageKey } from '../i18n'
+import type { MessageKey } from '../i18n'
 import type { ComponentProps, PropKey } from './types'
+import { INTERFACE_COPY_SUFFIX } from './constants'
 
 export const LIMITS = {
   interfaceTitle: {
@@ -64,7 +65,7 @@ export function interfaceTitlesEqual(a: string, b: string): boolean {
   return (
     normalizeInterfaceTitle(a).localeCompare(
       normalizeInterfaceTitle(b),
-      'ru',
+      'en',
       { sensitivity: 'accent' },
     ) === 0
   )
@@ -103,7 +104,7 @@ export function nextCopyInterfaceTitle(
   base: string,
   existing: { id: string; title: string }[],
 ): string {
-  const suffix = t('interface.copySuffix')
+  const suffix = INTERFACE_COPY_SUFFIX
   let candidate = normalizeInterfaceTitle(base)
   for (let i = 0; i < 40; i += 1) {
     candidate = normalizeInterfaceTitle(`${candidate} ${suffix}`)

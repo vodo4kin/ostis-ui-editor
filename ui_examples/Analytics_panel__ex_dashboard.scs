@@ -5,7 +5,7 @@ ex_dashboard => nrel_ui_id: [ex_dashboard];;
 
 ex_dashboard_name
 <- concept_ui_name;
-=> nrel_ui_value: [Панель аналитики];
+=> nrel_ui_value: [Analytics panel];
 -> ex_dashboard;;
 
 ex_dashboard_cmp_1
@@ -15,7 +15,7 @@ ex_dashboard_cmp_1 => nrel_ui_id: [ex_dashboard_cmp_1];;
 
 ex_dashboard_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Аналитика];
+=> nrel_ui_value: [Analytics];
 -> ex_dashboard_cmp_1;;
 
 ex_dashboard_cmp_1_x
@@ -155,7 +155,7 @@ ex_dashboard_cmp_2 => nrel_ui_id: [ex_dashboard_cmp_2];;
 
 ex_dashboard_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Меню];
+=> nrel_ui_value: [Menu];
 -> ex_dashboard_cmp_2;;
 
 ex_dashboard_cmp_2_x
@@ -295,7 +295,7 @@ ex_dashboard_cmp_3 => nrel_ui_id: [ex_dashboard_cmp_3];;
 
 ex_dashboard_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Обзор];
+=> nrel_ui_value: [Overview];
 -> ex_dashboard_cmp_3;;
 
 ex_dashboard_cmp_3_x
@@ -340,7 +340,7 @@ ex_dashboard_cmp_3_opacity
 
 ex_dashboard_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Обзор];
+=> nrel_ui_value: [Overview];
 -> ex_dashboard_cmp_3;;
 
 ex_dashboard_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_dashboard_cmp_4 => nrel_ui_id: [ex_dashboard_cmp_4];;
 
 ex_dashboard_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Отчёты];
+=> nrel_ui_value: [Reports];
 -> ex_dashboard_cmp_4;;
 
 ex_dashboard_cmp_4_x
@@ -480,7 +480,7 @@ ex_dashboard_cmp_4_opacity
 
 ex_dashboard_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Отчёты];
+=> nrel_ui_value: [Reports];
 -> ex_dashboard_cmp_4;;
 
 ex_dashboard_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_dashboard_cmp_5 => nrel_ui_id: [ex_dashboard_cmp_5];;
 
 ex_dashboard_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Экспорт];
+=> nrel_ui_value: [Export];
 -> ex_dashboard_cmp_5;;
 
 ex_dashboard_cmp_5_x
@@ -620,7 +620,7 @@ ex_dashboard_cmp_5_opacity
 
 ex_dashboard_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Экспорт];
+=> nrel_ui_value: [Export];
 -> ex_dashboard_cmp_5;;
 
 ex_dashboard_cmp_5_tooltip
@@ -715,7 +715,7 @@ ex_dashboard_cmp_6 => nrel_ui_id: [ex_dashboard_cmp_6];;
 
 ex_dashboard_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок];
+=> nrel_ui_value: [Title];
 -> ex_dashboard_cmp_6;;
 
 ex_dashboard_cmp_6_x
@@ -760,7 +760,7 @@ ex_dashboard_cmp_6_opacity
 
 ex_dashboard_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Сводка за неделю];
+=> nrel_ui_value: [Weekly summary];
 -> ex_dashboard_cmp_6;;
 
 ex_dashboard_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_dashboard_cmp_7 => nrel_ui_id: [ex_dashboard_cmp_7];;
 
 ex_dashboard_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Период];
+=> nrel_ui_value: [Period];
 -> ex_dashboard_cmp_7;;
 
 ex_dashboard_cmp_7_x
@@ -900,7 +900,7 @@ ex_dashboard_cmp_7_opacity
 
 ex_dashboard_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [7 дней];
+=> nrel_ui_value: [7 days];
 -> ex_dashboard_cmp_7;;
 
 ex_dashboard_cmp_7_tooltip
@@ -995,7 +995,7 @@ ex_dashboard_cmp_8 => nrel_ui_id: [ex_dashboard_cmp_8];;
 
 ex_dashboard_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Карточка 1];
+=> nrel_ui_value: [Card 1];
 -> ex_dashboard_cmp_8;;
 
 ex_dashboard_cmp_8_x
@@ -1135,7 +1135,7 @@ ex_dashboard_cmp_9 => nrel_ui_id: [ex_dashboard_cmp_9];;
 
 ex_dashboard_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метка 1];
+=> nrel_ui_value: [Label 1];
 -> ex_dashboard_cmp_9;;
 
 ex_dashboard_cmp_9_x
@@ -1180,7 +1180,7 @@ ex_dashboard_cmp_9_opacity
 
 ex_dashboard_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Посетители];
+=> nrel_ui_value: [Visitors];
 -> ex_dashboard_cmp_9;;
 
 ex_dashboard_cmp_9_tooltip
@@ -1275,7 +1275,7 @@ ex_dashboard_cmp_10 => nrel_ui_id: [ex_dashboard_cmp_10];;
 
 ex_dashboard_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Значение 1];
+=> nrel_ui_value: [Value 1];
 -> ex_dashboard_cmp_10;;
 
 ex_dashboard_cmp_10_x
@@ -1415,7 +1415,7 @@ ex_dashboard_cmp_11 => nrel_ui_id: [ex_dashboard_cmp_11];;
 
 ex_dashboard_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дельта 1];
+=> nrel_ui_value: [Delta 1];
 -> ex_dashboard_cmp_11;;
 
 ex_dashboard_cmp_11_x
@@ -1460,7 +1460,7 @@ ex_dashboard_cmp_11_opacity
 
 ex_dashboard_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [+8.4% к прошлой неделе];
+=> nrel_ui_value: [+8.4% vs. last week];
 -> ex_dashboard_cmp_11;;
 
 ex_dashboard_cmp_11_tooltip
@@ -1555,7 +1555,7 @@ ex_dashboard_cmp_12 => nrel_ui_id: [ex_dashboard_cmp_12];;
 
 ex_dashboard_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Карточка 2];
+=> nrel_ui_value: [Card 2];
 -> ex_dashboard_cmp_12;;
 
 ex_dashboard_cmp_12_x
@@ -1695,7 +1695,7 @@ ex_dashboard_cmp_13 => nrel_ui_id: [ex_dashboard_cmp_13];;
 
 ex_dashboard_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метка 2];
+=> nrel_ui_value: [Label 2];
 -> ex_dashboard_cmp_13;;
 
 ex_dashboard_cmp_13_x
@@ -1740,7 +1740,7 @@ ex_dashboard_cmp_13_opacity
 
 ex_dashboard_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Конверсия];
+=> nrel_ui_value: [Conversion];
 -> ex_dashboard_cmp_13;;
 
 ex_dashboard_cmp_13_tooltip
@@ -1835,7 +1835,7 @@ ex_dashboard_cmp_14 => nrel_ui_id: [ex_dashboard_cmp_14];;
 
 ex_dashboard_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Значение 2];
+=> nrel_ui_value: [Value 2];
 -> ex_dashboard_cmp_14;;
 
 ex_dashboard_cmp_14_x
@@ -1975,7 +1975,7 @@ ex_dashboard_cmp_15 => nrel_ui_id: [ex_dashboard_cmp_15];;
 
 ex_dashboard_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дельта 2];
+=> nrel_ui_value: [Delta 2];
 -> ex_dashboard_cmp_15;;
 
 ex_dashboard_cmp_15_x
@@ -2020,7 +2020,7 @@ ex_dashboard_cmp_15_opacity
 
 ex_dashboard_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [−0.3% к прошлой неделе];
+=> nrel_ui_value: [−0.3% vs. last week];
 -> ex_dashboard_cmp_15;;
 
 ex_dashboard_cmp_15_tooltip
@@ -2115,7 +2115,7 @@ ex_dashboard_cmp_16 => nrel_ui_id: [ex_dashboard_cmp_16];;
 
 ex_dashboard_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Карточка 3];
+=> nrel_ui_value: [Card 3];
 -> ex_dashboard_cmp_16;;
 
 ex_dashboard_cmp_16_x
@@ -2255,7 +2255,7 @@ ex_dashboard_cmp_17 => nrel_ui_id: [ex_dashboard_cmp_17];;
 
 ex_dashboard_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метка 3];
+=> nrel_ui_value: [Label 3];
 -> ex_dashboard_cmp_17;;
 
 ex_dashboard_cmp_17_x
@@ -2300,7 +2300,7 @@ ex_dashboard_cmp_17_opacity
 
 ex_dashboard_cmp_17_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Выручка];
+=> nrel_ui_value: [Revenue];
 -> ex_dashboard_cmp_17;;
 
 ex_dashboard_cmp_17_tooltip
@@ -2395,7 +2395,7 @@ ex_dashboard_cmp_18 => nrel_ui_id: [ex_dashboard_cmp_18];;
 
 ex_dashboard_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [Значение 3];
+=> nrel_ui_value: [Value 3];
 -> ex_dashboard_cmp_18;;
 
 ex_dashboard_cmp_18_x
@@ -2535,7 +2535,7 @@ ex_dashboard_cmp_19 => nrel_ui_id: [ex_dashboard_cmp_19];;
 
 ex_dashboard_cmp_19_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дельта 3];
+=> nrel_ui_value: [Delta 3];
 -> ex_dashboard_cmp_19;;
 
 ex_dashboard_cmp_19_x
@@ -2580,7 +2580,7 @@ ex_dashboard_cmp_19_opacity
 
 ex_dashboard_cmp_19_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [+12.1% к прошлой неделе];
+=> nrel_ui_value: [+12.1% vs. last week];
 -> ex_dashboard_cmp_19;;
 
 ex_dashboard_cmp_19_tooltip
@@ -2675,7 +2675,7 @@ ex_dashboard_cmp_20 => nrel_ui_id: [ex_dashboard_cmp_20];;
 
 ex_dashboard_cmp_20_name
 <- concept_ui_name;
-=> nrel_ui_value: [График];
+=> nrel_ui_value: [Chart];
 -> ex_dashboard_cmp_20;;
 
 ex_dashboard_cmp_20_x
@@ -2815,7 +2815,7 @@ ex_dashboard_cmp_21 => nrel_ui_id: [ex_dashboard_cmp_21];;
 
 ex_dashboard_cmp_21_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок графика];
+=> nrel_ui_value: [Chart title];
 -> ex_dashboard_cmp_21;;
 
 ex_dashboard_cmp_21_x
@@ -2860,7 +2860,7 @@ ex_dashboard_cmp_21_opacity
 
 ex_dashboard_cmp_21_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Активность по дням];
+=> nrel_ui_value: [Daily activity];
 -> ex_dashboard_cmp_21;;
 
 ex_dashboard_cmp_21_tooltip
@@ -2955,7 +2955,7 @@ ex_dashboard_cmp_22 => nrel_ui_id: [ex_dashboard_cmp_22];;
 
 ex_dashboard_cmp_22_name
 <- concept_ui_name;
-=> nrel_ui_value: [Область графика];
+=> nrel_ui_value: [Chart area];
 -> ex_dashboard_cmp_22;;
 
 ex_dashboard_cmp_22_x
@@ -3095,7 +3095,7 @@ ex_dashboard_cmp_23 => nrel_ui_id: [ex_dashboard_cmp_23];;
 
 ex_dashboard_cmp_23_name
 <- concept_ui_name;
-=> nrel_ui_value: [Подпись графика];
+=> nrel_ui_value: [Chart caption];
 -> ex_dashboard_cmp_23;;
 
 ex_dashboard_cmp_23_x
@@ -3140,7 +3140,7 @@ ex_dashboard_cmp_23_opacity
 
 ex_dashboard_cmp_23_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пик: среда · 2 140 сессий];
+=> nrel_ui_value: [Peak: Wednesday · 2,140 sessions];
 -> ex_dashboard_cmp_23;;
 
 ex_dashboard_cmp_23_tooltip
@@ -3235,7 +3235,7 @@ ex_dashboard_cmp_24 => nrel_ui_id: [ex_dashboard_cmp_24];;
 
 ex_dashboard_cmp_24_name
 <- concept_ui_name;
-=> nrel_ui_value: [Топ страниц];
+=> nrel_ui_value: [Top pages];
 -> ex_dashboard_cmp_24;;
 
 ex_dashboard_cmp_24_x
@@ -3375,7 +3375,7 @@ ex_dashboard_cmp_25 => nrel_ui_id: [ex_dashboard_cmp_25];;
 
 ex_dashboard_cmp_25_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок списка];
+=> nrel_ui_value: [List title];
 -> ex_dashboard_cmp_25;;
 
 ex_dashboard_cmp_25_x
@@ -3420,7 +3420,7 @@ ex_dashboard_cmp_25_opacity
 
 ex_dashboard_cmp_25_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Топ страниц];
+=> nrel_ui_value: [Top pages];
 -> ex_dashboard_cmp_25;;
 
 ex_dashboard_cmp_25_tooltip
@@ -3515,7 +3515,7 @@ ex_dashboard_cmp_26 => nrel_ui_id: [ex_dashboard_cmp_26];;
 
 ex_dashboard_cmp_26_name
 <- concept_ui_name;
-=> nrel_ui_value: [Стр 1];
+=> nrel_ui_value: [Page 1];
 -> ex_dashboard_cmp_26;;
 
 ex_dashboard_cmp_26_x
@@ -3655,7 +3655,7 @@ ex_dashboard_cmp_27 => nrel_ui_id: [ex_dashboard_cmp_27];;
 
 ex_dashboard_cmp_27_name
 <- concept_ui_name;
-=> nrel_ui_value: [Стр 2];
+=> nrel_ui_value: [Page 2];
 -> ex_dashboard_cmp_27;;
 
 ex_dashboard_cmp_27_x
@@ -3795,7 +3795,7 @@ ex_dashboard_cmp_28 => nrel_ui_id: [ex_dashboard_cmp_28];;
 
 ex_dashboard_cmp_28_name
 <- concept_ui_name;
-=> nrel_ui_value: [Стр 3];
+=> nrel_ui_value: [Page 3];
 -> ex_dashboard_cmp_28;;
 
 ex_dashboard_cmp_28_x
@@ -3935,7 +3935,7 @@ ex_dashboard_cmp_29 => nrel_ui_id: [ex_dashboard_cmp_29];;
 
 ex_dashboard_cmp_29_name
 <- concept_ui_name;
-=> nrel_ui_value: [Стр 4];
+=> nrel_ui_value: [Page 4];
 -> ex_dashboard_cmp_29;;
 
 ex_dashboard_cmp_29_x
@@ -4075,7 +4075,7 @@ ex_dashboard_cmp_30 => nrel_ui_id: [ex_dashboard_cmp_30];;
 
 ex_dashboard_cmp_30_name
 <- concept_ui_name;
-=> nrel_ui_value: [Подробнее];
+=> nrel_ui_value: [Learn more];
 -> ex_dashboard_cmp_30;;
 
 ex_dashboard_cmp_30_x
@@ -4120,7 +4120,7 @@ ex_dashboard_cmp_30_opacity
 
 ex_dashboard_cmp_30_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Подробный отчёт];
+=> nrel_ui_value: [Detailed report];
 -> ex_dashboard_cmp_30;;
 
 ex_dashboard_cmp_30_tooltip

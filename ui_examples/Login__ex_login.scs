@@ -5,7 +5,7 @@ ex_login => nrel_ui_id: [ex_login];;
 
 ex_login_name
 <- concept_ui_name;
-=> nrel_ui_value: [Вход в систему];
+=> nrel_ui_value: [Sign in];
 -> ex_login;;
 
 ex_login_cmp_1
@@ -15,7 +15,7 @@ ex_login_cmp_1 => nrel_ui_id: [ex_login_cmp_1];;
 
 ex_login_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Окно входа];
+=> nrel_ui_value: [Sign-in window];
 -> ex_login_cmp_1;;
 
 ex_login_cmp_1_x
@@ -155,7 +155,7 @@ ex_login_cmp_2 => nrel_ui_id: [ex_login_cmp_2];;
 
 ex_login_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Логотип];
+=> nrel_ui_value: [Logo];
 -> ex_login_cmp_2;;
 
 ex_login_cmp_2_x
@@ -205,7 +205,7 @@ ex_login_cmp_2_text_value
 
 ex_login_cmp_2_tooltip
 <- concept_ui_tooltip;
-=> nrel_ui_value: [Логотип приложения];
+=> nrel_ui_value: [App logo];
 -> ex_login_cmp_2;;
 
 ex_login_cmp_2_action_id
@@ -295,7 +295,7 @@ ex_login_cmp_3 => nrel_ui_id: [ex_login_cmp_3];;
 
 ex_login_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок];
+=> nrel_ui_value: [Title];
 -> ex_login_cmp_3;;
 
 ex_login_cmp_3_x
@@ -340,7 +340,7 @@ ex_login_cmp_3_opacity
 
 ex_login_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Добро пожаловать];
+=> nrel_ui_value: [Welcome];
 -> ex_login_cmp_3;;
 
 ex_login_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_login_cmp_4 => nrel_ui_id: [ex_login_cmp_4];;
 
 ex_login_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метка логина];
+=> nrel_ui_value: [Username label];
 -> ex_login_cmp_4;;
 
 ex_login_cmp_4_x
@@ -480,7 +480,7 @@ ex_login_cmp_4_opacity
 
 ex_login_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Имя пользователя];
+=> nrel_ui_value: [Username];
 -> ex_login_cmp_4;;
 
 ex_login_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_login_cmp_5 => nrel_ui_id: [ex_login_cmp_5];;
 
 ex_login_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Поле логина];
+=> nrel_ui_value: [Username field];
 -> ex_login_cmp_5;;
 
 ex_login_cmp_5_x
@@ -625,7 +625,7 @@ ex_login_cmp_5_text_value
 
 ex_login_cmp_5_tooltip
 <- concept_ui_tooltip;
-=> nrel_ui_value: [Введите логин];
+=> nrel_ui_value: [Enter username];
 -> ex_login_cmp_5;;
 
 ex_login_cmp_5_action_id
@@ -715,7 +715,7 @@ ex_login_cmp_6 => nrel_ui_id: [ex_login_cmp_6];;
 
 ex_login_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метка пароля];
+=> nrel_ui_value: [Password label];
 -> ex_login_cmp_6;;
 
 ex_login_cmp_6_x
@@ -760,7 +760,7 @@ ex_login_cmp_6_opacity
 
 ex_login_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пароль];
+=> nrel_ui_value: [Password];
 -> ex_login_cmp_6;;
 
 ex_login_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_login_cmp_7 => nrel_ui_id: [ex_login_cmp_7];;
 
 ex_login_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Поле пароля];
+=> nrel_ui_value: [Password field];
 -> ex_login_cmp_7;;
 
 ex_login_cmp_7_x
@@ -905,7 +905,7 @@ ex_login_cmp_7_text_value
 
 ex_login_cmp_7_tooltip
 <- concept_ui_tooltip;
-=> nrel_ui_value: [Введите пароль];
+=> nrel_ui_value: [Enter password];
 -> ex_login_cmp_7;;
 
 ex_login_cmp_7_action_id
@@ -995,7 +995,7 @@ ex_login_cmp_8 => nrel_ui_id: [ex_login_cmp_8];;
 
 ex_login_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Подсказка сессии];
+=> nrel_ui_value: [Session hint];
 -> ex_login_cmp_8;;
 
 ex_login_cmp_8_x
@@ -1040,7 +1040,7 @@ ex_login_cmp_8_opacity
 
 ex_login_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Сессия сохранится на этом устройстве];
+=> nrel_ui_value: [Session will be saved on this device];
 -> ex_login_cmp_8;;
 
 ex_login_cmp_8_tooltip
@@ -1135,7 +1135,7 @@ ex_login_cmp_9 => nrel_ui_id: [ex_login_cmp_9];;
 
 ex_login_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Разделитель];
+=> nrel_ui_value: [Divider];
 -> ex_login_cmp_9;;
 
 ex_login_cmp_9_x
@@ -1275,7 +1275,7 @@ ex_login_cmp_10 => nrel_ui_id: [ex_login_cmp_10];;
 
 ex_login_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Войти];
+=> nrel_ui_value: [Sign in];
 -> ex_login_cmp_10;;
 
 ex_login_cmp_10_x
@@ -1320,7 +1320,7 @@ ex_login_cmp_10_opacity
 
 ex_login_cmp_10_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Войти];
+=> nrel_ui_value: [Sign in];
 -> ex_login_cmp_10;;
 
 ex_login_cmp_10_tooltip
@@ -1415,7 +1415,7 @@ ex_login_cmp_11 => nrel_ui_id: [ex_login_cmp_11];;
 
 ex_login_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Гость];
+=> nrel_ui_value: [Guest];
 -> ex_login_cmp_11;;
 
 ex_login_cmp_11_x
@@ -1460,7 +1460,7 @@ ex_login_cmp_11_opacity
 
 ex_login_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Как гость];
+=> nrel_ui_value: [As guest];
 -> ex_login_cmp_11;;
 
 ex_login_cmp_11_tooltip
@@ -1555,7 +1555,7 @@ ex_login_cmp_12 => nrel_ui_id: [ex_login_cmp_12];;
 
 ex_login_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Ссылка восстановления];
+=> nrel_ui_value: [Recovery link];
 -> ex_login_cmp_12;;
 
 ex_login_cmp_12_x
@@ -1600,7 +1600,7 @@ ex_login_cmp_12_opacity
 
 ex_login_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Забыли пароль?];
+=> nrel_ui_value: [Forgot password?];
 -> ex_login_cmp_12;;
 
 ex_login_cmp_12_tooltip

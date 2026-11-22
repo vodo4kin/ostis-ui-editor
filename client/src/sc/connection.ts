@@ -23,7 +23,7 @@ export async function waitScOpen(
     .resolveKeynodes([{ id: 'concept_ui_interface', type: new ScType() }])
     .then((map) => {
       if (!map.concept_ui_interface?.isValid()) {
-        throw new Error('В БЗ нет схемы UI — пересобери базу')
+        throw new Error('error.kbNoSchema')
       }
     })
 
@@ -31,7 +31,7 @@ export async function waitScOpen(
     ping,
     new Promise<never>((_, reject) => {
       globalThis.setTimeout(() => {
-        reject(new Error('Таймаут подключения к БЗ'))
+        reject(new Error('error.connectTimeout'))
       }, timeoutMs)
     }),
   ])

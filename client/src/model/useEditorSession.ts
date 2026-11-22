@@ -61,6 +61,8 @@ function errText(err: unknown): string {
 function isKbConnectionError(err: unknown): boolean {
   const text = errText(err).toLowerCase()
   return (
+    text.startsWith('error.connecttimeout') ||
+    text.startsWith('error.kbnoschema') ||
     text.includes('таймаут') ||
     text.includes('timeout') ||
     text.includes('подключен') ||
@@ -152,7 +154,7 @@ export function useEditorSession() {
       const next = prev.filter((item) => item.id !== current.id)
       next.push({ id: current.id, title: current.title })
       next.sort((a, b) =>
-        a.title.localeCompare(b.title, 'ru', { sensitivity: 'base' }),
+        a.title.localeCompare(b.title, 'en', { sensitivity: 'base' }),
       )
       return next
     })

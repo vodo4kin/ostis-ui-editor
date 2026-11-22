@@ -5,7 +5,7 @@ ex_weather => nrel_ui_id: [ex_weather];;
 
 ex_weather_name
 <- concept_ui_name;
-=> nrel_ui_value: [Погодная панель];
+=> nrel_ui_value: [Weather panel];
 -> ex_weather;;
 
 ex_weather_cmp_1
@@ -15,7 +15,7 @@ ex_weather_cmp_1 => nrel_ui_id: [ex_weather_cmp_1];;
 
 ex_weather_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Погода];
+=> nrel_ui_value: [Weather];
 -> ex_weather_cmp_1;;
 
 ex_weather_cmp_1_x
@@ -155,7 +155,7 @@ ex_weather_cmp_2 => nrel_ui_id: [ex_weather_cmp_2];;
 
 ex_weather_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Город];
+=> nrel_ui_value: [City];
 -> ex_weather_cmp_2;;
 
 ex_weather_cmp_2_x
@@ -200,7 +200,7 @@ ex_weather_cmp_2_opacity
 
 ex_weather_cmp_2_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Минск];
+=> nrel_ui_value: [Minsk];
 -> ex_weather_cmp_2;;
 
 ex_weather_cmp_2_tooltip
@@ -295,7 +295,7 @@ ex_weather_cmp_3 => nrel_ui_id: [ex_weather_cmp_3];;
 
 ex_weather_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Город выбор];
+=> nrel_ui_value: [City select];
 -> ex_weather_cmp_3;;
 
 ex_weather_cmp_3_x
@@ -340,7 +340,7 @@ ex_weather_cmp_3_opacity
 
 ex_weather_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Минск];
+=> nrel_ui_value: [Minsk];
 -> ex_weather_cmp_3;;
 
 ex_weather_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_weather_cmp_4 => nrel_ui_id: [ex_weather_cmp_4];;
 
 ex_weather_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Температура];
+=> nrel_ui_value: [Temperature];
 -> ex_weather_cmp_4;;
 
 ex_weather_cmp_4_x
@@ -575,7 +575,7 @@ ex_weather_cmp_5 => nrel_ui_id: [ex_weather_cmp_5];;
 
 ex_weather_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Условия];
+=> nrel_ui_value: [Terms];
 -> ex_weather_cmp_5;;
 
 ex_weather_cmp_5_x
@@ -620,7 +620,7 @@ ex_weather_cmp_5_opacity
 
 ex_weather_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Облачно · ощущается −7°];
+=> nrel_ui_value: [Cloudy · feels like −7°];
 -> ex_weather_cmp_5;;
 
 ex_weather_cmp_5_tooltip
@@ -715,7 +715,7 @@ ex_weather_cmp_6 => nrel_ui_id: [ex_weather_cmp_6];;
 
 ex_weather_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Иконка];
+=> nrel_ui_value: [Icon];
 -> ex_weather_cmp_6;;
 
 ex_weather_cmp_6_x
@@ -855,7 +855,7 @@ ex_weather_cmp_7 => nrel_ui_id: [ex_weather_cmp_7];;
 
 ex_weather_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Метрики];
+=> nrel_ui_value: [Metrics];
 -> ex_weather_cmp_7;;
 
 ex_weather_cmp_7_x
@@ -995,7 +995,7 @@ ex_weather_cmp_8 => nrel_ui_id: [ex_weather_cmp_8];;
 
 ex_weather_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Влажность];
+=> nrel_ui_value: [Humidity];
 -> ex_weather_cmp_8;;
 
 ex_weather_cmp_8_x
@@ -1040,7 +1040,7 @@ ex_weather_cmp_8_opacity
 
 ex_weather_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Влажность
+=> nrel_ui_value: [Humidity
 78%];
 -> ex_weather_cmp_8;;
 
@@ -1136,7 +1136,7 @@ ex_weather_cmp_9 => nrel_ui_id: [ex_weather_cmp_9];;
 
 ex_weather_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Ветер];
+=> nrel_ui_value: [Wind];
 -> ex_weather_cmp_9;;
 
 ex_weather_cmp_9_x
@@ -1181,8 +1181,8 @@ ex_weather_cmp_9_opacity
 
 ex_weather_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ветер
-4 м/с СЗ];
+=> nrel_ui_value: [Wind
+4 m/s NW];
 -> ex_weather_cmp_9;;
 
 ex_weather_cmp_9_tooltip
@@ -1277,7 +1277,7 @@ ex_weather_cmp_10 => nrel_ui_id: [ex_weather_cmp_10];;
 
 ex_weather_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Давление];
+=> nrel_ui_value: [Pressure];
 -> ex_weather_cmp_10;;
 
 ex_weather_cmp_10_x
@@ -1322,8 +1322,8 @@ ex_weather_cmp_10_opacity
 
 ex_weather_cmp_10_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Давление
-748 мм];
+=> nrel_ui_value: [Pressure
+748 mm];
 -> ex_weather_cmp_10;;
 
 ex_weather_cmp_10_tooltip
@@ -1418,7 +1418,7 @@ ex_weather_cmp_11 => nrel_ui_id: [ex_weather_cmp_11];;
 
 ex_weather_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Прогноз];
+=> nrel_ui_value: [Forecast];
 -> ex_weather_cmp_11;;
 
 ex_weather_cmp_11_x
@@ -1558,7 +1558,7 @@ ex_weather_cmp_12 => nrel_ui_id: [ex_weather_cmp_12];;
 
 ex_weather_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Прогноз заголовок];
+=> nrel_ui_value: [Forecast title];
 -> ex_weather_cmp_12;;
 
 ex_weather_cmp_12_x
@@ -1603,7 +1603,7 @@ ex_weather_cmp_12_opacity
 
 ex_weather_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ближайшие дни];
+=> nrel_ui_value: [Upcoming days];
 -> ex_weather_cmp_12;;
 
 ex_weather_cmp_12_tooltip
@@ -1698,7 +1698,7 @@ ex_weather_cmp_13 => nrel_ui_id: [ex_weather_cmp_13];;
 
 ex_weather_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [День 1];
+=> nrel_ui_value: [Day 1];
 -> ex_weather_cmp_13;;
 
 ex_weather_cmp_13_x
@@ -1743,7 +1743,7 @@ ex_weather_cmp_13_opacity
 
 ex_weather_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пт
+=> nrel_ui_value: [Fri
 −2° / −6°];
 -> ex_weather_cmp_13;;
 
@@ -1839,7 +1839,7 @@ ex_weather_cmp_14 => nrel_ui_id: [ex_weather_cmp_14];;
 
 ex_weather_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [День 2];
+=> nrel_ui_value: [Day 2];
 -> ex_weather_cmp_14;;
 
 ex_weather_cmp_14_x
@@ -1884,7 +1884,7 @@ ex_weather_cmp_14_opacity
 
 ex_weather_cmp_14_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Сб
+=> nrel_ui_value: [Sat
 0° / −4°];
 -> ex_weather_cmp_14;;
 
@@ -1980,7 +1980,7 @@ ex_weather_cmp_15 => nrel_ui_id: [ex_weather_cmp_15];;
 
 ex_weather_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [День 3];
+=> nrel_ui_value: [Day 3];
 -> ex_weather_cmp_15;;
 
 ex_weather_cmp_15_x
@@ -2025,7 +2025,7 @@ ex_weather_cmp_15_opacity
 
 ex_weather_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вс
+=> nrel_ui_value: [Sun
 1° / −3°];
 -> ex_weather_cmp_15;;
 
@@ -2121,7 +2121,7 @@ ex_weather_cmp_16 => nrel_ui_id: [ex_weather_cmp_16];;
 
 ex_weather_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [День 4];
+=> nrel_ui_value: [Day 4];
 -> ex_weather_cmp_16;;
 
 ex_weather_cmp_16_x
@@ -2166,7 +2166,7 @@ ex_weather_cmp_16_opacity
 
 ex_weather_cmp_16_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пн
+=> nrel_ui_value: [Mon
 −1° / −5°];
 -> ex_weather_cmp_16;;
 
@@ -2262,7 +2262,7 @@ ex_weather_cmp_17 => nrel_ui_id: [ex_weather_cmp_17];;
 
 ex_weather_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Предупреждение];
+=> nrel_ui_value: [Warning];
 -> ex_weather_cmp_17;;
 
 ex_weather_cmp_17_x
@@ -2307,7 +2307,7 @@ ex_weather_cmp_17_opacity
 
 ex_weather_cmp_17_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вечером возможен мокрый снег];
+=> nrel_ui_value: [Sleet possible in the evening];
 -> ex_weather_cmp_17;;
 
 ex_weather_cmp_17_tooltip

@@ -25,7 +25,7 @@ export async function writeModelToSc(
   const scs = modelToScs(model)
   const ok = await sc.generateElementsBySCs([scs])
   if (!ok[0]) {
-    throw new Error('Не удалось записать модель в БЗ')
+    throw new Error('error.writeFailed')
   }
 }
 

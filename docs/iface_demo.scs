@@ -5,7 +5,7 @@ iface_demo => nrel_ui_id: [demo];;
 
 iface_demo_name
 <- concept_ui_name;
-=> nrel_ui_value: [Демо];
+=> nrel_ui_value: [Demo];
 -> iface_demo;;
 
 wnd_main

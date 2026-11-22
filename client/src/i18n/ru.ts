@@ -143,15 +143,10 @@ export const ru: Record<MessageKey, string> = {
   'type.text_area': 'Многострочное поле',
   'type.slider': 'Ползунок',
   'type.select': 'Выбор',
-  'type.select.text': 'Вариант',
   'type.button': 'Кнопка',
   'type.menu_item': 'Пункт меню',
-  'type.menu_item.text': 'Пункт',
 
   'link.contains': 'Вложение',
-
-  'interface.defaultTitle': 'Новый интерфейс',
-  'interface.copySuffix': 'копия',
 
   'validation.nameRequired': 'Укажите имя',
   'validation.nameTooLong': 'Не больше {max} символов',
@@ -177,4 +172,19 @@ export const ru: Record<MessageKey, string> = {
   'status.previewDocument': 'Предпросмотр',
 
   'error.noInterfacesExport': 'Нет интерфейсов для экспорта',
+  'error.kbNoSchema': 'В БЗ нет схемы UI — пересобери базу',
+  'error.connectTimeout': 'Таймаут подключения к БЗ',
+  'error.keyMissing': 'В БЗ не найден ключ: {id}',
+  'error.writeFailed': 'Не удалось записать модель в БЗ',
+  'error.deleteFailed': 'Не удалось удалить интерфейс из БЗ',
+  'error.kbRelationsMissing':
+    'В БЗ нет nrel_ui_has_component / nrel_ui_id / nrel_ui_value',
+  'error.ifaceNotFound': 'Интерфейс не найден в БЗ: {id}',
+  'error.ifaceNotClass': 'Узел {id} не является concept_ui_interface',
+  'error.ifaceMissingAfterSave': 'Интерфейс не найден в БЗ после сохранения',
+  'error.translateActionCreate': 'Не удалось создать action трансляции',
+  'error.translateAgentFailed': 'Агент трансляции завершился с ошибкой',
+  'error.htmlMissing': 'HTML не найден (nrel_html_representation)',
+  'error.agentWaitTimeout': 'Таймаут ожидания агента',
+  'error.agentWaitFailed': 'Ошибка ожидания агента',
 }

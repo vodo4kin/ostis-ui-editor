@@ -1,5 +1,6 @@
 import { ScAddr, ScClient, ScTemplate, ScType } from 'ts-sc-client'
 import { getCatalogEntry } from '../model/catalog'
+import { FALLBACK_INTERFACE_TITLE } from '../model/constants'
 import type {
   ComponentProps,
   ComponentTypeId,
@@ -38,7 +39,7 @@ async function findKeynodes(client: ScClient, ids: string[]): Promise<Kn> {
   const map = await client.resolveKeynodes(params)
   for (const id of unique) {
     if (!map[id]?.isValid()) {
-      throw new Error(`В БЗ не найден ключ: ${id}`)
+      throw new Error(`error.keyMissing|${id}`)
     }
   }
   return map
@@ -173,7 +174,7 @@ export async function modelFromSc(
   ])
   const iface = ifaceMap[ifaceIdtf]
   if (!iface.isValid()) {
-    throw new Error(`Интерфейс не найден в БЗ: ${ifaceIdtf}`)
+    throw new Error(`error.ifaceNotFound|${ifaceIdtf}`)
   }
 
   const isIface = await client.searchByTemplate(
@@ -184,7 +185,7 @@ export async function modelFromSc(
     })(),
   )
   if (!isIface.length) {
-    throw new Error(`Узел ${ifaceIdtf} не является concept_ui_interface`)
+    throw new Error(`error.ifaceNotClass|${ifaceIdtf}`)
   }
 
   const idContent = await readIdContent(client, iface, kn[REL.id])
@@ -260,7 +261,7 @@ export async function modelFromSc(
 
   return {
     id: idContent || modelId,
-    title: titleRaw ?? 'Интерфейс',
+    title: titleRaw ?? FALLBACK_INTERFACE_TITLE,
     components,
     links,
   }
@@ -301,7 +302,7 @@ export async function listInterfaces(
   }
 
   items.sort((a, b) =>
-    a.title.localeCompare(b.title, 'ru', { sensitivity: 'base' }),
+    a.title.localeCompare(b.title, 'en', { sensitivity: 'base' }),
   )
   return items
 }

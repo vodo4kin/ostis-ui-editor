@@ -82,7 +82,7 @@ async function eraseAddrs(client: ScClient, addrs: ScAddr[]): Promise<void> {
   }
   const ok = await client.eraseElements(toErase)
   if (!ok) {
-    throw new Error('Не удалось удалить интерфейс из БЗ')
+    throw new Error('error.deleteFailed')
   }
 }
 
@@ -102,7 +102,7 @@ export async function eraseInterfaceById(
   const nrelValue = relMap[REL.value]
   const iface = relMap[ifaceIdtf]
   if (!nrelHas?.isValid() || !nrelId?.isValid() || !nrelValue?.isValid()) {
-    throw new Error('В БЗ нет nrel_ui_has_component / nrel_ui_id / nrel_ui_value')
+    throw new Error('error.kbRelationsMissing')
   }
   if (!iface?.isValid()) {
     return

@@ -91,8 +91,20 @@ export function resolveMessage(
   if (!message) {
     return ''
   }
-  if (hasMessage(message)) {
-    return t(message, params)
+  const pipe = message.indexOf('|')
+  const key = pipe >= 0 ? message.slice(0, pipe) : message
+  const arg = pipe >= 0 ? message.slice(pipe + 1) : undefined
+  if (hasMessage(key)) {
+    const merged: MessageParams = { ...params }
+    if (arg !== undefined && arg !== '') {
+      merged.id = arg
+      merged.name = arg
+      merged.title = arg
+    }
+    if (key === 'validation.nameTooLong' && merged.max == null) {
+      merged.max = 40
+    }
+    return t(key, merged)
   }
   return message
 }

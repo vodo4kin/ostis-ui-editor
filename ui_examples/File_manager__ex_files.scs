@@ -5,7 +5,7 @@ ex_files => nrel_ui_id: [ex_files];;
 
 ex_files_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файловый менеджер];
+=> nrel_ui_value: [File manager];
 -> ex_files;;
 
 ex_files_cmp_1
@@ -15,7 +15,7 @@ ex_files_cmp_1 => nrel_ui_id: [ex_files_cmp_1];;
 
 ex_files_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файлы];
+=> nrel_ui_value: [Files];
 -> ex_files_cmp_1;;
 
 ex_files_cmp_1_x
@@ -155,7 +155,7 @@ ex_files_cmp_2 => nrel_ui_id: [ex_files_cmp_2];;
 
 ex_files_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Панель];
+=> nrel_ui_value: [Panel];
 -> ex_files_cmp_2;;
 
 ex_files_cmp_2_x
@@ -295,7 +295,7 @@ ex_files_cmp_3 => nrel_ui_id: [ex_files_cmp_3];;
 
 ex_files_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Вверх];
+=> nrel_ui_value: [Up];
 -> ex_files_cmp_3;;
 
 ex_files_cmp_3_x
@@ -435,7 +435,7 @@ ex_files_cmp_4 => nrel_ui_id: [ex_files_cmp_4];;
 
 ex_files_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Путь];
+=> nrel_ui_value: [Path];
 -> ex_files_cmp_4;;
 
 ex_files_cmp_4_x
@@ -575,7 +575,7 @@ ex_files_cmp_5 => nrel_ui_id: [ex_files_cmp_5];;
 
 ex_files_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Создать];
+=> nrel_ui_value: [Create];
 -> ex_files_cmp_5;;
 
 ex_files_cmp_5_x
@@ -620,7 +620,7 @@ ex_files_cmp_5_opacity
 
 ex_files_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Создать];
+=> nrel_ui_value: [Create];
 -> ex_files_cmp_5;;
 
 ex_files_cmp_5_tooltip
@@ -715,7 +715,7 @@ ex_files_cmp_6 => nrel_ui_id: [ex_files_cmp_6];;
 
 ex_files_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Загрузить];
+=> nrel_ui_value: [Upload];
 -> ex_files_cmp_6;;
 
 ex_files_cmp_6_x
@@ -760,7 +760,7 @@ ex_files_cmp_6_opacity
 
 ex_files_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [↑ файл];
+=> nrel_ui_value: [↑ file];
 -> ex_files_cmp_6;;
 
 ex_files_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_files_cmp_7 => nrel_ui_id: [ex_files_cmp_7];;
 
 ex_files_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дерево];
+=> nrel_ui_value: [Tree];
 -> ex_files_cmp_7;;
 
 ex_files_cmp_7_x
@@ -995,7 +995,7 @@ ex_files_cmp_8 => nrel_ui_id: [ex_files_cmp_8];;
 
 ex_files_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папка 1];
+=> nrel_ui_value: [Folder 1];
 -> ex_files_cmp_8;;
 
 ex_files_cmp_8_x
@@ -1135,7 +1135,7 @@ ex_files_cmp_9 => nrel_ui_id: [ex_files_cmp_9];;
 
 ex_files_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папка 2];
+=> nrel_ui_value: [Folder 2];
 -> ex_files_cmp_9;;
 
 ex_files_cmp_9_x
@@ -1275,7 +1275,7 @@ ex_files_cmp_10 => nrel_ui_id: [ex_files_cmp_10];;
 
 ex_files_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папка 3];
+=> nrel_ui_value: [Folder 3];
 -> ex_files_cmp_10;;
 
 ex_files_cmp_10_x
@@ -1415,7 +1415,7 @@ ex_files_cmp_11 => nrel_ui_id: [ex_files_cmp_11];;
 
 ex_files_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папка 4];
+=> nrel_ui_value: [Folder 4];
 -> ex_files_cmp_11;;
 
 ex_files_cmp_11_x
@@ -1555,7 +1555,7 @@ ex_files_cmp_12 => nrel_ui_id: [ex_files_cmp_12];;
 
 ex_files_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папка 5];
+=> nrel_ui_value: [Folder 5];
 -> ex_files_cmp_12;;
 
 ex_files_cmp_12_x
@@ -1695,7 +1695,7 @@ ex_files_cmp_13 => nrel_ui_id: [ex_files_cmp_13];;
 
 ex_files_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Содержимое];
+=> nrel_ui_value: [Content];
 -> ex_files_cmp_13;;
 
 ex_files_cmp_13_x
@@ -1835,7 +1835,7 @@ ex_files_cmp_14 => nrel_ui_id: [ex_files_cmp_14];;
 
 ex_files_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Колонки];
+=> nrel_ui_value: [Columns];
 -> ex_files_cmp_14;;
 
 ex_files_cmp_14_x
@@ -1975,7 +1975,7 @@ ex_files_cmp_15 => nrel_ui_id: [ex_files_cmp_15];;
 
 ex_files_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Имя кол];
+=> nrel_ui_value: [Name col];
 -> ex_files_cmp_15;;
 
 ex_files_cmp_15_x
@@ -2020,7 +2020,7 @@ ex_files_cmp_15_opacity
 
 ex_files_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Имя];
+=> nrel_ui_value: [Name];
 -> ex_files_cmp_15;;
 
 ex_files_cmp_15_tooltip
@@ -2115,7 +2115,7 @@ ex_files_cmp_16 => nrel_ui_id: [ex_files_cmp_16];;
 
 ex_files_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Размер кол];
+=> nrel_ui_value: [Size col];
 -> ex_files_cmp_16;;
 
 ex_files_cmp_16_x
@@ -2160,7 +2160,7 @@ ex_files_cmp_16_opacity
 
 ex_files_cmp_16_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Размер];
+=> nrel_ui_value: [Size];
 -> ex_files_cmp_16;;
 
 ex_files_cmp_16_tooltip
@@ -2255,7 +2255,7 @@ ex_files_cmp_17 => nrel_ui_id: [ex_files_cmp_17];;
 
 ex_files_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дата кол];
+=> nrel_ui_value: [Date col];
 -> ex_files_cmp_17;;
 
 ex_files_cmp_17_x
@@ -2300,7 +2300,7 @@ ex_files_cmp_17_opacity
 
 ex_files_cmp_17_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Изменён];
+=> nrel_ui_value: [Modified];
 -> ex_files_cmp_17;;
 
 ex_files_cmp_17_tooltip
@@ -2395,7 +2395,7 @@ ex_files_cmp_18 => nrel_ui_id: [ex_files_cmp_18];;
 
 ex_files_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файл 1];
+=> nrel_ui_value: [File 1];
 -> ex_files_cmp_18;;
 
 ex_files_cmp_18_x
@@ -2440,7 +2440,7 @@ ex_files_cmp_18_opacity
 
 ex_files_cmp_18_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вход_в_систему__ex_login.scs          33 KB    сегодня];
+=> nrel_ui_value: [Sign_in__ex_login.scs                 33 KB    today];
 -> ex_files_cmp_18;;
 
 ex_files_cmp_18_tooltip
@@ -2535,7 +2535,7 @@ ex_files_cmp_19 => nrel_ui_id: [ex_files_cmp_19];;
 
 ex_files_cmp_19_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файл 2];
+=> nrel_ui_value: [File 2];
 -> ex_files_cmp_19;;
 
 ex_files_cmp_19_x
@@ -2580,7 +2580,7 @@ ex_files_cmp_19_opacity
 
 ex_files_cmp_19_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Панель_настроек__ex_settings.scs       69 KB    сегодня];
+=> nrel_ui_value: [Settings_panel__ex_settings.scs     69 KB    today];
 -> ex_files_cmp_19;;
 
 ex_files_cmp_19_tooltip
@@ -2675,7 +2675,7 @@ ex_files_cmp_20 => nrel_ui_id: [ex_files_cmp_20];;
 
 ex_files_cmp_20_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файл 3];
+=> nrel_ui_value: [File 3];
 -> ex_files_cmp_20;;
 
 ex_files_cmp_20_x
@@ -2720,7 +2720,7 @@ ex_files_cmp_20_opacity
 
 ex_files_cmp_20_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Медиатека__ex_media.scs                67 KB    сегодня];
+=> nrel_ui_value: [Media_library__ex_media.scs          67 KB    today];
 -> ex_files_cmp_20;;
 
 ex_files_cmp_20_tooltip
@@ -2815,7 +2815,7 @@ ex_files_cmp_21 => nrel_ui_id: [ex_files_cmp_21];;
 
 ex_files_cmp_21_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файл 4];
+=> nrel_ui_value: [File 4];
 -> ex_files_cmp_21;;
 
 ex_files_cmp_21_x
@@ -2860,7 +2860,7 @@ ex_files_cmp_21_opacity
 
 ex_files_cmp_21_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [README.md                              4 KB     вчера];
+=> nrel_ui_value: [README.md                              4 KB     yesterday];
 -> ex_files_cmp_21;;
 
 ex_files_cmp_21_tooltip
@@ -2955,7 +2955,7 @@ ex_files_cmp_22 => nrel_ui_id: [ex_files_cmp_22];;
 
 ex_files_cmp_22_name
 <- concept_ui_name;
-=> nrel_ui_value: [Файл 5];
+=> nrel_ui_value: [File 5];
 -> ex_files_cmp_22;;
 
 ex_files_cmp_22_x
@@ -3000,7 +3000,7 @@ ex_files_cmp_22_opacity
 
 ex_files_cmp_22_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [abstract_ui_model.scs                  28 KB    10 ноя];
+=> nrel_ui_value: [abstract_ui_model.scs                  28 KB    Nov 10];
 -> ex_files_cmp_22;;
 
 ex_files_cmp_22_tooltip
@@ -3095,7 +3095,7 @@ ex_files_cmp_23 => nrel_ui_id: [ex_files_cmp_23];;
 
 ex_files_cmp_23_name
 <- concept_ui_name;
-=> nrel_ui_value: [Статус];
+=> nrel_ui_value: [Status];
 -> ex_files_cmp_23;;
 
 ex_files_cmp_23_x
@@ -3140,7 +3140,7 @@ ex_files_cmp_23_opacity
 
 ex_files_cmp_23_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [5 объектов · выбрано: 1 · свободно 42.6 GB];
+=> nrel_ui_value: [5 items · selected: 1 · 42.6 GB free];
 -> ex_files_cmp_23;;
 
 ex_files_cmp_23_tooltip

@@ -1,4 +1,4 @@
-// отношения
+// relations
 nrel_inclusion
 <- sc_node_norole_relation;;
 
@@ -14,7 +14,7 @@ nrel_ui_id
 nrel_ui_value
 <- sc_node_norole_relation;;
 
-// типы
+// types
 concept_ui_interface
 <- sc_node_class;;
 
@@ -85,7 +85,7 @@ concept_ui_menu_item
 <- sc_node_class;;
 concept_ui_object => nrel_inclusion: concept_ui_menu_item;;
 
-// свойства
+// properties
 concept_ui_name
 <- sc_node_class;;
 

@@ -140,15 +140,10 @@ export const en = {
   'type.text_area': 'Text area',
   'type.slider': 'Slider',
   'type.select': 'Select',
-  'type.select.text': 'Option',
   'type.button': 'Button',
   'type.menu_item': 'Menu item',
-  'type.menu_item.text': 'Item',
 
   'link.contains': 'Contains',
-
-  'interface.defaultTitle': 'New interface',
-  'interface.copySuffix': 'copy',
 
   'validation.nameRequired': 'Enter a name',
   'validation.nameTooLong': 'At most {max} characters',
@@ -174,6 +169,21 @@ export const en = {
   'status.previewDocument': 'Preview',
 
   'error.noInterfacesExport': 'No interfaces to export',
+  'error.kbNoSchema': 'UI schema missing in KB — rebuild the knowledge base',
+  'error.connectTimeout': 'KB connection timeout',
+  'error.keyMissing': 'Key not found in KB: {id}',
+  'error.writeFailed': 'Failed to write model to KB',
+  'error.deleteFailed': 'Failed to delete interface from KB',
+  'error.kbRelationsMissing':
+    'KB is missing nrel_ui_has_component / nrel_ui_id / nrel_ui_value',
+  'error.ifaceNotFound': 'Interface not found in KB: {id}',
+  'error.ifaceNotClass': 'Node {id} is not concept_ui_interface',
+  'error.ifaceMissingAfterSave': 'Interface not found in KB after save',
+  'error.translateActionCreate': 'Failed to create translation action',
+  'error.translateAgentFailed': 'Translation agent finished with an error',
+  'error.htmlMissing': 'HTML not found (nrel_html_representation)',
+  'error.agentWaitTimeout': 'Agent wait timeout',
+  'error.agentWaitFailed': 'Agent wait error',
 } as const
 
 export type MessageKey = keyof typeof en

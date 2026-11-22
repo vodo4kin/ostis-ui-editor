@@ -5,7 +5,7 @@ ex_tasks => nrel_ui_id: [ex_tasks];;
 
 ex_tasks_name
 <- concept_ui_name;
-=> nrel_ui_value: [Доска задач];
+=> nrel_ui_value: [Task board];
 -> ex_tasks;;
 
 ex_tasks_cmp_1
@@ -15,7 +15,7 @@ ex_tasks_cmp_1 => nrel_ui_id: [ex_tasks_cmp_1];;
 
 ex_tasks_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Задачи];
+=> nrel_ui_value: [Tasks];
 -> ex_tasks_cmp_1;;
 
 ex_tasks_cmp_1_x
@@ -155,7 +155,7 @@ ex_tasks_cmp_2 => nrel_ui_id: [ex_tasks_cmp_2];;
 
 ex_tasks_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Шапка];
+=> nrel_ui_value: [Header];
 -> ex_tasks_cmp_2;;
 
 ex_tasks_cmp_2_x
@@ -295,7 +295,7 @@ ex_tasks_cmp_3 => nrel_ui_id: [ex_tasks_cmp_3];;
 
 ex_tasks_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок];
+=> nrel_ui_value: [Title];
 -> ex_tasks_cmp_3;;
 
 ex_tasks_cmp_3_x
@@ -340,7 +340,7 @@ ex_tasks_cmp_3_opacity
 
 ex_tasks_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Курсовой проект · спринт 4];
+=> nrel_ui_value: [Course project · sprint 4];
 -> ex_tasks_cmp_3;;
 
 ex_tasks_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_tasks_cmp_4 => nrel_ui_id: [ex_tasks_cmp_4];;
 
 ex_tasks_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Добавить];
+=> nrel_ui_value: [Add];
 -> ex_tasks_cmp_4;;
 
 ex_tasks_cmp_4_x
@@ -480,7 +480,7 @@ ex_tasks_cmp_4_opacity
 
 ex_tasks_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [+ Задача];
+=> nrel_ui_value: [+ Task];
 -> ex_tasks_cmp_4;;
 
 ex_tasks_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_tasks_cmp_5 => nrel_ui_id: [ex_tasks_cmp_5];;
 
 ex_tasks_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Колонка 1];
+=> nrel_ui_value: [Column 1];
 -> ex_tasks_cmp_5;;
 
 ex_tasks_cmp_5_x
@@ -715,7 +715,7 @@ ex_tasks_cmp_6 => nrel_ui_id: [ex_tasks_cmp_6];;
 
 ex_tasks_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [К1 заголовок];
+=> nrel_ui_value: [C1 title];
 -> ex_tasks_cmp_6;;
 
 ex_tasks_cmp_6_x
@@ -760,7 +760,7 @@ ex_tasks_cmp_6_opacity
 
 ex_tasks_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [К выполнению];
+=> nrel_ui_value: [To do];
 -> ex_tasks_cmp_6;;
 
 ex_tasks_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_tasks_cmp_7 => nrel_ui_id: [ex_tasks_cmp_7];;
 
 ex_tasks_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [К1а];
+=> nrel_ui_value: [C1a];
 -> ex_tasks_cmp_7;;
 
 ex_tasks_cmp_7_x
@@ -900,8 +900,8 @@ ex_tasks_cmp_7_opacity
 
 ex_tasks_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [SCS-примеры
-Срок: сегодня];
+=> nrel_ui_value: [SCS examples
+Due: today];
 -> ex_tasks_cmp_7;;
 
 ex_tasks_cmp_7_tooltip
@@ -996,7 +996,7 @@ ex_tasks_cmp_8 => nrel_ui_id: [ex_tasks_cmp_8];;
 
 ex_tasks_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [К1б];
+=> nrel_ui_value: [C1b];
 -> ex_tasks_cmp_8;;
 
 ex_tasks_cmp_8_x
@@ -1041,8 +1041,8 @@ ex_tasks_cmp_8_opacity
 
 ex_tasks_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Проверить README
-Срок: завтра];
+=> nrel_ui_value: [Review README
+Due: tomorrow];
 -> ex_tasks_cmp_8;;
 
 ex_tasks_cmp_8_tooltip
@@ -1137,7 +1137,7 @@ ex_tasks_cmp_9 => nrel_ui_id: [ex_tasks_cmp_9];;
 
 ex_tasks_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [К1в];
+=> nrel_ui_value: [C1c];
 -> ex_tasks_cmp_9;;
 
 ex_tasks_cmp_9_x
@@ -1182,8 +1182,8 @@ ex_tasks_cmp_9_opacity
 
 ex_tasks_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Скриншоты UI
-Срок: пт];
+=> nrel_ui_value: [UI screenshots
+Due: Fri];
 -> ex_tasks_cmp_9;;
 
 ex_tasks_cmp_9_tooltip
@@ -1278,7 +1278,7 @@ ex_tasks_cmp_10 => nrel_ui_id: [ex_tasks_cmp_10];;
 
 ex_tasks_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Колонка 2];
+=> nrel_ui_value: [Column 2];
 -> ex_tasks_cmp_10;;
 
 ex_tasks_cmp_10_x
@@ -1418,7 +1418,7 @@ ex_tasks_cmp_11 => nrel_ui_id: [ex_tasks_cmp_11];;
 
 ex_tasks_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [К2 заголовок];
+=> nrel_ui_value: [C2 title];
 -> ex_tasks_cmp_11;;
 
 ex_tasks_cmp_11_x
@@ -1463,7 +1463,7 @@ ex_tasks_cmp_11_opacity
 
 ex_tasks_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [В работе];
+=> nrel_ui_value: [In progress];
 -> ex_tasks_cmp_11;;
 
 ex_tasks_cmp_11_tooltip
@@ -1558,7 +1558,7 @@ ex_tasks_cmp_12 => nrel_ui_id: [ex_tasks_cmp_12];;
 
 ex_tasks_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [К2а];
+=> nrel_ui_value: [C2a];
 -> ex_tasks_cmp_12;;
 
 ex_tasks_cmp_12_x
@@ -1603,8 +1603,8 @@ ex_tasks_cmp_12_opacity
 
 ex_tasks_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Маппинг editor↔SC
-Assignee: Говор];
+=> nrel_ui_value: [Mapping editor↔SC
+Assignee: Govor];
 -> ex_tasks_cmp_12;;
 
 ex_tasks_cmp_12_tooltip
@@ -1699,7 +1699,7 @@ ex_tasks_cmp_13 => nrel_ui_id: [ex_tasks_cmp_13];;
 
 ex_tasks_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [К2б];
+=> nrel_ui_value: [C2b];
 -> ex_tasks_cmp_13;;
 
 ex_tasks_cmp_13_x
@@ -1744,8 +1744,8 @@ ex_tasks_cmp_13_opacity
 
 ex_tasks_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Экспорт ZIP
-Проверка UTF-8];
+=> nrel_ui_value: [Export ZIP
+UTF-8 check];
 -> ex_tasks_cmp_13;;
 
 ex_tasks_cmp_13_tooltip
@@ -1840,7 +1840,7 @@ ex_tasks_cmp_14 => nrel_ui_id: [ex_tasks_cmp_14];;
 
 ex_tasks_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Колонка 3];
+=> nrel_ui_value: [Column 3];
 -> ex_tasks_cmp_14;;
 
 ex_tasks_cmp_14_x
@@ -1980,7 +1980,7 @@ ex_tasks_cmp_15 => nrel_ui_id: [ex_tasks_cmp_15];;
 
 ex_tasks_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [К3 заголовок];
+=> nrel_ui_value: [C3 title];
 -> ex_tasks_cmp_15;;
 
 ex_tasks_cmp_15_x
@@ -2025,7 +2025,7 @@ ex_tasks_cmp_15_opacity
 
 ex_tasks_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Готово];
+=> nrel_ui_value: [Done];
 -> ex_tasks_cmp_15;;
 
 ex_tasks_cmp_15_tooltip
@@ -2120,7 +2120,7 @@ ex_tasks_cmp_16 => nrel_ui_id: [ex_tasks_cmp_16];;
 
 ex_tasks_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [К3а];
+=> nrel_ui_value: [C3a];
 -> ex_tasks_cmp_16;;
 
 ex_tasks_cmp_16_x
@@ -2166,7 +2166,7 @@ ex_tasks_cmp_16_opacity
 ex_tasks_cmp_16_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [Undo/Redo
-Готово];
+Done];
 -> ex_tasks_cmp_16;;
 
 ex_tasks_cmp_16_tooltip
@@ -2261,7 +2261,7 @@ ex_tasks_cmp_17 => nrel_ui_id: [ex_tasks_cmp_17];;
 
 ex_tasks_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [К3б];
+=> nrel_ui_value: [C3b];
 -> ex_tasks_cmp_17;;
 
 ex_tasks_cmp_17_x
@@ -2307,7 +2307,7 @@ ex_tasks_cmp_17_opacity
 ex_tasks_cmp_17_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [Delete popover
-Готово];
+Done];
 -> ex_tasks_cmp_17;;
 
 ex_tasks_cmp_17_tooltip
@@ -2402,7 +2402,7 @@ ex_tasks_cmp_18 => nrel_ui_id: [ex_tasks_cmp_18];;
 
 ex_tasks_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [К3в];
+=> nrel_ui_value: [C3c];
 -> ex_tasks_cmp_18;;
 
 ex_tasks_cmp_18_x
@@ -2448,7 +2448,7 @@ ex_tasks_cmp_18_opacity
 ex_tasks_cmp_18_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [Short ids
-Готово];
+Done];
 -> ex_tasks_cmp_18;;
 
 ex_tasks_cmp_18_tooltip
@@ -2543,7 +2543,7 @@ ex_tasks_cmp_19 => nrel_ui_id: [ex_tasks_cmp_19];;
 
 ex_tasks_cmp_19_name
 <- concept_ui_name;
-=> nrel_ui_value: [Прогресс];
+=> nrel_ui_value: [Progress];
 -> ex_tasks_cmp_19;;
 
 ex_tasks_cmp_19_x
@@ -2683,7 +2683,7 @@ ex_tasks_cmp_20 => nrel_ui_id: [ex_tasks_cmp_20];;
 
 ex_tasks_cmp_20_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заметка];
+=> nrel_ui_value: [Note];
 -> ex_tasks_cmp_20;;
 
 ex_tasks_cmp_20_x
@@ -2728,8 +2728,8 @@ ex_tasks_cmp_20_opacity
 
 ex_tasks_cmp_20_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [3 в работе · 3 готово
-Цель спринта: демо];
+=> nrel_ui_value: [3 in progress · 3 done
+Sprint goal: demo];
 -> ex_tasks_cmp_20;;
 
 ex_tasks_cmp_20_tooltip

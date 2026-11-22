@@ -5,7 +5,7 @@ ex_mail => nrel_ui_id: [ex_mail];;
 
 ex_mail_name
 <- concept_ui_name;
-=> nrel_ui_value: [Почтовый клиент];
+=> nrel_ui_value: [Mail client];
 -> ex_mail;;
 
 ex_mail_cmp_1
@@ -15,7 +15,7 @@ ex_mail_cmp_1 => nrel_ui_id: [ex_mail_cmp_1];;
 
 ex_mail_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Почта];
+=> nrel_ui_value: [Mail];
 -> ex_mail_cmp_1;;
 
 ex_mail_cmp_1_x
@@ -155,7 +155,7 @@ ex_mail_cmp_2 => nrel_ui_id: [ex_mail_cmp_2];;
 
 ex_mail_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Панель];
+=> nrel_ui_value: [Panel];
 -> ex_mail_cmp_2;;
 
 ex_mail_cmp_2_x
@@ -295,7 +295,7 @@ ex_mail_cmp_3 => nrel_ui_id: [ex_mail_cmp_3];;
 
 ex_mail_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Написать];
+=> nrel_ui_value: [Compose];
 -> ex_mail_cmp_3;;
 
 ex_mail_cmp_3_x
@@ -340,7 +340,7 @@ ex_mail_cmp_3_opacity
 
 ex_mail_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Написать];
+=> nrel_ui_value: [Compose];
 -> ex_mail_cmp_3;;
 
 ex_mail_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_mail_cmp_4 => nrel_ui_id: [ex_mail_cmp_4];;
 
 ex_mail_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Поиск];
+=> nrel_ui_value: [Search];
 -> ex_mail_cmp_4;;
 
 ex_mail_cmp_4_x
@@ -480,7 +480,7 @@ ex_mail_cmp_4_opacity
 
 ex_mail_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Поиск писем…];
+=> nrel_ui_value: [Search emails…];
 -> ex_mail_cmp_4;;
 
 ex_mail_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_mail_cmp_5 => nrel_ui_id: [ex_mail_cmp_5];;
 
 ex_mail_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Папки];
+=> nrel_ui_value: [Folders];
 -> ex_mail_cmp_5;;
 
 ex_mail_cmp_5_x
@@ -715,7 +715,7 @@ ex_mail_cmp_6 => nrel_ui_id: [ex_mail_cmp_6];;
 
 ex_mail_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Входящие];
+=> nrel_ui_value: [Inbox];
 -> ex_mail_cmp_6;;
 
 ex_mail_cmp_6_x
@@ -760,7 +760,7 @@ ex_mail_cmp_6_opacity
 
 ex_mail_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Входящие];
+=> nrel_ui_value: [Inbox];
 -> ex_mail_cmp_6;;
 
 ex_mail_cmp_6_tooltip
@@ -855,7 +855,7 @@ ex_mail_cmp_7 => nrel_ui_id: [ex_mail_cmp_7];;
 
 ex_mail_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Отправленные];
+=> nrel_ui_value: [Sent];
 -> ex_mail_cmp_7;;
 
 ex_mail_cmp_7_x
@@ -900,7 +900,7 @@ ex_mail_cmp_7_opacity
 
 ex_mail_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Отправленные];
+=> nrel_ui_value: [Sent];
 -> ex_mail_cmp_7;;
 
 ex_mail_cmp_7_tooltip
@@ -995,7 +995,7 @@ ex_mail_cmp_8 => nrel_ui_id: [ex_mail_cmp_8];;
 
 ex_mail_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Черновики];
+=> nrel_ui_value: [Drafts];
 -> ex_mail_cmp_8;;
 
 ex_mail_cmp_8_x
@@ -1040,7 +1040,7 @@ ex_mail_cmp_8_opacity
 
 ex_mail_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Черновики];
+=> nrel_ui_value: [Drafts];
 -> ex_mail_cmp_8;;
 
 ex_mail_cmp_8_tooltip
@@ -1135,7 +1135,7 @@ ex_mail_cmp_9 => nrel_ui_id: [ex_mail_cmp_9];;
 
 ex_mail_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Архив];
+=> nrel_ui_value: [Archive];
 -> ex_mail_cmp_9;;
 
 ex_mail_cmp_9_x
@@ -1180,7 +1180,7 @@ ex_mail_cmp_9_opacity
 
 ex_mail_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Архив];
+=> nrel_ui_value: [Archive];
 -> ex_mail_cmp_9;;
 
 ex_mail_cmp_9_tooltip
@@ -1275,7 +1275,7 @@ ex_mail_cmp_10 => nrel_ui_id: [ex_mail_cmp_10];;
 
 ex_mail_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Письма];
+=> nrel_ui_value: [Messages];
 -> ex_mail_cmp_10;;
 
 ex_mail_cmp_10_x
@@ -1415,7 +1415,7 @@ ex_mail_cmp_11 => nrel_ui_id: [ex_mail_cmp_11];;
 
 ex_mail_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Письмо 1];
+=> nrel_ui_value: [Email 1];
 -> ex_mail_cmp_11;;
 
 ex_mail_cmp_11_x
@@ -1460,8 +1460,8 @@ ex_mail_cmp_11_opacity
 
 ex_mail_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Деканат
-Расписание сессии];
+=> nrel_ui_value: [Dean's office
+Exam schedule];
 -> ex_mail_cmp_11;;
 
 ex_mail_cmp_11_tooltip
@@ -1556,7 +1556,7 @@ ex_mail_cmp_12 => nrel_ui_id: [ex_mail_cmp_12];;
 
 ex_mail_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Письмо 2];
+=> nrel_ui_value: [Email 2];
 -> ex_mail_cmp_12;;
 
 ex_mail_cmp_12_x
@@ -1601,8 +1601,8 @@ ex_mail_cmp_12_opacity
 
 ex_mail_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Библиотека
-Новые поступления];
+=> nrel_ui_value: [Library
+New arrivals];
 -> ex_mail_cmp_12;;
 
 ex_mail_cmp_12_tooltip
@@ -1697,7 +1697,7 @@ ex_mail_cmp_13 => nrel_ui_id: [ex_mail_cmp_13];;
 
 ex_mail_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Письмо 3];
+=> nrel_ui_value: [Email 3];
 -> ex_mail_cmp_13;;
 
 ex_mail_cmp_13_x
@@ -1743,7 +1743,7 @@ ex_mail_cmp_13_opacity
 ex_mail_cmp_13_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [OSTIS
-Обновление KB];
+KB update];
 -> ex_mail_cmp_13;;
 
 ex_mail_cmp_13_tooltip
@@ -1838,7 +1838,7 @@ ex_mail_cmp_14 => nrel_ui_id: [ex_mail_cmp_14];;
 
 ex_mail_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Письмо 4];
+=> nrel_ui_value: [Email 4];
 -> ex_mail_cmp_14;;
 
 ex_mail_cmp_14_x
@@ -1884,7 +1884,7 @@ ex_mail_cmp_14_opacity
 ex_mail_cmp_14_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [HR
-Анкета стажировки];
+Internship application form];
 -> ex_mail_cmp_14;;
 
 ex_mail_cmp_14_tooltip
@@ -1979,7 +1979,7 @@ ex_mail_cmp_15 => nrel_ui_id: [ex_mail_cmp_15];;
 
 ex_mail_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чтение];
+=> nrel_ui_value: [Reading];
 -> ex_mail_cmp_15;;
 
 ex_mail_cmp_15_x
@@ -2119,7 +2119,7 @@ ex_mail_cmp_16 => nrel_ui_id: [ex_mail_cmp_16];;
 
 ex_mail_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Тема];
+=> nrel_ui_value: [Theme];
 -> ex_mail_cmp_16;;
 
 ex_mail_cmp_16_x
@@ -2164,7 +2164,7 @@ ex_mail_cmp_16_opacity
 
 ex_mail_cmp_16_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Расписание сессии];
+=> nrel_ui_value: [Exam schedule];
 -> ex_mail_cmp_16;;
 
 ex_mail_cmp_16_tooltip
@@ -2259,7 +2259,7 @@ ex_mail_cmp_17 => nrel_ui_id: [ex_mail_cmp_17];;
 
 ex_mail_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Мета];
+=> nrel_ui_value: [Meta];
 -> ex_mail_cmp_17;;
 
 ex_mail_cmp_17_x
@@ -2304,8 +2304,8 @@ ex_mail_cmp_17_opacity
 
 ex_mail_cmp_17_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [От: Деканат · 11 ноя 2026
-Кому: студенты 3 курса];
+=> nrel_ui_value: [From: Dean's office · Nov 11, 2026
+To: 3rd-year students];
 -> ex_mail_cmp_17;;
 
 ex_mail_cmp_17_tooltip
@@ -2400,7 +2400,7 @@ ex_mail_cmp_18 => nrel_ui_id: [ex_mail_cmp_18];;
 
 ex_mail_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [Линия];
+=> nrel_ui_value: [Line];
 -> ex_mail_cmp_18;;
 
 ex_mail_cmp_18_x
@@ -2540,7 +2540,7 @@ ex_mail_cmp_19 => nrel_ui_id: [ex_mail_cmp_19];;
 
 ex_mail_cmp_19_name
 <- concept_ui_name;
-=> nrel_ui_value: [Текст письма];
+=> nrel_ui_value: [Email body];
 -> ex_mail_cmp_19;;
 
 ex_mail_cmp_19_x
@@ -2585,9 +2585,9 @@ ex_mail_cmp_19_opacity
 
 ex_mail_cmp_19_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Уважаемые студенты!
+=> nrel_ui_value: [Dear students!
 
-Публикуем предварительное расписание зимней сессии. Проверьте даты и аудитории.];
+We are publishing the preliminary winter exam schedule. Please check the dates and rooms.];
 -> ex_mail_cmp_19;;
 
 ex_mail_cmp_19_tooltip
@@ -2682,7 +2682,7 @@ ex_mail_cmp_20 => nrel_ui_id: [ex_mail_cmp_20];;
 
 ex_mail_cmp_20_name
 <- concept_ui_name;
-=> nrel_ui_value: [Ответить];
+=> nrel_ui_value: [Reply];
 -> ex_mail_cmp_20;;
 
 ex_mail_cmp_20_x
@@ -2727,7 +2727,7 @@ ex_mail_cmp_20_opacity
 
 ex_mail_cmp_20_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ответить];
+=> nrel_ui_value: [Reply];
 -> ex_mail_cmp_20;;
 
 ex_mail_cmp_20_tooltip
@@ -2822,7 +2822,7 @@ ex_mail_cmp_21 => nrel_ui_id: [ex_mail_cmp_21];;
 
 ex_mail_cmp_21_name
 <- concept_ui_name;
-=> nrel_ui_value: [В архив];
+=> nrel_ui_value: [Archive];
 -> ex_mail_cmp_21;;
 
 ex_mail_cmp_21_x
@@ -2867,7 +2867,7 @@ ex_mail_cmp_21_opacity
 
 ex_mail_cmp_21_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [В архив];
+=> nrel_ui_value: [Archive];
 -> ex_mail_cmp_21;;
 
 ex_mail_cmp_21_tooltip

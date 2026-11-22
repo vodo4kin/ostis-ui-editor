@@ -8,6 +8,7 @@ import {
   nextCopyInterfaceTitle,
   validateInterfaceTitle,
 } from '../model/limits'
+import { DEFAULT_INTERFACE_TITLE } from '../model/constants'
 import type { ScInterfaceRef } from '../sc'
 import { DeleteConfirmMenu } from './DeleteConfirmMenu'
 import { ExportMenu } from './ExportMenu'
@@ -142,7 +143,7 @@ export function Toolbar({
   }, [canCreate, canRename, canDuplicate, dialog])
 
   function openCreate() {
-    setDraftName(t('interface.defaultTitle'))
+    setDraftName(DEFAULT_INTERFACE_TITLE)
     setNameError(null)
     setDialog('create')
   }
@@ -170,14 +171,7 @@ export function Toolbar({
     const exceptId = mode === 'rename' ? activeInterfaceId : undefined
     const error = validateInterfaceTitle(draftName, interfaces, exceptId)
     if (error) {
-      setNameError(
-        resolveMessage(
-          error,
-          error === 'validation.nameTooLong'
-            ? { max: LIMITS.interfaceTitle.maxLength }
-            : undefined,
-        ),
-      )
+      setNameError(resolveMessage(error))
       nameRef.current?.focus()
       return
     }
@@ -195,12 +189,7 @@ export function Toolbar({
   }
 
   const statusRaw = scMessage ?? (!scConnected ? 'status.noConnection' : '')
-  const statusText = resolveMessage(
-    statusRaw,
-    statusRaw === 'validation.nameTooLong'
-      ? { max: LIMITS.interfaceTitle.maxLength }
-      : undefined,
-  )
+  const statusText = resolveMessage(statusRaw)
   const dialogOpen = dialog !== 'none'
   const langButtonLabel = locale === 'en' ? 'RU' : 'EN'
 

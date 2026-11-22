@@ -5,7 +5,7 @@ ex_register => nrel_ui_id: [ex_register];;
 
 ex_register_name
 <- concept_ui_name;
-=> nrel_ui_value: [Регистрация аккаунта];
+=> nrel_ui_value: [Account registration];
 -> ex_register;;
 
 ex_register_cmp_1
@@ -15,7 +15,7 @@ ex_register_cmp_1 => nrel_ui_id: [ex_register_cmp_1];;
 
 ex_register_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Регистрация];
+=> nrel_ui_value: [Sign up];
 -> ex_register_cmp_1;;
 
 ex_register_cmp_1_x
@@ -155,7 +155,7 @@ ex_register_cmp_2 => nrel_ui_id: [ex_register_cmp_2];;
 
 ex_register_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Значок];
+=> nrel_ui_value: [Badge];
 -> ex_register_cmp_2;;
 
 ex_register_cmp_2_x
@@ -295,7 +295,7 @@ ex_register_cmp_3 => nrel_ui_id: [ex_register_cmp_3];;
 
 ex_register_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Заголовок];
+=> nrel_ui_value: [Title];
 -> ex_register_cmp_3;;
 
 ex_register_cmp_3_x
@@ -340,7 +340,7 @@ ex_register_cmp_3_opacity
 
 ex_register_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Создать аккаунт];
+=> nrel_ui_value: [Create account];
 -> ex_register_cmp_3;;
 
 ex_register_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_register_cmp_4 => nrel_ui_id: [ex_register_cmp_4];;
 
 ex_register_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Подзаголовок];
+=> nrel_ui_value: [Subtitle];
 -> ex_register_cmp_4;;
 
 ex_register_cmp_4_x
@@ -480,7 +480,7 @@ ex_register_cmp_4_opacity
 
 ex_register_cmp_4_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Заполните поля, чтобы продолжить];
+=> nrel_ui_value: [Fill in the fields to continue];
 -> ex_register_cmp_4;;
 
 ex_register_cmp_4_tooltip
@@ -575,7 +575,7 @@ ex_register_cmp_5 => nrel_ui_id: [ex_register_cmp_5];;
 
 ex_register_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Имя метка];
+=> nrel_ui_value: [Name label];
 -> ex_register_cmp_5;;
 
 ex_register_cmp_5_x
@@ -620,7 +620,7 @@ ex_register_cmp_5_opacity
 
 ex_register_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Полное имя];
+=> nrel_ui_value: [Full name];
 -> ex_register_cmp_5;;
 
 ex_register_cmp_5_tooltip
@@ -715,7 +715,7 @@ ex_register_cmp_6 => nrel_ui_id: [ex_register_cmp_6];;
 
 ex_register_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Имя];
+=> nrel_ui_value: [Name];
 -> ex_register_cmp_6;;
 
 ex_register_cmp_6_x
@@ -855,7 +855,7 @@ ex_register_cmp_7 => nrel_ui_id: [ex_register_cmp_7];;
 
 ex_register_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Email метка];
+=> nrel_ui_value: [Email label];
 -> ex_register_cmp_7;;
 
 ex_register_cmp_7_x
@@ -1135,7 +1135,7 @@ ex_register_cmp_9 => nrel_ui_id: [ex_register_cmp_9];;
 
 ex_register_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Пароль метка];
+=> nrel_ui_value: [Password label];
 -> ex_register_cmp_9;;
 
 ex_register_cmp_9_x
@@ -1180,7 +1180,7 @@ ex_register_cmp_9_opacity
 
 ex_register_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пароль];
+=> nrel_ui_value: [Password];
 -> ex_register_cmp_9;;
 
 ex_register_cmp_9_tooltip
@@ -1275,7 +1275,7 @@ ex_register_cmp_10 => nrel_ui_id: [ex_register_cmp_10];;
 
 ex_register_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Пароль];
+=> nrel_ui_value: [Password];
 -> ex_register_cmp_10;;
 
 ex_register_cmp_10_x
@@ -1415,7 +1415,7 @@ ex_register_cmp_11 => nrel_ui_id: [ex_register_cmp_11];;
 
 ex_register_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сила пароля];
+=> nrel_ui_value: [Password strength];
 -> ex_register_cmp_11;;
 
 ex_register_cmp_11_x
@@ -1460,7 +1460,7 @@ ex_register_cmp_11_opacity
 
 ex_register_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Средний];
+=> nrel_ui_value: [Medium];
 -> ex_register_cmp_11;;
 
 ex_register_cmp_11_tooltip
@@ -1555,7 +1555,7 @@ ex_register_cmp_12 => nrel_ui_id: [ex_register_cmp_12];;
 
 ex_register_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Роль метка];
+=> nrel_ui_value: [Role label];
 -> ex_register_cmp_12;;
 
 ex_register_cmp_12_x
@@ -1600,7 +1600,7 @@ ex_register_cmp_12_opacity
 
 ex_register_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Роль];
+=> nrel_ui_value: [Role];
 -> ex_register_cmp_12;;
 
 ex_register_cmp_12_tooltip
@@ -1695,7 +1695,7 @@ ex_register_cmp_13 => nrel_ui_id: [ex_register_cmp_13];;
 
 ex_register_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Роль];
+=> nrel_ui_value: [Role];
 -> ex_register_cmp_13;;
 
 ex_register_cmp_13_x
@@ -1740,7 +1740,7 @@ ex_register_cmp_13_opacity
 
 ex_register_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Студент];
+=> nrel_ui_value: [Student];
 -> ex_register_cmp_13;;
 
 ex_register_cmp_13_tooltip
@@ -1835,7 +1835,7 @@ ex_register_cmp_14 => nrel_ui_id: [ex_register_cmp_14];;
 
 ex_register_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Создать];
+=> nrel_ui_value: [Create];
 -> ex_register_cmp_14;;
 
 ex_register_cmp_14_x
@@ -1880,7 +1880,7 @@ ex_register_cmp_14_opacity
 
 ex_register_cmp_14_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Зарегистрироваться];
+=> nrel_ui_value: [Sign up];
 -> ex_register_cmp_14;;
 
 ex_register_cmp_14_tooltip

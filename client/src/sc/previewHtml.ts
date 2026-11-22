@@ -80,7 +80,7 @@ function waitActionOutcome(
     }
 
     const timer = setTimeout(() => {
-      void finish(undefined, new Error('Таймаут ожидания агента'))
+      void finish(undefined, new Error('error.agentWaitTimeout'))
     }, timeoutMs)
 
     void (async () => {
@@ -119,7 +119,7 @@ function waitActionOutcome(
       } catch (err) {
         await finish(
           undefined,
-          err instanceof Error ? err : new Error('Ошибка ожидания агента'),
+          err instanceof Error ? err : new Error('error.agentWaitFailed'),
         )
       }
     })()
@@ -129,7 +129,7 @@ function waitActionOutcome(
 async function requireKeynode(client: ScClient, id: string): Promise<ScAddr> {
   const addr = await findKeynode(client, id)
   if (!addr) {
-    throw new Error(`В БЗ не найден ключ: ${id}`)
+    throw new Error(`error.keyMissing|${id}`)
   }
   return addr
 }
@@ -221,7 +221,7 @@ async function resolveInterfaceNode(
   const idtf = toIdtf(modelId)
   const iface = await findKeynode(client, idtf)
   if (!iface) {
-    throw new Error('Интерфейс не найден в БЗ после сохранения')
+    throw new Error('error.ifaceMissingAfterSave')
   }
   return iface
 }
@@ -269,7 +269,7 @@ async function initiateTranslateAction(
   const created = await client.generateElements(build)
   const action = created[build.getIndex('action')]
   if (!action?.isValid()) {
-    throw new Error('Не удалось создать action трансляции')
+    throw new Error('error.translateActionCreate')
   }
 
   const waitDone = waitActionOutcome(
@@ -289,7 +289,7 @@ async function initiateTranslateAction(
 
   const outcome = await waitDone
   if (outcome === 'fail') {
-    throw new Error('Агент трансляции завершился с ошибкой')
+    throw new Error('error.translateAgentFailed')
   }
 }
 
@@ -304,7 +304,7 @@ export async function translateInterfaceToHtml(
 
   const html = await readHtmlFromInterface(sc, iface, kn.nrelHtml)
   if (!html) {
-    throw new Error('HTML не найден (nrel_html_representation)')
+    throw new Error('error.htmlMissing')
   }
   return html
 }

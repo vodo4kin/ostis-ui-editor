@@ -5,7 +5,7 @@ ex_calendar => nrel_ui_id: [ex_calendar];;
 
 ex_calendar_name
 <- concept_ui_name;
-=> nrel_ui_value: [Расписание недели];
+=> nrel_ui_value: [Weekly schedule];
 -> ex_calendar;;
 
 ex_calendar_cmp_1
@@ -15,7 +15,7 @@ ex_calendar_cmp_1 => nrel_ui_id: [ex_calendar_cmp_1];;
 
 ex_calendar_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Календарь];
+=> nrel_ui_value: [Calendar];
 -> ex_calendar_cmp_1;;
 
 ex_calendar_cmp_1_x
@@ -155,7 +155,7 @@ ex_calendar_cmp_2 => nrel_ui_id: [ex_calendar_cmp_2];;
 
 ex_calendar_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Шапка];
+=> nrel_ui_value: [Header];
 -> ex_calendar_cmp_2;;
 
 ex_calendar_cmp_2_x
@@ -295,7 +295,7 @@ ex_calendar_cmp_3 => nrel_ui_id: [ex_calendar_cmp_3];;
 
 ex_calendar_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Месяц];
+=> nrel_ui_value: [Month];
 -> ex_calendar_cmp_3;;
 
 ex_calendar_cmp_3_x
@@ -340,7 +340,7 @@ ex_calendar_cmp_3_opacity
 
 ex_calendar_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ноябрь 2026 · неделя 46];
+=> nrel_ui_value: [November 2026 · week 46];
 -> ex_calendar_cmp_3;;
 
 ex_calendar_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_calendar_cmp_4 => nrel_ui_id: [ex_calendar_cmp_4];;
 
 ex_calendar_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Назад];
+=> nrel_ui_value: [Back];
 -> ex_calendar_cmp_4;;
 
 ex_calendar_cmp_4_x
@@ -575,7 +575,7 @@ ex_calendar_cmp_5 => nrel_ui_id: [ex_calendar_cmp_5];;
 
 ex_calendar_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Вперёд];
+=> nrel_ui_value: [Forward];
 -> ex_calendar_cmp_5;;
 
 ex_calendar_cmp_5_x
@@ -715,7 +715,7 @@ ex_calendar_cmp_6 => nrel_ui_id: [ex_calendar_cmp_6];;
 
 ex_calendar_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Дни];
+=> nrel_ui_value: [Days];
 -> ex_calendar_cmp_6;;
 
 ex_calendar_cmp_6_x
@@ -855,7 +855,7 @@ ex_calendar_cmp_7 => nrel_ui_id: [ex_calendar_cmp_7];;
 
 ex_calendar_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Пн];
+=> nrel_ui_value: [Mon];
 -> ex_calendar_cmp_7;;
 
 ex_calendar_cmp_7_x
@@ -900,7 +900,7 @@ ex_calendar_cmp_7_opacity
 
 ex_calendar_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пн];
+=> nrel_ui_value: [Mon];
 -> ex_calendar_cmp_7;;
 
 ex_calendar_cmp_7_tooltip
@@ -995,7 +995,7 @@ ex_calendar_cmp_8 => nrel_ui_id: [ex_calendar_cmp_8];;
 
 ex_calendar_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Вт];
+=> nrel_ui_value: [Tue];
 -> ex_calendar_cmp_8;;
 
 ex_calendar_cmp_8_x
@@ -1040,7 +1040,7 @@ ex_calendar_cmp_8_opacity
 
 ex_calendar_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вт];
+=> nrel_ui_value: [Tue];
 -> ex_calendar_cmp_8;;
 
 ex_calendar_cmp_8_tooltip
@@ -1135,7 +1135,7 @@ ex_calendar_cmp_9 => nrel_ui_id: [ex_calendar_cmp_9];;
 
 ex_calendar_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Ср];
+=> nrel_ui_value: [Wed];
 -> ex_calendar_cmp_9;;
 
 ex_calendar_cmp_9_x
@@ -1180,7 +1180,7 @@ ex_calendar_cmp_9_opacity
 
 ex_calendar_cmp_9_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ср];
+=> nrel_ui_value: [Wed];
 -> ex_calendar_cmp_9;;
 
 ex_calendar_cmp_9_tooltip
@@ -1275,7 +1275,7 @@ ex_calendar_cmp_10 => nrel_ui_id: [ex_calendar_cmp_10];;
 
 ex_calendar_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чт];
+=> nrel_ui_value: [Thu];
 -> ex_calendar_cmp_10;;
 
 ex_calendar_cmp_10_x
@@ -1320,7 +1320,7 @@ ex_calendar_cmp_10_opacity
 
 ex_calendar_cmp_10_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Чт];
+=> nrel_ui_value: [Thu];
 -> ex_calendar_cmp_10;;
 
 ex_calendar_cmp_10_tooltip
@@ -1415,7 +1415,7 @@ ex_calendar_cmp_11 => nrel_ui_id: [ex_calendar_cmp_11];;
 
 ex_calendar_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Пт];
+=> nrel_ui_value: [Fri];
 -> ex_calendar_cmp_11;;
 
 ex_calendar_cmp_11_x
@@ -1460,7 +1460,7 @@ ex_calendar_cmp_11_opacity
 
 ex_calendar_cmp_11_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Пт];
+=> nrel_ui_value: [Fri];
 -> ex_calendar_cmp_11;;
 
 ex_calendar_cmp_11_tooltip
@@ -1555,7 +1555,7 @@ ex_calendar_cmp_12 => nrel_ui_id: [ex_calendar_cmp_12];;
 
 ex_calendar_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сб];
+=> nrel_ui_value: [Sat];
 -> ex_calendar_cmp_12;;
 
 ex_calendar_cmp_12_x
@@ -1600,7 +1600,7 @@ ex_calendar_cmp_12_opacity
 
 ex_calendar_cmp_12_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Сб];
+=> nrel_ui_value: [Sat];
 -> ex_calendar_cmp_12;;
 
 ex_calendar_cmp_12_tooltip
@@ -1695,7 +1695,7 @@ ex_calendar_cmp_13 => nrel_ui_id: [ex_calendar_cmp_13];;
 
 ex_calendar_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Вс];
+=> nrel_ui_value: [Sun];
 -> ex_calendar_cmp_13;;
 
 ex_calendar_cmp_13_x
@@ -1740,7 +1740,7 @@ ex_calendar_cmp_13_opacity
 
 ex_calendar_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вс];
+=> nrel_ui_value: [Sun];
 -> ex_calendar_cmp_13;;
 
 ex_calendar_cmp_13_tooltip
@@ -1835,7 +1835,7 @@ ex_calendar_cmp_14 => nrel_ui_id: [ex_calendar_cmp_14];;
 
 ex_calendar_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сетка];
+=> nrel_ui_value: [Grid];
 -> ex_calendar_cmp_14;;
 
 ex_calendar_cmp_14_x
@@ -1975,7 +1975,7 @@ ex_calendar_cmp_15 => nrel_ui_id: [ex_calendar_cmp_15];;
 
 ex_calendar_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Событие 1];
+=> nrel_ui_value: [Event 1];
 -> ex_calendar_cmp_15;;
 
 ex_calendar_cmp_15_x
@@ -2021,7 +2021,7 @@ ex_calendar_cmp_15_opacity
 ex_calendar_cmp_15_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [10:00
-Лекция ОСТИС];
+OSTIS lecture];
 -> ex_calendar_cmp_15;;
 
 ex_calendar_cmp_15_tooltip
@@ -2116,7 +2116,7 @@ ex_calendar_cmp_16 => nrel_ui_id: [ex_calendar_cmp_16];;
 
 ex_calendar_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Событие 2];
+=> nrel_ui_value: [Event 2];
 -> ex_calendar_cmp_16;;
 
 ex_calendar_cmp_16_x
@@ -2162,7 +2162,7 @@ ex_calendar_cmp_16_opacity
 ex_calendar_cmp_16_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [12:30
-Лабораторная];
+Lab session];
 -> ex_calendar_cmp_16;;
 
 ex_calendar_cmp_16_tooltip
@@ -2257,7 +2257,7 @@ ex_calendar_cmp_17 => nrel_ui_id: [ex_calendar_cmp_17];;
 
 ex_calendar_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Событие 3];
+=> nrel_ui_value: [Event 3];
 -> ex_calendar_cmp_17;;
 
 ex_calendar_cmp_17_x
@@ -2303,7 +2303,7 @@ ex_calendar_cmp_17_opacity
 ex_calendar_cmp_17_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [15:00
-Консультация];
+Consultation];
 -> ex_calendar_cmp_17;;
 
 ex_calendar_cmp_17_tooltip
@@ -2398,7 +2398,7 @@ ex_calendar_cmp_18 => nrel_ui_id: [ex_calendar_cmp_18];;
 
 ex_calendar_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [Событие 4];
+=> nrel_ui_value: [Event 4];
 -> ex_calendar_cmp_18;;
 
 ex_calendar_cmp_18_x
@@ -2444,7 +2444,7 @@ ex_calendar_cmp_18_opacity
 ex_calendar_cmp_18_text_value
 <- concept_ui_text_value;
 => nrel_ui_value: [18:00
-Созвон];
+Call];
 -> ex_calendar_cmp_18;;
 
 ex_calendar_cmp_18_tooltip
@@ -2539,7 +2539,7 @@ ex_calendar_cmp_19 => nrel_ui_id: [ex_calendar_cmp_19];;
 
 ex_calendar_cmp_19_name
 <- concept_ui_name;
-=> nrel_ui_value: [Детали];
+=> nrel_ui_value: [Details];
 -> ex_calendar_cmp_19;;
 
 ex_calendar_cmp_19_x
@@ -2679,7 +2679,7 @@ ex_calendar_cmp_20 => nrel_ui_id: [ex_calendar_cmp_20];;
 
 ex_calendar_cmp_20_name
 <- concept_ui_name;
-=> nrel_ui_value: [Детали заголовок];
+=> nrel_ui_value: [Details title];
 -> ex_calendar_cmp_20;;
 
 ex_calendar_cmp_20_x
@@ -2724,7 +2724,7 @@ ex_calendar_cmp_20_opacity
 
 ex_calendar_cmp_20_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Выбрано: Лекция ОСТИС];
+=> nrel_ui_value: [Selected: OSTIS lecture];
 -> ex_calendar_cmp_20;;
 
 ex_calendar_cmp_20_tooltip
@@ -2819,7 +2819,7 @@ ex_calendar_cmp_21 => nrel_ui_id: [ex_calendar_cmp_21];;
 
 ex_calendar_cmp_21_name
 <- concept_ui_name;
-=> nrel_ui_value: [Детали текст];
+=> nrel_ui_value: [Details text];
 -> ex_calendar_cmp_21;;
 
 ex_calendar_cmp_21_x
@@ -2864,7 +2864,7 @@ ex_calendar_cmp_21_opacity
 
 ex_calendar_cmp_21_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Ауд. 301 · понедельник · материалы в общем диске];
+=> nrel_ui_value: [Room 301 · Monday · materials on the shared drive];
 -> ex_calendar_cmp_21;;
 
 ex_calendar_cmp_21_tooltip
@@ -2959,7 +2959,7 @@ ex_calendar_cmp_22 => nrel_ui_id: [ex_calendar_cmp_22];;
 
 ex_calendar_cmp_22_name
 <- concept_ui_name;
-=> nrel_ui_value: [Открыть];
+=> nrel_ui_value: [Open];
 -> ex_calendar_cmp_22;;
 
 ex_calendar_cmp_22_x
@@ -3004,7 +3004,7 @@ ex_calendar_cmp_22_opacity
 
 ex_calendar_cmp_22_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Открыть];
+=> nrel_ui_value: [Open];
 -> ex_calendar_cmp_22;;
 
 ex_calendar_cmp_22_tooltip

@@ -1,5 +1,5 @@
-import { t } from '../i18n'
-import { getCatalogEntry, localizedDefaults } from './catalog'
+import { getCatalogEntry } from './catalog'
+import { DEFAULT_INTERFACE_TITLE } from './constants'
 import { normalizePropPatch } from './limits'
 import type {
   ComponentProps,
@@ -67,7 +67,7 @@ function nextScopedId(
 }
 
 export function createEmptyModel(
-  title = t('interface.defaultTitle'),
+  title = DEFAULT_INTERFACE_TITLE,
   existingIds: Iterable<string> = [],
 ): InterfaceModel {
   const taken = new Set(existingIds)
@@ -134,14 +134,14 @@ export function addComponent(
   typeId: ComponentTypeId,
 ): { model: InterfaceModel; componentId: string } {
   syncIdSeq(model)
-  getCatalogEntry(typeId)
+  const catalog = getCatalogEntry(typeId)
   const index = model.components.length
   const componentId = nextScopedId(model.id, 'cmp', takenIds(model))
   const component: UiComponent = {
     id: componentId,
     typeId,
     props: {
-      ...localizedDefaults(typeId),
+      ...structuredClone(catalog.defaults),
       x: 24 + (index % 4) * 24,
       y: 24 + index * 28,
       order: index + 1,

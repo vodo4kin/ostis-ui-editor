@@ -5,7 +5,7 @@ ex_chat => nrel_ui_id: [ex_chat];;
 
 ex_chat_name
 <- concept_ui_name;
-=> nrel_ui_value: [Мессенджер];
+=> nrel_ui_value: [Messenger];
 -> ex_chat;;
 
 ex_chat_cmp_1
@@ -15,7 +15,7 @@ ex_chat_cmp_1 => nrel_ui_id: [ex_chat_cmp_1];;
 
 ex_chat_cmp_1_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чат];
+=> nrel_ui_value: [Chat];
 -> ex_chat_cmp_1;;
 
 ex_chat_cmp_1_x
@@ -155,7 +155,7 @@ ex_chat_cmp_2 => nrel_ui_id: [ex_chat_cmp_2];;
 
 ex_chat_cmp_2_name
 <- concept_ui_name;
-=> nrel_ui_value: [Контакты];
+=> nrel_ui_value: [Contacts];
 -> ex_chat_cmp_2;;
 
 ex_chat_cmp_2_x
@@ -295,7 +295,7 @@ ex_chat_cmp_3 => nrel_ui_id: [ex_chat_cmp_3];;
 
 ex_chat_cmp_3_name
 <- concept_ui_name;
-=> nrel_ui_value: [Поиск];
+=> nrel_ui_value: [Search];
 -> ex_chat_cmp_3;;
 
 ex_chat_cmp_3_x
@@ -340,7 +340,7 @@ ex_chat_cmp_3_opacity
 
 ex_chat_cmp_3_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Поиск…];
+=> nrel_ui_value: [Search…];
 -> ex_chat_cmp_3;;
 
 ex_chat_cmp_3_tooltip
@@ -435,7 +435,7 @@ ex_chat_cmp_4 => nrel_ui_id: [ex_chat_cmp_4];;
 
 ex_chat_cmp_4_name
 <- concept_ui_name;
-=> nrel_ui_value: [Список чатов];
+=> nrel_ui_value: [Chat list];
 -> ex_chat_cmp_4;;
 
 ex_chat_cmp_4_x
@@ -575,7 +575,7 @@ ex_chat_cmp_5 => nrel_ui_id: [ex_chat_cmp_5];;
 
 ex_chat_cmp_5_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чат 1];
+=> nrel_ui_value: [Chat 1];
 -> ex_chat_cmp_5;;
 
 ex_chat_cmp_5_x
@@ -620,8 +620,8 @@ ex_chat_cmp_5_opacity
 
 ex_chat_cmp_5_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Команда проекта
-Вы: макет готов];
+=> nrel_ui_value: [Project team
+You: mockup is ready];
 -> ex_chat_cmp_5;;
 
 ex_chat_cmp_5_tooltip
@@ -716,7 +716,7 @@ ex_chat_cmp_6 => nrel_ui_id: [ex_chat_cmp_6];;
 
 ex_chat_cmp_6_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чат 2];
+=> nrel_ui_value: [Chat 2];
 -> ex_chat_cmp_6;;
 
 ex_chat_cmp_6_x
@@ -761,8 +761,8 @@ ex_chat_cmp_6_opacity
 
 ex_chat_cmp_6_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Мария С.
-Документы на проверке];
+=> nrel_ui_value: [Maria S.
+Documents under review];
 -> ex_chat_cmp_6;;
 
 ex_chat_cmp_6_tooltip
@@ -857,7 +857,7 @@ ex_chat_cmp_7 => nrel_ui_id: [ex_chat_cmp_7];;
 
 ex_chat_cmp_7_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чат 3];
+=> nrel_ui_value: [Chat 3];
 -> ex_chat_cmp_7;;
 
 ex_chat_cmp_7_x
@@ -902,8 +902,8 @@ ex_chat_cmp_7_opacity
 
 ex_chat_cmp_7_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Остis Lab
-Сборка KB прошла];
+=> nrel_ui_value: [Ostis Lab
+KB build succeeded];
 -> ex_chat_cmp_7;;
 
 ex_chat_cmp_7_tooltip
@@ -998,7 +998,7 @@ ex_chat_cmp_8 => nrel_ui_id: [ex_chat_cmp_8];;
 
 ex_chat_cmp_8_name
 <- concept_ui_name;
-=> nrel_ui_value: [Чат 4];
+=> nrel_ui_value: [Chat 4];
 -> ex_chat_cmp_8;;
 
 ex_chat_cmp_8_x
@@ -1043,8 +1043,8 @@ ex_chat_cmp_8_opacity
 
 ex_chat_cmp_8_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Игорь
-Созвон в 18:00];
+=> nrel_ui_value: [Igor
+Call at 18:00];
 -> ex_chat_cmp_8;;
 
 ex_chat_cmp_8_tooltip
@@ -1139,7 +1139,7 @@ ex_chat_cmp_9 => nrel_ui_id: [ex_chat_cmp_9];;
 
 ex_chat_cmp_9_name
 <- concept_ui_name;
-=> nrel_ui_value: [Шапка чата];
+=> nrel_ui_value: [Chat header];
 -> ex_chat_cmp_9;;
 
 ex_chat_cmp_9_x
@@ -1279,7 +1279,7 @@ ex_chat_cmp_10 => nrel_ui_id: [ex_chat_cmp_10];;
 
 ex_chat_cmp_10_name
 <- concept_ui_name;
-=> nrel_ui_value: [Название чата];
+=> nrel_ui_value: [Chat name];
 -> ex_chat_cmp_10;;
 
 ex_chat_cmp_10_x
@@ -1324,7 +1324,7 @@ ex_chat_cmp_10_opacity
 
 ex_chat_cmp_10_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Команда проекта];
+=> nrel_ui_value: [Project team];
 -> ex_chat_cmp_10;;
 
 ex_chat_cmp_10_tooltip
@@ -1419,7 +1419,7 @@ ex_chat_cmp_11 => nrel_ui_id: [ex_chat_cmp_11];;
 
 ex_chat_cmp_11_name
 <- concept_ui_name;
-=> nrel_ui_value: [Инфо];
+=> nrel_ui_value: [Info];
 -> ex_chat_cmp_11;;
 
 ex_chat_cmp_11_x
@@ -1559,7 +1559,7 @@ ex_chat_cmp_12 => nrel_ui_id: [ex_chat_cmp_12];;
 
 ex_chat_cmp_12_name
 <- concept_ui_name;
-=> nrel_ui_value: [Лента];
+=> nrel_ui_value: [Feed];
 -> ex_chat_cmp_12;;
 
 ex_chat_cmp_12_x
@@ -1699,7 +1699,7 @@ ex_chat_cmp_13 => nrel_ui_id: [ex_chat_cmp_13];;
 
 ex_chat_cmp_13_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сообщение 1];
+=> nrel_ui_value: [Message 1];
 -> ex_chat_cmp_13;;
 
 ex_chat_cmp_13_x
@@ -1744,7 +1744,7 @@ ex_chat_cmp_13_opacity
 
 ex_chat_cmp_13_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Мария: Загрузила правки в макет];
+=> nrel_ui_value: [Maria: Uploaded edits to the mockup];
 -> ex_chat_cmp_13;;
 
 ex_chat_cmp_13_tooltip
@@ -1839,7 +1839,7 @@ ex_chat_cmp_14 => nrel_ui_id: [ex_chat_cmp_14];;
 
 ex_chat_cmp_14_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сообщение 2];
+=> nrel_ui_value: [Message 2];
 -> ex_chat_cmp_14;;
 
 ex_chat_cmp_14_x
@@ -1884,7 +1884,7 @@ ex_chat_cmp_14_opacity
 
 ex_chat_cmp_14_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Вы: Отлично, смотрю вечером];
+=> nrel_ui_value: [You: Great, I'll look tonight];
 -> ex_chat_cmp_14;;
 
 ex_chat_cmp_14_tooltip
@@ -1979,7 +1979,7 @@ ex_chat_cmp_15 => nrel_ui_id: [ex_chat_cmp_15];;
 
 ex_chat_cmp_15_name
 <- concept_ui_name;
-=> nrel_ui_value: [Сообщение 3];
+=> nrel_ui_value: [Message 3];
 -> ex_chat_cmp_15;;
 
 ex_chat_cmp_15_x
@@ -2024,7 +2024,7 @@ ex_chat_cmp_15_opacity
 
 ex_chat_cmp_15_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Игорь: Созвон переносим на 18:00];
+=> nrel_ui_value: [Igor: Moving the call to 18:00];
 -> ex_chat_cmp_15;;
 
 ex_chat_cmp_15_tooltip
@@ -2119,7 +2119,7 @@ ex_chat_cmp_16 => nrel_ui_id: [ex_chat_cmp_16];;
 
 ex_chat_cmp_16_name
 <- concept_ui_name;
-=> nrel_ui_value: [Ввод];
+=> nrel_ui_value: [Input];
 -> ex_chat_cmp_16;;
 
 ex_chat_cmp_16_x
@@ -2259,7 +2259,7 @@ ex_chat_cmp_17 => nrel_ui_id: [ex_chat_cmp_17];;
 
 ex_chat_cmp_17_name
 <- concept_ui_name;
-=> nrel_ui_value: [Поле ввода];
+=> nrel_ui_value: [Input field];
 -> ex_chat_cmp_17;;
 
 ex_chat_cmp_17_x
@@ -2304,7 +2304,7 @@ ex_chat_cmp_17_opacity
 
 ex_chat_cmp_17_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Написать сообщение…];
+=> nrel_ui_value: [Write a message…];
 -> ex_chat_cmp_17;;
 
 ex_chat_cmp_17_tooltip
@@ -2399,7 +2399,7 @@ ex_chat_cmp_18 => nrel_ui_id: [ex_chat_cmp_18];;
 
 ex_chat_cmp_18_name
 <- concept_ui_name;
-=> nrel_ui_value: [Отправить];
+=> nrel_ui_value: [Send];
 -> ex_chat_cmp_18;;
 
 ex_chat_cmp_18_x
@@ -2444,7 +2444,7 @@ ex_chat_cmp_18_opacity
 
 ex_chat_cmp_18_text_value
 <- concept_ui_text_value;
-=> nrel_ui_value: [Отпр.];
+=> nrel_ui_value: [Sent];
 -> ex_chat_cmp_18;;
 
 ex_chat_cmp_18_tooltip
