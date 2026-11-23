@@ -16,7 +16,7 @@ export type ComponentTypeId =
   | 'button'
   | 'menu_item'
 
-export type LinkKindId = 'contains'
+export type LinkKindId = 'contains' | 'input_target' | 'output_target'
 
 export type PreviewShape = 'rect' | 'rounded' | 'pill'
 

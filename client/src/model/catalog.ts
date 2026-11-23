@@ -252,7 +252,11 @@ export const COMPONENT_CATALOG: CatalogEntry[] = [
   ),
 ]
 
-export const LINK_KINDS: { id: LinkKindId }[] = [{ id: 'contains' }]
+export const LINK_KINDS: { id: LinkKindId }[] = [
+  { id: 'contains' },
+  { id: 'input_target' },
+  { id: 'output_target' },
+]
 
 const byId = new Map(COMPONENT_CATALOG.map((e) => [e.typeId, e]))
 
@@ -279,6 +283,12 @@ export function isPropAllowed(typeId: ComponentTypeId, key: PropKey): boolean {
 export function linkKindLabel(kind: LinkKindId): string {
   if (kind === 'contains') {
     return t('link.contains')
+  }
+  if (kind === 'input_target') {
+    return t('link.input_target')
+  }
+  if (kind === 'output_target') {
+    return t('link.output_target')
   }
   return kind
 }

@@ -154,6 +154,8 @@ export async function modelFromSc(
   const kn = await findKeynodes(client, [
     CLASS_INTERFACE,
     REL.contains,
+    REL.input_target,
+    REL.output_target,
     REL.has_component,
     REL.id,
     REL.value,
@@ -221,41 +223,54 @@ export async function modelFromSc(
   const seenLinks = new Set<string>()
   let linkSeq = 1
 
+  const linkSpecs: { kind: 'contains' | 'input_target' | 'output_target'; rel: string }[] =
+    [
+      { kind: 'contains', rel: REL.contains },
+      { kind: 'input_target', rel: REL.input_target },
+      { kind: 'output_target', rel: REL.output_target },
+    ]
+
   for (const component of components) {
     const sourceAddr = addrById.get(component.id)
     if (!sourceAddr) {
       continue
     }
-    const containsTempl = new ScTemplate()
-    containsTempl.quintuple(
-      sourceAddr,
-      ScType.VarCommonArc,
-      [ScType.VarNode, '_child'],
-      ScType.VarPermPosArc,
-      kn[REL.contains],
-    )
-    const childRows = await client.searchByTemplate(containsTempl)
-    for (const row of childRows) {
-      const childAddr = row.get('_child')
-      const child = components.find((c) => {
-        const a = addrById.get(c.id)
-        return a && a.equal(childAddr)
-      })
-      if (!child) {
+    for (const spec of linkSpecs) {
+      const relAddr = kn[spec.rel]
+      if (!relAddr?.isValid()) {
         continue
       }
-      const key = `${component.id}->${child.id}`
-      if (seenLinks.has(key)) {
-        continue
+      const templ = new ScTemplate()
+      templ.quintuple(
+        sourceAddr,
+        ScType.VarCommonArc,
+        [ScType.VarNode, '_child'],
+        ScType.VarPermPosArc,
+        relAddr,
+      )
+      const rows = await client.searchByTemplate(templ)
+      for (const row of rows) {
+        const childAddr = row.get('_child')
+        const child = components.find((c) => {
+          const a = addrById.get(c.id)
+          return a && a.equal(childAddr)
+        })
+        if (!child) {
+          continue
+        }
+        const key = `${spec.kind}:${component.id}->${child.id}`
+        if (seenLinks.has(key)) {
+          continue
+        }
+        seenLinks.add(key)
+        links.push({
+          id: `lnk_${linkSeq}`,
+          kind: spec.kind,
+          sourceId: component.id,
+          targetId: child.id,
+        })
+        linkSeq += 1
       }
-      seenLinks.add(key)
-      links.push({
-        id: `lnk_${linkSeq}`,
-        kind: 'contains',
-        sourceId: component.id,
-        targetId: child.id,
-      })
-      linkSeq += 1
     }
   }
 

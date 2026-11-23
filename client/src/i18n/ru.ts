@@ -62,9 +62,15 @@ export const ru: Record<MessageKey, string> = {
   'props.delete': 'удалить',
   'props.contains': 'Вложения',
   'props.containsEmpty': 'Нет вложений.',
+  'props.input_target': 'Входы',
+  'props.input_targetEmpty': 'Нет входов.',
+  'props.output_target': 'Выходы',
+  'props.output_targetEmpty': 'Нет выходов.',
   'props.search': 'поиск',
   'props.searchPlaceholder': 'имя или id',
   'props.addContains': 'добавить вложение',
+  'props.addInputTarget': 'добавить вход',
+  'props.addOutputTarget': 'добавить выход',
   'props.nothingFound': 'ничего не найдено',
   'props.alreadyAdded': ' — уже добавлен',
 
@@ -149,6 +155,8 @@ export const ru: Record<MessageKey, string> = {
   'type.menu_item': 'Пункт меню',
 
   'link.contains': 'Вложение',
+  'link.input_target': 'Вход',
+  'link.output_target': 'Выход',
 
   'validation.nameRequired': 'Укажите имя',
   'validation.nameTooLong': 'Не больше {max} символов',

@@ -59,9 +59,15 @@ export const en = {
   'props.delete': 'delete',
   'props.contains': 'Contains',
   'props.containsEmpty': 'No contains links.',
+  'props.input_target': 'Input targets',
+  'props.input_targetEmpty': 'No input targets.',
+  'props.output_target': 'Output targets',
+  'props.output_targetEmpty': 'No output targets.',
   'props.search': 'search',
   'props.searchPlaceholder': 'name or id',
   'props.addContains': 'add contains',
+  'props.addInputTarget': 'add input target',
+  'props.addOutputTarget': 'add output target',
   'props.nothingFound': 'nothing found',
   'props.alreadyAdded': ' — already added',
 
@@ -146,6 +152,8 @@ export const en = {
   'type.menu_item': 'Menu item',
 
   'link.contains': 'Contains',
+  'link.input_target': 'Input target',
+  'link.output_target': 'Output target',
 
   'validation.nameRequired': 'Enter a name',
   'validation.nameTooLong': 'At most {max} characters',

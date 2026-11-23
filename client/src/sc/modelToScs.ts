@@ -4,6 +4,7 @@ import { escapeScsContent, toIdtf } from './idtf'
 import {
   ALL_PROP_KEYS,
   CLASS_INTERFACE,
+  LINK_KIND_TO_REL,
   PROP_TO_CLASS,
   REL,
   TYPE_TO_CLASS,
@@ -81,11 +82,12 @@ export function modelToScs(model: InterfaceModel): string {
   }
 
   for (const link of model.links) {
-    if (link.kind !== 'contains') {
+    const rel = LINK_KIND_TO_REL[link.kind]
+    if (!rel) {
       continue
     }
     parts.push(
-      `${toIdtf(link.sourceId)} => ${REL.contains}: ${toIdtf(link.targetId)};;`,
+      `${toIdtf(link.sourceId)} => ${rel}: ${toIdtf(link.targetId)};;`,
     )
   }
 

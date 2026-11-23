@@ -1,5 +1,6 @@
 import { getCatalogEntry } from './catalog'
 import { DEFAULT_INTERFACE_TITLE } from './constants'
+import { canLink } from './linkRules'
 import { normalizePropPatch } from './limits'
 import type {
   ComponentProps,
@@ -249,6 +250,14 @@ export function addLink(
   targetId: string,
 ): InterfaceModel {
   if (sourceId === targetId) {
+    return model
+  }
+  const source = model.components.find((c) => c.id === sourceId)
+  const target = model.components.find((c) => c.id === targetId)
+  if (!source || !target) {
+    return model
+  }
+  if (!canLink(kind, source.typeId, target.typeId)) {
     return model
   }
   if (

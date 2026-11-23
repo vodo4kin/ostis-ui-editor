@@ -7,6 +7,10 @@ import {
 import { useT } from '../i18n'
 import { getCatalogEntry, labelOfType } from '../model/catalog'
 import {
+  canLink,
+  linkKindsForSource,
+} from '../model/linkRules'
+import {
   LIMITS,
   formatCharCount,
   normalizePropValue,
@@ -15,11 +19,13 @@ import {
 import { shortId } from '../model/shortId'
 import type {
   ComponentProps,
+  ComponentTypeId,
   LinkKindId,
   PropKey,
   UiComponent,
   UiLink,
 } from '../model/types'
+import type { MessageKey } from '../i18n'
 import { FIELD_SPECS, PROP_GROUPS } from './propFields'
 
 function componentLabel(component: UiComponent): string {
@@ -135,12 +141,8 @@ export function PropertiesPanel({
     setDraft(buildDraft(selection, allowed))
   }, [selectionKey, propsKey, allowed, selection])
 
-  const outgoing = multi
-    ? []
-    : links.filter((l) => l.sourceId === selected.id)
-  const others = multi
-    ? []
-    : components.filter((c) => c.id !== selected.id)
+  const linkKinds =
+    !multi && selected ? linkKindsForSource(selected.typeId) : []
 
   function commitKey(key: PropKey) {
     const spec = FIELD_SPECS.find((f) => f.key === key)
@@ -327,16 +329,20 @@ export function PropertiesPanel({
           </div>
         ))}
 
-        {multi ? null : (
-          <LinksBlock
-            key={selected.id}
-            outgoing={outgoing}
-            others={others}
-            components={components}
-            onLinkTo={onLinkTo}
-            onDropLink={onDropLink}
-          />
-        )}
+        {multi
+          ? null
+          : linkKinds.map((kind) => (
+              <LinksBlock
+                key={`${selected.id}:${kind}`}
+                kind={kind}
+                sourceType={selected.typeId}
+                sourceId={selected.id}
+                links={links}
+                components={components}
+                onLinkTo={onLinkTo}
+                onDropLink={onDropLink}
+              />
+            ))}
       </div>
     </section>
   )
@@ -344,32 +350,75 @@ export function PropertiesPanel({
 
 const TARGET_LIST_ROWS = 10
 
+const LINK_UI: Record<
+  LinkKindId,
+  {
+    title: MessageKey
+    empty: MessageKey
+    add: MessageKey
+  }
+> = {
+  contains: {
+    title: 'props.contains',
+    empty: 'props.containsEmpty',
+    add: 'props.addContains',
+  },
+  input_target: {
+    title: 'props.input_target',
+    empty: 'props.input_targetEmpty',
+    add: 'props.addInputTarget',
+  },
+  output_target: {
+    title: 'props.output_target',
+    empty: 'props.output_targetEmpty',
+    add: 'props.addOutputTarget',
+  },
+}
+
 function LinksBlock({
-  outgoing,
-  others,
+  kind,
+  sourceType,
+  sourceId,
+  links,
   components,
   onLinkTo,
   onDropLink,
 }: {
-  outgoing: UiLink[]
-  others: UiComponent[]
+  kind: LinkKindId
+  sourceType: ComponentTypeId
+  sourceId: string
+  links: UiLink[]
   components: UiComponent[]
   onLinkTo: (kind: LinkKindId, targetId: string) => void
   onDropLink: (linkId: string) => void
 }) {
   const t = useT()
+  const labels = LINK_UI[kind]
   const [query, setQuery] = useState('')
+  const outgoing = useMemo(
+    () =>
+      links.filter((link) => link.kind === kind && link.sourceId === sourceId),
+    [kind, links, sourceId],
+  )
   const linkedTargets = useMemo(
     () => new Set(outgoing.map((link) => link.targetId)),
     [outgoing],
+  )
+  const candidates = useMemo(
+    () =>
+      components.filter(
+        (item) =>
+          item.id !== sourceId && canLink(kind, sourceType, item.typeId),
+      ),
+    [components, kind, sourceId, sourceType],
   )
 
   const filteredTargets = useMemo(() => {
     const q = query.trim().toLowerCase()
     if (!q) {
-      return others
+      return candidates
     }
-    return others.filter((item) => {
+    return candidates.filter((item) => {
       const name = componentLabel(item).toLowerCase()
       return (
         name.includes(q) ||
@@ -377,21 +426,21 @@ function LinksBlock({
         shortId(item.id).toLowerCase().includes(q)
       )
     })
-  }, [others, query])
+  }, [candidates, query])
 
   function pickTarget(targetId: string) {
     if (!targetId || linkedTargets.has(targetId)) {
       return
     }
-    onLinkTo('contains', targetId)
+    onLinkTo(kind, targetId)
     setQuery('')
   }
 
   return (
     <div className="prop-block">
-      <div className="prop-block__title">{t('props.contains')}</div>
+      <div className="prop-block__title">{t(labels.title)}</div>
       {outgoing.length === 0 ? (
-        <p className="prop-empty">{t('props.containsEmpty')}</p>
+        <p className="prop-empty">{t(labels.empty)}</p>
       ) : (
         <ul className="prop-links">
           {outgoing.map((link) => {
@@ -412,7 +461,7 @@ function LinksBlock({
           })}
         </ul>
       )}
-      {others.length > 0 ? (
+      {candidates.length > 0 ? (
         <div className="prop-link-add">
           <label className="prop-field">
             <span>{t('props.search')}</span>
@@ -424,7 +473,7 @@ function LinksBlock({
             />
           </label>
           <label className="prop-field">
-            <span>{t('props.addContains')}</span>
+            <span>{t(labels.add)}</span>
             <select
               size={TARGET_LIST_ROWS}
               className="prop-target-select"

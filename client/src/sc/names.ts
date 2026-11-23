@@ -3,10 +3,21 @@ import { CORE_PROPS } from '../model/propSets'
 
 export const REL = {
   contains: 'nrel_ui_contains',
+  input_target: 'nrel_ui_input_target',
+  output_target: 'nrel_ui_output_target',
   has_component: 'nrel_ui_has_component',
   id: 'nrel_ui_id',
   value: 'nrel_ui_value',
 } as const
+
+export const LINK_KIND_TO_REL: Record<
+  'contains' | 'input_target' | 'output_target',
+  string
+> = {
+  contains: REL.contains,
+  input_target: REL.input_target,
+  output_target: REL.output_target,
+}
 
 export const CLASS_INTERFACE = 'concept_ui_interface'
 

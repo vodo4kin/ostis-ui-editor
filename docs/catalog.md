@@ -27,9 +27,17 @@
 
 ## Связи
 
-| id | Назначение |
-|---|---|
-| `contains` | вложение: интерфейс → корни, компонент → потомок |
+| id | SC | Назначение |
+|---|---|---|
+| `contains` | `nrel_ui_contains` | вложение: интерфейс → корни, компонент → потомок |
+| `input_target` | `nrel_ui_input_target` | триггер → откуда читать (`button` / `select` / `menu_item` → поля ввода) |
+| `output_target` | `nrel_ui_output_target` | триггер → куда писать результат |
+
+Источники `input_target` / `output_target`: `button`, `select`, `menu_item`.
+
+Цели `input_target`: `text_field`, `text_area`, `select`, `slider`.
+
+Цели `output_target`: `text`, `text_field`, `text_area`, `image`, `sound`, `list`, `menu`, `menu_bar`, `menu_item`, `select`, `slider`, `window`, `scroll`.
 
 В SC отдельно: `nrel_ui_has_component` — интерфейс → все его компоненты.  
 В редакторе это список `components`, не вид связи на холсте.
@@ -74,6 +82,8 @@
 | корень типов компонентов | `concept_ui_object` |
 | `components` | `nrel_ui_has_component` |
 | `contains` | `nrel_ui_contains` |
+| `input_target` | `nrel_ui_input_target` |
+| `output_target` | `nrel_ui_output_target` |
 | id | `nrel_ui_id` |
 | значение свойства | `nrel_ui_value` |
 | включение типа в `concept_ui_object` | `nrel_inclusion` |
