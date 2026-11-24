@@ -1,4 +1,5 @@
 import { t, type MessageKey } from '../i18n'
+import { isActionLinkSource } from './linkRules'
 import { CORE_PROPS } from './propSets'
 import type {
   CatalogEntry,
@@ -48,11 +49,14 @@ function entry(
   preview: PreviewShape,
   defaults: ComponentProps,
 ): CatalogEntry {
+  const allowedProps = isActionLinkSource(typeId)
+    ? [...CORE_PROPS]
+    : CORE_PROPS.filter((key) => key !== 'action_id')
   return {
     typeId,
     label: typeId,
     preview,
-    allowedProps: [...CORE_PROPS],
+    allowedProps,
     defaults,
   }
 }

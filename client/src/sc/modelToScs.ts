@@ -1,4 +1,5 @@
 import { normalizeScContent } from '../model/limits'
+import { isActionLinkSource } from '../model/linkRules'
 import type { ComponentProps, InterfaceModel, PropKey } from '../model/types'
 import { escapeScsContent, toIdtf } from './idtf'
 import {
@@ -56,6 +57,9 @@ export function modelToScs(model: InterfaceModel): string {
     parts.push('')
 
     for (const key of ALL_PROP_KEYS) {
+      if (key === 'action_id' && !isActionLinkSource(component.typeId)) {
+        continue
+      }
       parts.push(emitProp(cid, key, component.props[key]))
       parts.push('')
     }
