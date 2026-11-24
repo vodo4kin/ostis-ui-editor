@@ -1,35 +1,90 @@
-import { useEffect, useRef, useState } from 'react'
-import { useT } from '../i18n'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { hasMessage, useT, type MessageKey } from '../i18n'
+import { DialogClient } from '../sc/dialogClient'
+import type { DialogMessage } from '../sc/dialogTypes'
+import { getScClient } from '../sc'
 import { PanelHeadLabel } from './PanelHeadLabel'
 
-type RequestKind = 'change' | 'add' | 'question'
-type ContextKind = '' | 'selected' | 'structure'
+const SUGGESTION_KEYS = [
+  'chat.suggest.types',
+  'chat.suggest.actionId',
+  'chat.suggest.buttonVsItem',
+  'chat.suggest.principle',
+] as const
 
-type ChatMessage = {
-  id: string
-  role: 'user' | 'assistant'
-  text: string
+function localId(prefix: string): string {
+  return `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`
 }
 
-let messageSeq = 1
+function errorText(
+  error: unknown,
+  t: (key: MessageKey) => string,
+): string {
+  if (error instanceof Error && error.message) {
+    if (hasMessage(error.message)) {
+      return t(error.message)
+    }
+    return error.message
+  }
+  return String(error)
+}
 
-function nextMessageId(): string {
-  const id = `msg_${messageSeq}`
-  messageSeq += 1
-  return id
+function formatElapsed(ms: number, decimalSep: string, unit: string): string {
+  const safe = Number.isFinite(ms) ? Math.max(0, ms) : 0
+  const seconds = Math.floor(safe / 1000)
+  const tenths = Math.floor((safe % 1000) / 100)
+  return `${seconds}${decimalSep}${tenths} ${unit}`
 }
 
 export function ChatPanel() {
   const t = useT()
   const [collapsed, setCollapsed] = useState(false)
-  const [extraOpen, setExtraOpen] = useState(false)
-  const [domain, setDomain] = useState('')
-  const [users, setUsers] = useState('')
-  const [contextKind, setContextKind] = useState<ContextKind>('')
-  const [kind, setKind] = useState<RequestKind>('change')
+  const [messages, setMessages] = useState<DialogMessage[]>([])
+  const [dialogId, setDialogId] = useState<string | null>(null)
   const [text, setText] = useState('')
-  const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [initError, setInitError] = useState<string | null>(null)
+  const [pendingId, setPendingId] = useState<string | null>(null)
+  const [startedAt, setStartedAt] = useState<number | null>(null)
+  const [now, setNow] = useState(() => performance.now())
   const threadRef = useRef<HTMLDivElement>(null)
+  const pendingIdRef = useRef<string | null>(null)
+  pendingIdRef.current = pendingId
+
+  const client = useMemo(() => {
+    const timeoutS = Number(
+      import.meta.env.VITE_DIALOG_CLIENT_TIMEOUT_S ?? 30,
+    )
+    return new DialogClient(getScClient(), {
+      timeoutMs: (Number.isFinite(timeoutS) ? timeoutS : 30) * 1000,
+    })
+  }, [])
+
+  useEffect(() => {
+    let alive = true
+    void (async () => {
+      try {
+        const id = await client.ensureDialog()
+        if (!alive) {
+          return
+        }
+        setDialogId(id)
+        const history = await client.history(id)
+        if (!alive) {
+          return
+        }
+        setMessages(history)
+        setInitError(null)
+      } catch (err) {
+        if (!alive) {
+          return
+        }
+        setInitError(errorText(err, t) || t('chat.connectError'))
+      }
+    })()
+    return () => {
+      alive = false
+    }
+  }, [client, t])
 
   useEffect(() => {
     const thread = threadRef.current
@@ -37,24 +92,131 @@ export function ChatPanel() {
       return
     }
     thread.scrollTop = thread.scrollHeight
-  }, [messages])
+  }, [messages, pendingId])
 
-  function send() {
-    const trimmed = text.trim()
-    if (!trimmed) {
+  useEffect(() => {
+    if (startedAt === null) {
       return
     }
-    setMessages((prev) => [
-      ...prev,
-      { id: nextMessageId(), role: 'user', text: trimmed },
-      {
-        id: nextMessageId(),
-        role: 'assistant',
-        text: t('chat.connectError'),
-      },
-    ])
+    const timer = window.setInterval(() => {
+      setNow(performance.now())
+    }, 100)
+    return () => window.clearInterval(timer)
+  }, [startedAt])
+
+  async function ask(question: string) {
+    const trimmed = question.trim()
+    if (!trimmed || !dialogId || pendingIdRef.current) {
+      return
+    }
+
+    const createdAt = new Date().toISOString()
+    const localPendingId = localId('msg')
+    const userMessage: DialogMessage = {
+      id: localId('user'),
+      role: 'user',
+      text: trimmed,
+      state: 'done',
+      createdAt,
+    }
+    const pendingMessage: DialogMessage = {
+      id: localPendingId,
+      role: 'assistant',
+      text: '',
+      state: 'pending',
+      createdAt,
+    }
+
+    setMessages((prev) => [...prev, userMessage, pendingMessage])
+    setPendingId(localPendingId)
+    const started = performance.now()
+    setStartedAt(started)
+    setNow(started)
     setText('')
+
+    try {
+      const answer = await client.ask(dialogId, trimmed)
+
+      setMessages((prev) =>
+        prev.map((msg) => {
+          if (msg.id !== localPendingId) {
+            return msg
+          }
+          if (answer.state === 'cancelled') {
+            return {
+              ...msg,
+              state: 'cancelled',
+              text: answer.text || t('chat.cancelled'),
+            }
+          }
+          return {
+            ...answer,
+            id: localPendingId,
+            createdAt: msg.createdAt,
+          }
+        }),
+      )
+    } catch (err) {
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === localPendingId
+            ? {
+                ...msg,
+                state: 'error',
+                error: errorText(err, t),
+              }
+            : msg,
+        ),
+      )
+    } finally {
+      if (pendingIdRef.current === localPendingId) {
+        setPendingId(null)
+      }
+      setStartedAt(null)
+    }
   }
+
+  function onSend() {
+    void ask(text)
+  }
+
+  function onCancel() {
+    const current = pendingId
+    if (!current) {
+      return
+    }
+    setPendingId(null)
+    setStartedAt(null)
+    setMessages((prev) =>
+      prev.map((msg) =>
+        msg.id === current
+          ? { ...msg, state: 'cancelled', text: msg.text || t('chat.cancelled') }
+          : msg,
+      ),
+    )
+    void client.cancel()
+  }
+
+  function onRetry(messageId: string) {
+    const index = messages.findIndex((msg) => msg.id === messageId)
+    if (index < 0) {
+      return
+    }
+    let question = ''
+    for (let i = index - 1; i >= 0; i -= 1) {
+      if (messages[i].role === 'user') {
+        question = messages[i].text
+        break
+      }
+    }
+    if (question) {
+      void ask(question)
+    }
+  }
+
+  const busy = pendingId !== null
+  const canSend = Boolean(dialogId) && !busy && text.trim().length > 0
+  const elapsedMs = startedAt === null ? 0 : Math.max(0, now - startedAt)
 
   return (
     <section
@@ -74,9 +236,48 @@ export function ChatPanel() {
       </button>
       {collapsed ? null : (
         <div className="panel-body chat-body">
+          {busy ? (
+            <div className="chat-meta" role="status">
+              <span className="chat-meta__pending">
+                {t('chat.waiting')}:{' '}
+                {formatElapsed(
+                  elapsedMs,
+                  t('chat.elapsedSep'),
+                  t('chat.elapsedUnit'),
+                )}
+                <button
+                  type="button"
+                  className="chat-meta__cancel"
+                  onClick={onCancel}
+                >
+                  {t('chat.cancel')}
+                </button>
+              </span>
+            </div>
+          ) : null}
+          {initError ? (
+            <p className="chat-status chat-status--error">{initError}</p>
+          ) : null}
+
           <div className="chat-thread" ref={threadRef}>
-            {messages.length === 0 ? (
-              <p className="chat-thread-empty">{t('chat.empty')}</p>
+            {messages.length === 0 && !initError ? (
+              <div className="chat-empty">
+                <p className="chat-thread-empty">{t('chat.emptyHint')}</p>
+                <ul className="chat-suggest-list">
+                  {SUGGESTION_KEYS.map((key) => (
+                    <li key={key}>
+                      <button
+                        type="button"
+                        className="chat-suggest"
+                        disabled={busy || !dialogId}
+                        onClick={() => void ask(t(key))}
+                      >
+                        {t(key)}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ) : (
               messages.map((msg) => (
                 <div
@@ -87,92 +288,81 @@ export function ChatPanel() {
                       : 'chat-msg chat-msg--assistant'
                   }
                 >
-                  <div className="chat-bubble">{msg.text}</div>
+                  <div
+                    className={
+                      msg.state === 'error'
+                        ? 'chat-bubble chat-bubble--error'
+                        : msg.state === 'cancelled'
+                          ? 'chat-bubble chat-bubble--muted'
+                          : 'chat-bubble'
+                    }
+                  >
+                    {msg.state === 'pending' && !msg.text
+                      ? t('chat.pending')
+                      : msg.text}
+                    {msg.state === 'error' && msg.error ? (
+                      <div className="chat-msg__error">{msg.error}</div>
+                    ) : null}
+                  </div>
+                  {msg.role === 'assistant' &&
+                  msg.state === 'done' &&
+                  msg.sources &&
+                  msg.sources.length > 0 ? (
+                    <ul className="chat-sources">
+                      {msg.sources.map((source) => (
+                        <li key={source.idtf} className="chat-sources__item">
+                          <span className="prop-id">{source.idtf}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
                   <div className="chat-msg__who">
-                    {msg.role === 'user' ? t('chat.you') : t('chat.ai')}
+                    {msg.role === 'user' ? t('chat.you') : t('chat.assistant')}
+                    {msg.state === 'cancelled' ? (
+                      <span>{t('chat.cancelled')}</span>
+                    ) : null}
+                    {msg.state === 'error' ? (
+                      <button
+                        type="button"
+                        className="chat-msg__retry"
+                        onClick={() => onRetry(msg.id)}
+                        disabled={busy}
+                      >
+                        {t('chat.retry')}
+                      </button>
+                    ) : null}
                   </div>
                 </div>
               ))
             )}
           </div>
-
           <div className="chat-compose">
-            <details
-              className="chat-extra"
-              open={extraOpen}
-              onToggle={(e) => setExtraOpen(e.currentTarget.open)}
-            >
-              <summary>{t('chat.extra')}</summary>
-              <div className="chat-extra__body">
-                <label className="chat-field">
-                  <span>{t('chat.domain')}</span>
-                  <input
-                    type="text"
-                    value={domain}
-                    onChange={(e) => setDomain(e.target.value)}
-                    placeholder={t('chat.optional')}
-                  />
-                </label>
-                <label className="chat-field">
-                  <span>{t('chat.users')}</span>
-                  <input
-                    type="text"
-                    value={users}
-                    onChange={(e) => setUsers(e.target.value)}
-                    placeholder={t('chat.optional')}
-                  />
-                </label>
-                <label className="chat-field">
-                  <span>{t('chat.context')}</span>
-                  <select
-                    value={contextKind}
-                    onChange={(e) =>
-                      setContextKind(e.target.value as ContextKind)
-                    }
-                  >
-                    <option value="">{t('chat.context.none')}</option>
-                    <option value="selected">{t('chat.context.selected')}</option>
-                    <option value="structure">
-                      {t('chat.context.structure')}
-                    </option>
-                  </select>
-                </label>
-              </div>
-            </details>
-
-            <label className="chat-field">
-              <span>{t('chat.requestKind')}</span>
-              <select
-                value={kind}
-                onChange={(e) => setKind(e.target.value as RequestKind)}
-              >
-                <option value="change">{t('chat.request.change')}</option>
-                <option value="add">{t('chat.request.add')}</option>
-                <option value="question">{t('chat.request.question')}</option>
-              </select>
-            </label>
             <label className="chat-field">
               <span>{t('chat.requestText')}</span>
               <textarea
                 value={text}
+                disabled={!dialogId || busy}
                 onChange={(e) => setText(e.target.value)}
-                rows={2}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault()
-                    send()
+                    if (canSend) {
+                      onSend()
+                    }
                   }
                 }}
               />
             </label>
-            <button
-              type="button"
-              className="chat-send"
-              disabled={!text.trim()}
-              onClick={send}
-            >
-              {t('chat.send')}
-            </button>
+            <div className="chat-compose__actions">
+              <button
+                type="button"
+                className="chat-send"
+                disabled={!canSend}
+                onClick={onSend}
+              >
+                {t('chat.send')}
+              </button>
+            </div>
           </div>
         </div>
       )}

@@ -8,6 +8,7 @@ import {
 } from '../export'
 import {
   deleteModelFromSc,
+  isDialogAssistantAvailable,
   isHtmlTranslatorAvailable,
   listInterfacesFromSc,
   openHtmlPreview,
@@ -88,6 +89,8 @@ export function useEditorSession() {
   const [interfaces, setInterfaces] = useState<ScInterfaceRef[]>([])
   const [scConnected, setScConnected] = useState(false)
   const [htmlTranslatorAvailable, setHtmlTranslatorAvailable] = useState(false)
+  const [dialogAssistantAvailable, setDialogAssistantAvailable] =
+    useState(false)
   const [scBusy, setScBusy] = useState(false)
   const [scMessage, setScMessage] = useState<string | null>(KB_CONNECTING)
   const [booted, setBooted] = useState(false)
@@ -178,6 +181,7 @@ export function useEditorSession() {
         if (isKbConnectionError(err)) {
           setScConnected(false)
           setHtmlTranslatorAvailable(false)
+          setDialogAssistantAvailable(false)
           resetScClient()
         }
         setScMessage(errText(err))
@@ -195,7 +199,12 @@ export function useEditorSession() {
     await runSc(
       async () => {
         const list = await refreshList()
-        setHtmlTranslatorAvailable(await isHtmlTranslatorAvailable())
+        const [htmlOk, dialogOk] = await Promise.all([
+          isHtmlTranslatorAvailable(),
+          isDialogAssistantAvailable(),
+        ])
+        setHtmlTranslatorAvailable(htmlOk)
+        setDialogAssistantAvailable(dialogOk)
         setScConnected(true)
         if (list.length === 0) {
           clearWorkspace()
@@ -210,6 +219,7 @@ export function useEditorSession() {
     ).catch(() => {
       setScConnected(false)
       setHtmlTranslatorAvailable(false)
+      setDialogAssistantAvailable(false)
     })
   }, [applyLoaded, clearWorkspace, refreshList, runSc])
 
@@ -954,6 +964,7 @@ export function useEditorSession() {
     dirty: hasActiveInterface && dirty,
     canSave: hasActiveInterface && scConnected && dirty && !scBusy,
     htmlTranslatorAvailable,
+    dialogAssistantAvailable,
     canPreview:
       hasActiveInterface &&
       scConnected &&

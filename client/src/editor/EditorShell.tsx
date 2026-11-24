@@ -258,13 +258,19 @@ export function EditorShell() {
               onDropLink={session.dropLink}
             />
           ) : null}
-          <aside className="editor-col editor-col--side">
+          <aside
+            className={
+              session.dialogAssistantAvailable
+                ? 'editor-col editor-col--side'
+                : 'editor-col editor-col--side editor-col--side-diff-only'
+            }
+          >
             <DiffPanel
               changes={session.changes}
               onSelect={(id) => session.select(id)}
               onRevert={session.revertModelChange}
             />
-            <ChatPanel />
+            {session.dialogAssistantAvailable ? <ChatPanel /> : null}
           </aside>
         </div>
       ) : (

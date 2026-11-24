@@ -24,3 +24,4 @@ export {
   translateInterfaceToHtml,
   openHtmlPreview,
 } from './previewHtml'
+export { isDialogAssistantAvailable } from './dialogAssistant'
